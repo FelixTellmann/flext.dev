@@ -1,10 +1,22 @@
 {
   "name": "flex",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.1",
   "license": "MIT",
+  "scripts": {
+    "dev": "next --port 3000",
+    "build": "next build",
+    "build:start": "next build --profile && next start",
+    "start": "next start",
+    "export": "next build && next export"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
     "next": "^10.2.2",
+    "next-compose-plugins": "^2.2.1",
+    "next-seo": "^4.24.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tailwindcss": "^2.2.0-canary.9"
@@ -17,8 +29,13 @@
     "@types/react-dom": "^17.0.5",
     "@types/tailwindcss": "^2.0.3",
     "autoprefixer": "^10.2.5",
+    "babel-plugin-inline-react-svg": "^2.0.1",
+    "babel-plugin-module-resolver": "^4.1.0",
     "fx-style": "^1.0.2",
+    "node-sass": "5",
     "postcss": "^8.3.0",
+    "react-icons": "^4.2.0",
+    "styled-jsx-plugin-sass": "^1.0.0",
     "typescript": "^4.2.4"
   }
 }

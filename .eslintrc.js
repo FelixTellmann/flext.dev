@@ -4,6 +4,6 @@ module.exports = {
   env: {
     browser: true,
   },
-  ignorePatterns: ["public/**/*", "models", "amplify/**/*", "*.md", "*.mdx"],
+  ignorePatterns: ["public/**/*", "*.md", "*.mdx"],
   rules: {},
 };

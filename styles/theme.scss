@@ -1,0 +1,22 @@
+button, input, textarea {
+  font: inherit;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+*:focus {
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+button  {
+  &:hover, &:focus, &:active {
+      outline: none;
+  }
+}
