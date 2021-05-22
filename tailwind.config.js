@@ -5,8 +5,8 @@ module.exports = {
     "./update/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: false, // or 'media' or 'class'
-  // mode: process.env.NODE_ENV ? "jit" : undefined,
-  mode: "jit",
+  mode: process.env.NODE_ENV ? "jit" : undefined,
+  // mode: "jit",
   theme: {
     extend: {
       colors: {
