@@ -18,9 +18,10 @@
     "next": "^10.2.2",
     "next-compose-plugins": "^2.2.1",
     "next-seo": "^4.24.0",
+    "node-watch": "^0.7.1",
+    "prettier-fx": "2.4.1-dev",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "node-watch": "^0.7.1"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.18",
@@ -34,7 +35,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "clsx": "^1.1.1",
     "concurrently": "^6.2.0",
-    "fx-style": "^1.0.3",
+    "fx-style": "^1.0.6",
     "node-sass": "5",
     "postcss": "^8.3.0",
     "react-icons": "^4.2.0",

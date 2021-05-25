@@ -1,24 +1,43 @@
+import { Footer, Header, Page } from "components";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
-import Head from "next/head";
+import NextHead from "next/head";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import "styles/theme.scss";
 import "styles/tailwind.css";
 
 const title = "Felix Tellmann";
-const url = "https://Felix Tellmann.com";
+const url = "https://flext.dev";
 const description = "Felix Tellmann | description here";
 const site_name = "Felix Tellmann";
+const twitter = {
+  handle: "@Tellmann",
+  site: "@FelixTellmann",
+  cardType: "summary_large_image",
+};
+const openGraph = {
+  type: "website",
+  locale: "en_IE",
+  url,
+  site_name,
+  title,
+  description,
+  images: [
+    {
+      url: "https://www.flext.dev/images/og-default.jpg",
+      alt: title,
+      width: 1200,
+      height: 630,
+    },
+  ],
+};
 
-export const App: FC<AppProps> = ({ pageProps, Component }) => {
+const Head = () => {
   const router = useRouter();
-  const isAppRoute = /(^\/app\/?$|^\/app\/)/.test(router.asPath);
-  const isAuthRoute = /(^\/auth$|^\/auth\/)/.test(router.asPath);
-
   return (
     <>
-      <Head>
+      <NextHead>
         <link
           as="font"
           crossOrigin="anonymous"
@@ -51,53 +70,28 @@ export const App: FC<AppProps> = ({ pageProps, Component }) => {
         <meta content="/ms-icon-144x144.png" name="msapplication-TileImage" />
         <meta content="#ffffff" name="theme-color" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-      </Head>
-      <>
-        <DefaultSeo
-          canonical={`${url}${router.pathname}`}
-          description={description}
-          openGraph={{
-            type: "website",
-            locale: "en_IE",
-            url,
-            site_name,
-            title,
-            description,
-            images: [
-              {
-                url: "https://www.tellmann.co.za/images/og-default.jpg",
-                alt: title,
-                width: 1200,
-                height: 630,
-              },
-            ],
-          }}
-          title={title}
-          twitter={{
-            handle: "@Tellmann",
-            site: "@FelixTellmann",
-            cardType: "summary_large_image",
-          }}
-        />
-      </>
-      <Component {...pageProps} />
-      <style global jsx>{`
-        @font-face {
-          font-family: "Inter";
-          font-style: normal;
-          font-weight: 100 900;
-          font-display: optional;
-          src: url(/fonts/inter-var-latin.woff2) format("woff2");
-          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-            U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-        }
+      </NextHead>
 
-        html {
-          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-            "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-            "Segoe UI Symbol", "Noto Color Emoji";
-        }
-      `}</style>
+      <DefaultSeo
+        canonical={`${url}${router.pathname}`}
+        description={description}
+        openGraph={openGraph}
+        title={title}
+        twitter={twitter}
+      />
+    </>
+  );
+};
+
+export const App: FC<AppProps> = ({ pageProps, Component }) => {
+  return (
+    <>
+      <Head />
+      <Header />
+      <Page>
+        <Component {...pageProps} />
+      </Page>
+      <Footer />
     </>
   );
 };
