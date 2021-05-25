@@ -2215,10 +2215,10 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fx-style@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/fx-style/-/fx-style-1.0.2.tgz#9859f961f123abc2ec9f1fa31209c1e0e15d93b1"
-  integrity sha512-I+jg7awkvLq88AN3iBfUnCZbKV8+MedefrmE5YnuPH0kFBY3RvTIN8ZqCLcGfu23+uX8tKNWeCMlBrdujZ5yFQ==
+fx-style@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/fx-style/-/fx-style-1.0.3.tgz#aa109ac6d65f93431ed5fad6f8c14728a633597a"
+  integrity sha512-fa65Fl3nokvoXSDPiMWZMVYKWE3SpA5WB/qW+njNLilv1xNcVAfP42wszxzT6+vOTtnSmZsgtp7QA9ZbhoSteQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.2.0"
     "@typescript-eslint/parser" "^4.2.0"

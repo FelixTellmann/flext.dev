@@ -7,7 +7,7 @@ module.exports = {
     optionalCatchAll: true,
   },
   images: {
-    domains: ["assets.vercel.com", "avatars1.githubusercontent.com"],
+    domains: ["avatars1.githubusercontent.com"],
   },
   ...withPlugins([[SCSS]], {
     webpack(config, { isServer }) {
@@ -43,14 +43,5 @@ module.exports = {
 };
 
 module.exports.env = {
-  AWS_PROJECT_REGION: process.env.AWS_PROJECT_REGION,
-  AWS_APPSYNC_GRAPHQLENDPOINT: process.env.AWS_APPSYNC_GRAPHQLENDPOINT,
-  AWS_APPSYNC_REGION: process.env.AWS_APPSYNC_REGION,
-  AWS_APPSYNC_AUTHENTICATIONTYPE: process.env.AWS_APPSYNC_AUTHENTICATIONTYPE,
-  AWS_APPSYNC_APIKEY: process.env.AWS_APPSYNC_APIKEY,
-  AWS_COGNITO_IDENTITY_POOL_ID: process.env.AWS_COGNITO_IDENTITY_POOL_ID,
-  AWS_COGNITO_REGION: process.env.AWS_COGNITO_REGION,
-  AWS_USER_POOLS_ID: process.env.AWS_USER_POOLS_ID,
-  AWS_USER_POOLS_WEB_CLIENT_ID: process.env.AWS_USER_POOLS_WEB_CLIENT_ID,
   OAUTH: {},
 };

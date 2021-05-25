@@ -16,8 +16,10 @@ To run this project locally, simply clone the project and copy the `.env.example
 - Other accounts to follow
 
 ```bash
-  yarn install
-  yarn dev
+  $ git clone https://github.com/FelixTellmann/flext.dev.git
+  $ cd flext.dev
+  $ yarn
+  $ yarn dev
 ```
 
 ## Outline
