@@ -1,6 +1,6 @@
 {
   "name": "flext.dev",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "scripts": {
     "dev": "concurrently \"next --port 3000\" \"node scripts/watch-components.js\"",
