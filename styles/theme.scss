@@ -15,7 +15,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-button  {
+button,a, [type="button"]  {
   &:hover, &:focus, &:active {
       outline: none;
   }

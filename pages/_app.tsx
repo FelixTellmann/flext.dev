@@ -80,7 +80,7 @@ export const App: FC<AppProps> = ({ pageProps, Component }) => {
           }}
         />
       </>
-      {isAppRoute || isAuthRoute ? <Component {...pageProps} /> : <Component {...pageProps} />}
+      <Component {...pageProps} />
       <style global jsx>{`
         @font-face {
           font-family: "Inter";
