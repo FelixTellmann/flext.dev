@@ -36,6 +36,10 @@ module.exports = {
         };
       }
 
+      if (isServer) {
+        require("scripts/create-components-export-index");
+      }
+
       config.resolve.extensions = [".ts", ".js", ".jsx", ".tsx", ".svg", ".scss"];
       return config;
     },
