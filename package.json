@@ -1,5 +1,5 @@
 {
-  "name": "flex",
+  "name": "flext.dev",
   "version": "0.0.2",
   "license": "MIT",
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "next start",
     "export": "next build && next export"
   },
+  "repository": "FelixTellmann/flext.dev",
   "engines": {
     "node": ">=14.0.0"
   },
