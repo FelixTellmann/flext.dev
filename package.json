@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "license": "MIT",
   "scripts": {
-    "dev": "next --port 3000",
+    "dev": "concurrently \"next --port 3000\" \"node scripts/watch-components.js\"",
     "build": "next build",
     "build:start": "next build --profile && next start",
     "start": "next start",
@@ -19,7 +19,8 @@
     "next-compose-plugins": "^2.2.1",
     "next-seo": "^4.24.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "node-watch": "^0.7.1"
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.18",
@@ -32,6 +33,7 @@
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "clsx": "^1.1.1",
+    "concurrently": "^6.2.0",
     "fx-style": "^1.0.3",
     "node-sass": "5",
     "postcss": "^8.3.0",

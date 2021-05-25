@@ -10,7 +10,7 @@ module.exports = {
     domains: ["avatars1.githubusercontent.com"],
   },
   ...withPlugins([[SCSS]], {
-    webpack(config, { isServer }) {
+    webpack: (config, { isServer }) => {
       config.module.rules.push(
         {
           test: /\.(png|eot|otf|ttf|woff|woff2)$/,
@@ -30,20 +30,22 @@ module.exports = {
         }
       );
 
-      if (!isServer) {
-        config.node = {
-          fs: "empty",
-        };
-      }
-
       if (isServer) {
-        require("scripts/create-components-export-index");
+        // eslint-disable-next-line node/no-missing-require
+        require("./scripts/create-components-export-index");
       }
 
       config.resolve.extensions = [".ts", ".js", ".jsx", ".tsx", ".svg", ".scss"];
       return config;
     },
   }),
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // eslint-disable-next-line node/no-missing-require
+      require("./scripts/create-components-export-index");
+    }
+    return config;
+  },
 };
 
 module.exports.env = {
