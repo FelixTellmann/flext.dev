@@ -21,9 +21,12 @@
     "module": "esnext",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@graphql/*": ["./graphql/*"]
+      "@graphql/*": [
+        "./graphql/*"
+      ]
     },
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

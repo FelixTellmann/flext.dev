@@ -1,9 +1,12 @@
 module.exports = {
-  extends: ["./node_modules/fx-style/"],
-  plugins: [],
   env: {
     browser: true,
   },
-  ignorePatterns: ["public/**/*", "*.md", "*.mdx"],
-  rules: {},
+  extends: ["./node_modules/fx-style/"],
+  ignorePatterns: ["public/**/*", "*.md", "*.mdx", "amplify/**/*"],
+  plugins: ["sort-keys-fix"],
+  rules: {
+    "sort-keys-fix/sort-keys-fix": 0,
+    "import/no-anonymous-default-export": 0,
+  },
 };
