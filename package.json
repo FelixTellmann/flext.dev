@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@prisma/client": "^3.4.1",
+    "@types/redis": "^2.8.32",
+    "@upstash/redis": "^0.1.22",
     "next": "^12.0.3",
     "next-seo": "^4.24.0",
     "react": "^17.0.2",
