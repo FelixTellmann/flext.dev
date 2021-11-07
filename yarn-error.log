@@ -1,30 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @types/prisma
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add vercel@latest --global
 
 PATH: 
-  C:\Program Files\cmder\bin;C:\Program Files\cmder\vendor\bin;C:\Development\flext.dev\node_modules\.bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Ruby\bin;C:\Program Files\Python27\;C:\Program Files\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Felix\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\JetBrains\apps\IDEA-U\ch-1\211.7628.21\bin;C:\Program Files\planetscale;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Program Files\Java\jre1.8.0_311\bin;C:\Users\Felix\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\Felix\AppData\Local\Programs\Python\Python39\;C:\Program Files\Ruby27-x64\bin;C:\Program Files\Ruby30-x64\bin;C:\Users\Felix\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\cmder
+  C:\Program Files\cmder\bin;C:\Program Files\cmder\vendor\bin;C:\Development\flext.dev\node_modules\.bin;C:\Ruby30-x64\bin;C:\Program Files\cmder\bin;C:\Program Files\cmder\vendor\bin;C:\Development\broadwayjewellers-takealot-api\node_modules\.bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Users\Felix\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files\JetBrains\apps\IDEA-U\ch-0\211.7442.40\bin;C:\Users\Felix\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\cmder;C:\Users\Felix\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\pscale;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\Felix\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\heroku\bin;C:\Program Files\pscale;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\cmder
 
 Yarn version: 
-  1.22.17
+  1.22.11
 
 Node version: 
-  16.8.0
+  16.6.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fprisma: Not found
-      at Request.params.callback [as _callback] (C:\Users\Felix\AppData\Roaming\nvm\v16.8.0\node_modules\yarn\lib\cli.js:67029:18)
-      at Request.self.callback (C:\Users\Felix\AppData\Roaming\nvm\v16.8.0\node_modules\yarn\lib\cli.js:140883:22)
-      at Request.emit (node:events:394:28)
-      at Request.<anonymous> (C:\Users\Felix\AppData\Roaming\nvm\v16.8.0\node_modules\yarn\lib\cli.js:141855:10)
-      at Request.emit (node:events:394:28)
-      at IncomingMessage.<anonymous> (C:\Users\Felix\AppData\Roaming\nvm\v16.8.0\node_modules\yarn\lib\cli.js:141777:12)
-      at Object.onceWrapper (node:events:513:28)
-      at IncomingMessage.emit (node:events:406:35)
-      at endReadableNT (node:internal/streams/readable:1343:12)
-      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+  Error: ENOENT: no such file or directory, open 'C:\Users\Felix\AppData\Local\Yarn\Cache\v6\npm-@next-swc-android-arm64-12.0.3-8b99b3e7f13dda1f4c3c6dc83af73d8f40afecd5-integrity\node_modules\@next\swc-android-arm64\.yarn-metadata.json'
 
 npm manifest: 
   {
@@ -42,7 +32,9 @@ npm manifest:
       "node": ">=12.0.0"
     },
     "dependencies": {
-      "@prisma/client": "3.4.1",
+      "@prisma/client": "^3.4.1",
+      "@types/redis": "^2.8.32",
+      "@upstash/redis": "^0.1.22",
       "next": "^12.0.3",
       "next-seo": "^4.24.0",
       "react": "^17.0.2",
@@ -380,7 +372,7 @@ Lockfile:
       "@nodelib/fs.scandir" "2.1.5"
       fastq "^1.6.0"
   
-  "@prisma/client@3.4.1":
+  "@prisma/client@^3.4.1":
     version "3.4.1"
     resolved "https://registry.yarnpkg.com/@prisma/client/-/client-3.4.1.tgz#046974f6a27c6930d6858f22fc50841d6219f191"
     integrity sha512-tUlPSyGiZfmt9xTtvZK8d8cqu76QLCM+rFt7+ezpau/G0VwzetuGVmT28c61Eaw7OW2KmsTHRk8LUxI7HZS3kA==
@@ -510,6 +502,13 @@ Lockfile:
       "@types/scheduler" "*"
       csstype "^3.0.2"
   
+  "@types/redis@^2.8.32":
+    version "2.8.32"
+    resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.32.tgz#1d3430219afbee10f8cfa389dad2571a05ecfb11"
+    integrity sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==
+    dependencies:
+      "@types/node" "*"
+  
   "@types/scheduler@*":
     version "0.16.2"
     resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
@@ -589,6 +588,13 @@ Lockfile:
     dependencies:
       "@typescript-eslint/types" "4.33.0"
       eslint-visitor-keys "^2.0.0"
+  
+  "@upstash/redis@^0.1.22":
+    version "0.1.22"
+    resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-0.1.22.tgz#cbed3e1aa06130aaa43d6cc2db5df055ee4457ac"
+    integrity sha512-id5HYoMAZToygCqM0DIqEOc8zqYbqbt7fluGkh63GpMv6XGsJgweiiyTcWQdTas9AVq0dxcMCuHNAGX7Ovog9g==
+    dependencies:
+      isomorphic-unfetch "^3.1.0"
   
   acorn-jsx@^5.2.0, acorn-jsx@^5.3.1:
     version "5.3.2"
@@ -2898,6 +2904,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
     integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
   
+  isomorphic-unfetch@^3.1.0:
+    version "3.1.0"
+    resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-3.1.0.tgz#87341d5f4f7b63843d468438128cb087b7c3e98f"
+    integrity sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==
+    dependencies:
+      node-fetch "^2.6.1"
+      unfetch "^4.2.0"
+  
   jest-worker@27.0.0-next.5:
     version "27.0.0-next.5"
     resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.0.0-next.5.tgz#5985ee29b12a4e191f4aae4bb73b97971d86ec28"
@@ -3420,6 +3434,13 @@ Lockfile:
     version "2.6.1"
     resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
     integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+  
+  node-fetch@^2.6.1:
+    version "2.6.6"
+    resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz#1751a7c01834e8e1697758732e9efb6eeadfaf89"
+    integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
+    dependencies:
+      whatwg-url "^5.0.0"
   
   node-html-parser@1.4.9:
     version "1.4.9"
@@ -4841,6 +4862,11 @@ Lockfile:
     dependencies:
       punycode "^2.1.0"
   
+  tr46@~0.0.3:
+    version "0.0.3"
+    resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
+    integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+  
   trim-newlines@^3.0.0:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
@@ -4941,6 +4967,11 @@ Lockfile:
       has-bigints "^1.0.1"
       has-symbols "^1.0.2"
       which-boxed-primitive "^1.0.2"
+  
+  unfetch@^4.2.0:
+    version "4.2.0"
+    resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.2.0.tgz#7e21b0ef7d363d8d9af0fb929a5555f6ef97a3be"
+    integrity sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==
   
   unique-string@^2.0.0:
     version "2.0.0"
@@ -5082,10 +5113,23 @@ Lockfile:
       glob-to-regexp "^0.4.1"
       graceful-fs "^4.1.2"
   
+  webidl-conversions@^3.0.0:
+    version "3.0.1"
+    resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
+    integrity sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=
+  
   webidl-conversions@^4.0.2:
     version "4.0.2"
     resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
     integrity sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==
+  
+  whatwg-url@^5.0.0:
+    version "5.0.0"
+    resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
+    integrity sha1-lmRU6HZUYuN2RNNib2dCzotwll0=
+    dependencies:
+      tr46 "~0.0.3"
+      webidl-conversions "^3.0.0"
   
   whatwg-url@^7.0.0:
     version "7.1.0"
