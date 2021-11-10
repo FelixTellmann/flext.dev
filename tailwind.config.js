@@ -2,13 +2,20 @@ module.exports = {
   purge: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./client/**/*.{js,ts,jsx,tsx}",
+    "./_client/**/*.{js,ts,jsx,tsx}",
     "./update/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: false, // or 'media' or 'class'
-  mode: process.env.NODE_ENV ? "jit" : undefined,
-  // mode: "jit",
+  // mode: process.env.NODE_ENV ? "jit" : undefined,
+  mode: "jit",
   theme: {
     extend: {
+      spacing: {
+        header: "7.5rem",
+        wrapper: "62.5rem",
+      },
+      "shadow-border": `box-shadow: black 0px 0px 0px 2px`,
       colors: {
         selected: "#d2e3fd",
         selectedTag: "#ecf3fd",
@@ -280,7 +287,7 @@ module.exports = {
       fontFamily: {
         detail: ["Source Sans Pro", "Helvetica Neue", "Arial", "sans-serif"],
       },
-      backgroundImage: theme => ({
+      backgroundImage: (theme) => ({
         tick: "url('/icons/tick.svg')",
       }),
     },

@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "dev": "next --port 3000",
-    "build": "next build",
+    "dev": "rimraf .next && next --port 3000",
+    "build": "rimraf .next && next build",
     "build:start": "next build --profile && next start",
     "start": "next start",
     "export": "next build && next export"
@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@prisma/client": "^3.4.1",
+    "@radix-ui/react-id": "^0.1.1",
+    "@radix-ui/react-tooltip": "^0.1.1",
     "@types/redis": "^2.8.32",
     "@upstash/redis": "^0.1.22",
     "mysql2": "^2.3.3-rc.0",

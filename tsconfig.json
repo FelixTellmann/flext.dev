@@ -1,10 +1,7 @@
 {
   "extends": "./node_modules/fx-style/tsconfig-google.json",
   "compilerOptions": {
-
     "baseUrl": ".",
-
-
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@graphql/*": [
@@ -12,9 +9,6 @@
       ]
     },
     "downlevelIteration": true,
-
-
-
     "target": "es5",
     "lib": [
       "dom",
