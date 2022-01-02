@@ -1,13 +1,16 @@
 import { useApi } from "_client/hooks/useApi";
 import { useTelemetryStore } from "_client/stores/telemetryStore";
 import clsx from "clsx";
-import { FC, useCallback } from "react";
+import { FC, FocusEventHandler, useCallback } from "react";
 import NextLink, { LinkProps } from "next/link";
 import * as ToolTip from "@radix-ui/react-tooltip";
+import BlurEvent = chrome.input.ime.BlurEvent;
 
 type TelemetryLinkProps = LinkProps & {
   name: string;
   className?: string;
+  onBlur?: FocusEventHandler<HTMLButtonElement>;
+  onFocus?: FocusEventHandler<HTMLButtonElement>;
   tooltip?: {
     side: "top" | "right" | "bottom" | "left";
   };
@@ -17,6 +20,8 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
   name,
   children,
   className,
+  onFocus,
+  onBlur,
   tooltip = { side: "left" },
   ...linkProps
 }) => {
@@ -34,7 +39,9 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
       <NextLink {...linkProps}>
         <a className={clsx(className)} tabIndex={-1} onClick={updateTelemetry}>
           <ToolTip.Root delayDuration={1200}>
-            <ToolTip.Trigger className="focus:rounded-sm focus-border">{children}</ToolTip.Trigger>
+            <ToolTip.Trigger onBlur={onBlur} onFocus={onFocus}>
+              {children}
+            </ToolTip.Trigger>
             <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
               <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
                 {telemetry[name] ?? 0} clicks

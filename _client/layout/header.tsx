@@ -51,6 +51,28 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
     }
   }, []);
 
+  const handleNavFocus = useCallback((e) => {
+    if (!e.currentTarget.matches(":focus-within")) {
+      setNavHover(() => initialNavPosition);
+      return;
+    }
+    const navItemRef = getParentNodeByClass(e.target, "nav-item");
+    if (navItemRef) {
+      setNavHover((currentNavHover) => {
+        const { opacity, left, width } = currentNavHover;
+        if (left === navItemRef.offsetLeft && width === navItemRef.offsetWidth) {
+          return currentNavHover;
+        }
+        return {
+          width: navItemRef.offsetWidth,
+          left: navItemRef.offsetLeft,
+          opacity: 0.7,
+          transition: opacity ? "0.18s" : "0.1s opacity",
+        };
+      });
+    }
+  }, []);
+
   return (
     <>
       <header className="h-header border-b border-gray-200 border-solid">
@@ -62,6 +84,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
           </div>
           <nav
             className="flex relative mt-[2px]"
+            onBlur={handleNavFocus}
             onMouseLeave={() => setNavHover(() => initialNavPosition)}
             onMouseOver={handleNavHover}
           >
@@ -80,6 +103,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
                 active={router.asPath === navItem.href}
                 href={navItem.href}
                 name={navItem.name}
+                onFocus={handleNavFocus}
               />
             ))}
           </nav>

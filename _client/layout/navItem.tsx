@@ -1,14 +1,16 @@
 import { TelemetryLink } from "_client/telemetryLink";
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, FocusEventHandler } from "react";
 
 export type NavItemProps = {
   active: boolean;
   href: string;
   name: string;
+  onBlur?: FocusEventHandler<HTMLButtonElement>;
+  onFocus?: FocusEventHandler<HTMLButtonElement>;
 };
 
-export const NavItem: FC<NavItemProps> = ({ name, href, active }) => {
+export const NavItem: FC<NavItemProps> = ({ name, href, active, onFocus, onBlur }) => {
   return (
     <>
       <TelemetryLink
@@ -20,6 +22,8 @@ export const NavItem: FC<NavItemProps> = ({ name, href, active }) => {
         href={href}
         name={`header_nav_${name}`}
         tooltip={{ side: "bottom" }}
+        onBlur={onBlur}
+        onFocus={onFocus}
       >
         <span className="flex overflow-hidden justify-center items-center py-1 px-3 rounded-lg">
           {name}
