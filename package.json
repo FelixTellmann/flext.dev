@@ -27,19 +27,18 @@
     "react-icons": "^4.3.1"
   },
   "devDependencies": {
-    "@tailwindcss/jit": "^0.1.18",
     "@types/chrome": "^0.0.141",
     "@types/node": "^15.6.0",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
-    "@types/tailwindcss": "^2.0.3",
-    "autoprefixer": "^10.2.5",
+    "@types/tailwindcss": "^3.0.0",
+    "autoprefixer": "^10.4.1",
     "clsx": "^1.1.1",
     "fx-style": "^1.1.9",
-    "postcss": "^8.3.0",
+    "postcss": "^8.4.5",
     "prisma": "3.4.1",
     "sass": "^1.43.4",
-    "tailwindcss": "^2.2.19",
+    "tailwindcss": "^3.0.8",
     "typescript": "^4.4.4"
   }
 }

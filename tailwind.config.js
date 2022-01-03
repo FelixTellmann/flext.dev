@@ -12,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
-        header: "7.5rem",
+        header: "66px",
         wrapper: "62.5rem",
       },
       "shadow-border": `box-shadow: black 0px 0px 0px 2px`,

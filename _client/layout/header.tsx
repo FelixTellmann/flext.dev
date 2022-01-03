@@ -1,9 +1,11 @@
-import { NavItemProps, NavItem } from "_client/layout/navItem";
+import { NavItem, NavItemProps } from "_client/layout/navItem";
 import { TelemetryLink } from "_client/telemetryLink";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, useCallback, useRef, useState } from "react";
+import { FC, useCallback, useState } from "react";
+import { ToggleStatsButton } from "./toggleStatsButton";
+import { ToggleThemeButton } from "./toggleThemeButton";
 
 type HeaderProps = {
   logo: {
@@ -31,7 +33,6 @@ const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s op
 
 export const Header: FC<HeaderProps> = ({ nav, logo }) => {
   const router = useRouter();
-  const navRef = useRef(null);
   const [navHover, setNavHover] = useState(initialNavPosition);
 
   const handleNavHover = useCallback((e) => {
@@ -76,14 +77,14 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
   return (
     <>
       <header className="h-header border-b border-gray-200 border-solid">
-        <div className="px-2 mx-auto w-wrapper max-w-full">
-          <div className="flex items-center h-18">
+        <div className="flex px-2 mx-auto w-wrapper max-w-full">
+          <div className="flex items-center h-header">
             <TelemetryLink href={logo.href} name="headerLogo">
-              <Image alt={logo.alt} height={60} src={logo.src} width={100} />
+              <Image alt={logo.alt} height={66} src={logo.src} width={110} />
             </TelemetryLink>
           </div>
           <nav
-            className="flex relative mt-[2px]"
+            className="flex overflow-auto relative mt-[2px] ml-4 scrollbar-none"
             onBlur={handleNavFocus}
             onMouseLeave={() => setNavHover(() => initialNavPosition)}
             onMouseOver={handleNavHover}
@@ -106,6 +107,10 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
                 onFocus={handleNavFocus}
               />
             ))}
+          </nav>
+          <nav className="flex items-center ml-auto">
+            <ToggleThemeButton />
+            <ToggleStatsButton />
           </nav>
         </div>
       </header>

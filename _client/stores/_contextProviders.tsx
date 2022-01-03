@@ -1,11 +1,14 @@
 import { IdProvider } from "@radix-ui/react-id";
 import { TelemetryProvider } from "_client/stores/telemetryStore";
+import { ThemeProvider } from "_client/stores/themeStore";
 
 export const ContextProviders = ({ children }) => {
   return (
     <>
       <TelemetryProvider>
-        <IdProvider>{children}</IdProvider>
+        <ThemeProvider>
+          <IdProvider>{children}</IdProvider>
+        </ThemeProvider>
       </TelemetryProvider>
     </>
   );

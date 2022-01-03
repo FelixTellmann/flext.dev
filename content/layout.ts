@@ -11,8 +11,8 @@ export const LAYOUT = {
         href: "/",
       },
       {
-        name: "Tools",
-        href: "/tools",
+        name: "Daily",
+        href: "/daily",
       },
       {
         name: "Snippets",
