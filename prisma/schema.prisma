@@ -2,26 +2,118 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 model Telemetry {
-  id        Int      @default(autoincrement()) @id
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String   @db.VarChar(50)
 }
 
-
 model Test {
-  id      Int      @default(autoincrement()) @id
-  name    String?
+  id   Int     @id @default(autoincrement())
+  name String?
+}
+
+model HabitTracking {
+  id                   Int         @id @default(autoincrement())
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  date                 DateTime    @default(now())
+  sleepDuration        Float?      @default(0) /// routine
+  dailyRoutineDuration Float?      @default(0) /// routine
+  readingDuration      Float?      @default(0) /// media
+  gamesDuration        Float?      @default(0) /// media
+  tvDuration           Float?      @default(0) /// media
+  clientWorkDuration   Float?      @default(0) /// work
+  appWorkDuration      Float?      @default(0) /// work
+  sideProjectsDuration Float?      @default(0) /// personal
+  cookingDuration      Float?      @default(0) /// routine
+  eatingDuration       Float?      @default(0) /// routine
+  drivingDuration      Float?      @default(0) /// routine
+  socialsDuration      Float?      @default(0) /// personal
+  exerciseDuration     Float?      @default(0) /// personal
+  familyDuration       Float?      @default(0) /// personal
+  choresDuration       Float?      @default(0) /// routine
+  travelDuration       Float?      @default(0) /// personal
+  learningDuration     Float?      @default(0) /// personal
+  otherDuration        Float?      @default(0) ///
+  durationNotes        String?     @default("") ///
+  wakeTime             DateTime?
+  maui                 Boolean?
+  morningTeeth         Boolean?
+  eveningTeeth         Boolean?
+  weight               Float?
+  workTime             DateTime?
+  exercise             String?
+  Food                 FoodRated[]
+}
+
+model Food {
+  id              Int         @id @default(autoincrement())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  name            String
+  defaultUnit     FoodUnit    @relation(fields: [defaultUnitId], references: [id])
+  defaultUnitId   Int
+  defaultQuantity Float
+  defaultPrice    Float
+  FoodRated       FoodRated[]
+}
+
+model FoodUnit {
+  id             Int                  @id @default(autoincrement())
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  name           String
+  abbreviation   String
+  Food           Food[]
+  fromConversion FoodUnitConversion[] @relation("fromUnit")
+  toConversion   FoodUnitConversion[] @relation("toUnit")
+  FoodRated      FoodRated[]
+}
+
+model FoodUnitConversion {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  fromUnit   FoodUnit @relation("fromUnit", fields: [fromUnitId], references: [id])
+  fromUnitId Int
+  toUnit     FoodUnit @relation("toUnit", fields: [toUnitId], references: [id])
+  toUnitId   Int
+  multiply   Float
+}
+
+model FoodMethod {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  method    String
+  FoodRated FoodRated[]
+}
+
+model FoodRated {
+  id              Int            @id @default(autoincrement())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  food            Food           @relation(fields: [foodId], references: [id])
+  foodId          Int
+  unit            FoodUnit       @relation(fields: [unitId], references: [id])
+  unitId          Int
+  foodMethod      FoodMethod     @relation(fields: [foodMethodId], references: [id])
+  foodMethodId    Int
+  quantity        Float
+  rating          Float
+  HabitTracking   HabitTracking? @relation(fields: [habitTrackingId], references: [id])
+  habitTrackingId Int?
 }
