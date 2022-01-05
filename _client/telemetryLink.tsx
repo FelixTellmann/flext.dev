@@ -30,7 +30,7 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
   const [telemetry, setTelemetry] = useTelemetryStore();
   const [{ showStats }, setThemeStore] = useThemeStore();
 
-  const updateTelemetry = useCallback(() => {
+  const updateTelemetry = useCallback((e) => {
     api("telemetry", { name });
 
     setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
@@ -45,14 +45,14 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
               {children}
             </ToolTip.Trigger>
             <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
-              {showStats ? (
-                <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
-                  {telemetry[name] ?? 0} clicks
-                  <div className="text-white shadow-2xl fill-current">
-                    <ToolTip.Arrow height={8} offset={8} width={12} />
+              {showStats
+                ? <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
+                    {telemetry[name] ?? 0} clicks
+                    <div className="text-white shadow-2xl fill-current">
+                      <ToolTip.Arrow height={8} offset={8} width={12} />
+                    </div>
                   </div>
-                </div>
-              ) : null}
+                : null}
             </ToolTip.Content>
           </ToolTip.Root>
         </a>

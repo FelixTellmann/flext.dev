@@ -1844,10 +1844,10 @@ eslint-plugin-node@^11.1.0:
     resolve "^1.10.1"
     semver "^6.1.0"
 
-eslint-plugin-prettier-fx@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier-fx/-/eslint-plugin-prettier-fx-3.4.0.tgz#84054e044236478d387834acd488a1c77d6ad4cd"
-  integrity sha512-mb2G1lLeScE9LjCVm6/tH0iPffcVMVZCywjR1bGesQM8ZLxMR/HiZmpO7Jc1YfAUtRxkq4qdZUz2Ni68XgtTAQ==
+eslint-plugin-prettier-fx@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier-fx/-/eslint-plugin-prettier-fx-3.4.2.tgz#62a9e1a1e6c981735d2f573619b8b7a1ad6addbb"
+  integrity sha512-bErDn3DZfffBhPmnS4VCCTvPI3i2nEfIlfbyktJfCCTWhFaKNvGR/pCN+0NEiw1X35LkYK73Wo/6ToYjwbh84Q==
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
@@ -2223,10 +2223,10 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fx-style@^1.1.9:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/fx-style/-/fx-style-1.4.0.tgz#2f4e71881b10cd2bceb0c22f05dabfc06c13b2d1"
-  integrity sha512-1pB38lUNaQ+MoiDMg1fxKQiDuIvyPTZbX3MZQWvnbJXSnM5wgV/Ec/Axi5poaM/ZoMlZkwZ11DUv9dQSBkT8Lw==
+fx-style@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/fx-style/-/fx-style-1.6.1.tgz#860c39aef1dc686899e05fc7b318f1dd1acbfedd"
+  integrity sha512-2muqvjsq4VU323l4MZtA71FN9ibPF4uP33kc4i6eHodLJRg0RFugEMmehThFGwWd0d/fyhZKXLwCbKm/EjkZnA==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.2.0"
     "@typescript-eslint/parser" "^4.2.0"
@@ -2237,7 +2237,7 @@ fx-style@^1.1.9:
     eslint-config-prettier "^8.0.0"
     eslint-plugin-node "^11.1.0"
     eslint-plugin-prettier "^4.0.0"
-    eslint-plugin-prettier-fx "^3.4.0"
+    eslint-plugin-prettier-fx "^3.4.2"
     eslint-plugin-react "^7.23.2"
     eslint-plugin-react-hooks "^4.2.0"
     eslint-plugin-sort-keys-fix "^1.1.1"
@@ -2249,8 +2249,8 @@ fx-style@^1.1.9:
     meow "^9.0.0"
     ncp "^2.0.0"
     next "^12.0.4"
-    prettier "^2.5.0"
-    prettier-fx "^2.4.10-dev"
+    prettier "^2.5.1"
+    prettier-fx "^2.6.1-dev"
     react "^17.0.2"
     react-dom "^17.0.2"
     rimraf "^3.0.2"
@@ -3802,10 +3802,10 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier-fx@^2.4.10-dev:
-  version "2.4.10-dev"
-  resolved "https://registry.yarnpkg.com/prettier-fx/-/prettier-fx-2.4.10-dev.tgz#c64980ad400e9f0604b0d3c2fe18e342c2ab93b5"
-  integrity sha512-wBpj2sDqOALb8UFenFxsd3Lj6CoKO5bScNe/QB0jeH+fVx+4DyE5RhzWFSZGWissd3mcFVk7OslG7I21S0yPuQ==
+prettier-fx@^2.6.1-dev:
+  version "2.6.1-dev"
+  resolved "https://registry.yarnpkg.com/prettier-fx/-/prettier-fx-2.6.1-dev.tgz#3afcc4f13c923a6c18a7345834a2a656360d9bec"
+  integrity sha512-EzBI8ZgS1SL3gpHSnQbVgHF9UDL14oCLyxoD642iZWORT3W/UFkUSIWjFXhMYWXDfqYsm/GLKMuye0c9Q4As+A==
 
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"
@@ -3814,7 +3814,7 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.5.0:
+prettier@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.5.1.tgz#fff75fa9d519c54cf0fce328c1017d94546bc56a"
   integrity sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==

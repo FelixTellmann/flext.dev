@@ -54,15 +54,13 @@ export const ToggleStatsButton: FC<ToggleStatsButtonProps> = ({
         onClick={updateTelemetry}
         onFocus={onFocus}
       >
-        {showStats ? (
-          <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
-            <IoIosAnalytics className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
-          </div>
-        ) : (
-          <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
-            <BiAnalyse className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
-          </div>
-        )}
+        {showStats
+          ? <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
+              <IoIosAnalytics className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
+            </div>
+          : <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
+              <BiAnalyse className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
+            </div>}
       </ToolTip.Trigger>
       <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
         <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
