@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { FC, FocusEventHandler, useCallback } from "react";
 import NextLink, { LinkProps } from "next/link";
 import * as ToolTip from "@radix-ui/react-tooltip";
+import { useThemeStore } from "./stores/themeStore";
 import BlurEvent = chrome.input.ime.BlurEvent;
 
 type TelemetryLinkProps = LinkProps & {
@@ -27,6 +28,7 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
 }) => {
   const { api } = useApi();
   const [telemetry, setTelemetry] = useTelemetryStore();
+  const [{ showStats }, setThemeStore] = useThemeStore();
 
   const updateTelemetry = useCallback(() => {
     api("telemetry", { name });
@@ -43,12 +45,14 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
               {children}
             </ToolTip.Trigger>
             <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
-              <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
-                {telemetry[name] ?? 0} clicks
-                <div className="text-white shadow-2xl fill-current">
-                  <ToolTip.Arrow height={8} offset={8} width={12} />
+              {showStats ? (
+                <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
+                  {telemetry[name] ?? 0} clicks
+                  <div className="text-white shadow-2xl fill-current">
+                    <ToolTip.Arrow height={8} offset={8} width={12} />
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </ToolTip.Content>
           </ToolTip.Root>
         </a>

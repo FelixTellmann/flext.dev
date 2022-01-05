@@ -6,7 +6,7 @@ module.exports = {
     "./_client/**/*.{js,ts,jsx,tsx}",
     "./update/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "class", // or 'media' or 'class'
   // mode: process.env.NODE_ENV ? "jit" : undefined,
   mode: "jit",
   theme: {
@@ -17,6 +17,11 @@ module.exports = {
       },
       "shadow-border": `box-shadow: black 0px 0px 0px 2px`,
       colors: {
+        dark: {
+          bg: "#171923",
+          headings: "#f9fafa",
+          text: "#a0aec0",
+        },
         selected: "#d2e3fd",
         selectedTag: "#ecf3fd",
         rose: {

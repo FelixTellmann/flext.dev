@@ -109,7 +109,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
             ))}
           </nav>
           <nav className="flex items-center ml-auto">
-            <ToggleThemeButton />
+            <ToggleThemeButton className="mr-2" />
             <ToggleStatsButton />
           </nav>
         </div>

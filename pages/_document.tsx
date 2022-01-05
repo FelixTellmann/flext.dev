@@ -11,7 +11,7 @@ class Root extends Document {
           <Favicon />
           <Font />
         </Head>
-        <body>
+        <body className="dark:text-dark-headings dark:bg-dark-bg">
           <Main />
           <NextScript />
         </body>
