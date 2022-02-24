@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "rimraf .next && next --port 3000",
+    "db": "pscale ",
     "build": "rimraf .next && next build",
     "build:start": "next build --profile && next start",
     "start": "next start",
@@ -13,32 +14,34 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^3.4.1",
+    "@next-auth/prisma-adapter": "^1.0.1",
+    "@prisma/client": "^3.10.0",
     "@radix-ui/react-id": "^0.1.1",
     "@radix-ui/react-tooltip": "^0.1.1",
-    "@types/redis": "^2.8.32",
-    "@upstash/redis": "^0.1.22",
+    "install": "^0.13.0",
     "mysql2": "^2.3.3-rc.0",
-    "next": "^12.0.3",
+    "next": "^12.1.0",
+    "next-auth": "^4.2.1",
     "next-seo": "^4.24.0",
     "node-forge": "^0.10.0",
+    "npm": "^8.5.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.141",
-    "@types/node": "^15.6.0",
-    "@types/react": "^17.0.6",
-    "@types/react-dom": "^17.0.5",
-    "@types/tailwindcss": "^3.0.0",
+    "@types/chrome": "^0.0.178",
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/tailwindcss": "^3.0.9",
     "autoprefixer": "^10.4.1",
     "clsx": "^1.1.1",
-    "fx-style": "^1.6.1",
+    "fx-style": "^1.6.7",
     "postcss": "^8.4.5",
     "prisma": "3.4.1",
     "sass": "^1.43.4",
-    "tailwindcss": "^3.0.8",
-    "typescript": "^4.4.4"
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.5.5"
   }
 }

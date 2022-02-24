@@ -10,27 +10,30 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 import "styles/tailwind.css";
 import "styles/theme.scss";
+import { SessionProvider } from "next-auth/react";
 
 const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
 
   return (
-    <ContextProviders>
-      <LoadInitialData>
-        <DefaultSeo
-          canonical={`${SEO.url}${router.pathname}`}
-          description={SEO.description}
-          openGraph={SEO.openGraph}
-          title={SEO.title}
-          twitter={SEO.twitter}
-        />
-        <Header logo={LAYOUT.logo} nav={LAYOUT.header.nav} />
-        <main>
-          <Component {...pageProps} />
-        </main>
-        <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
-      </LoadInitialData>
-    </ContextProviders>
+    <SessionProvider refetchInterval={0} session={pageProps.session}>
+      <ContextProviders>
+        <LoadInitialData>
+          <DefaultSeo
+            canonical={`${SEO.url}${router.pathname}`}
+            description={SEO.description}
+            openGraph={SEO.openGraph}
+            title={SEO.title}
+            twitter={SEO.twitter}
+          />
+          <Header logo={LAYOUT.logo} nav={LAYOUT.header.nav} />
+          <main>
+            <Component {...pageProps} />
+          </main>
+          <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+        </LoadInitialData>
+      </ContextProviders>
+    </SessionProvider>
   );
 };
 
