@@ -1,11 +1,16 @@
 import { NavItem, NavItemProps } from "_client/layout/navItem";
+import { ProfileDropdown } from "_client/layout/profileDropdown";
+import { TelemetryButton } from "_client/telemetryButton";
 import { TelemetryLink } from "_client/telemetryLink";
+import clsx from "clsx";
+import { useSession } from "next-auth/react";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useCallback, useState } from "react";
-import { ToggleStatsButton } from "./toggleStatsButton";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { ToggleThemeButton } from "./toggleThemeButton";
+import { ToggleStatsButton } from "./toggleStatsButton";
 
 type HeaderProps = {
   logo: {
@@ -33,6 +38,7 @@ const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s op
 
 export const Header: FC<HeaderProps> = ({ nav, logo }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [navHover, setNavHover] = useState(initialNavPosition);
 
   const handleNavHover = useCallback((e) => {
@@ -77,14 +83,14 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
   return (
     <>
       <header className="h-header border-b border-gray-200 border-solid">
-        <div className="flex px-2 mx-auto w-wrapper max-w-full">
-          <div className="flex items-center h-header">
+        <div className="flex px-2 mx-auto w-wrapper max-w-full h-full">
+          <div className="hidden items-center h-header sm:flex">
             <TelemetryLink href={logo.href} name="headerLogo">
               <Image alt={logo.alt} height={66} src={logo.src} width={110} />
             </TelemetryLink>
           </div>
           <nav
-            className="flex overflow-auto relative mt-[2px] ml-4 scrollbar-none"
+            className="flex overflow-auto relative mx-4 mt-auto h-full scrollbar-none header-nav"
             onBlur={handleNavFocus}
             onMouseLeave={() => setNavHover(() => initialNavPosition)}
             onMouseOver={handleNavHover}
@@ -110,7 +116,17 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
           </nav>
           <nav className="flex items-center ml-auto">
             <ToggleThemeButton className="mr-2" />
-            <ToggleStatsButton />
+            <ToggleStatsButton className="mr-2" />
+
+            {/* Profile dropdown */}
+            {!session && router.pathname !== "/auth/sign-in"
+              ? <TelemetryLink className="mr-2" href="/auth/sign-in" name="LoginButton">
+                  <div className="flex justify-center items-center px-2 h-8 text-sm bg-gray-200 hover:bg-gray-300 rounded">
+                    Login
+                  </div>
+                </TelemetryLink>
+              : null}
+            {session ? <ProfileDropdown /> : null}
           </nav>
         </div>
       </header>

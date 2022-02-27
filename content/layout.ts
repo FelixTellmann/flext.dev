@@ -23,6 +23,22 @@ export const LAYOUT = {
         href: "/snippets2",
       },
     ],
+    profile: {
+      nav: [
+        {
+          name: "Your Profile",
+          href: "/profile",
+        },
+        {
+          name: "Settings",
+          href: "/settings",
+        },
+        {
+          name: "Sign out",
+          href: "/auth/sign-out",
+        },
+      ],
+    },
   },
   footer: {
     nav: [
@@ -36,10 +52,6 @@ export const LAYOUT = {
       },
       {
         name: "Snippets",
-        href: "/",
-      },
-      {
-        name: "Snippets3",
         href: "/",
       },
     ],
