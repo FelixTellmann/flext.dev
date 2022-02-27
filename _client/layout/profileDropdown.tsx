@@ -27,8 +27,8 @@ export const ProfileDropdown = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 py-1 mt-2 w-48 bg-white rounded-md ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right focus:outline-none">
-          {LAYOUT.header.profile.nav.map(({ name, href }) => (
-            <Menu.Item>
+          {LAYOUT.header.profile.nav.map(({ name, href }, index) => (
+            <Menu.Item key={name + index}>
               {({ active }) => (
                 <a
                   className={clsx(

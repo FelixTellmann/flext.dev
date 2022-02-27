@@ -24,7 +24,7 @@ const SignIn: FC<indexProps> = ({}) => {
             src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
           />
           <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
-            Sign in to your account
+            Create your Account
           </h2>
         </div>
 
@@ -39,8 +39,23 @@ const SignIn: FC<indexProps> = ({}) => {
                 name="email"
                 type="email"
               />
+              <TextInput
+                required
+                autoComplete="current-password"
+                forwardRef={passwordRef}
+                label="Password"
+                name="password"
+                type="password"
+              />
+
               <div className="flex justify-between items-center">
                 <Checkbox forwardRef={rememberRef} label="Remember me" />
+
+                <NextLink href="#">
+                  <a className="flex text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    Forgot your password?
+                  </a>
+                </NextLink>
               </div>
 
               <button

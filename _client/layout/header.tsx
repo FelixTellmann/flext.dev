@@ -115,17 +115,27 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
             ))}
           </nav>
           <nav className="flex items-center ml-auto">
+            {/*{!session && !/^\/auth\/sign-in/i.test(router.pathname) ?*/}
+            <>
+              <TelemetryLink className="mr-2" href="/auth/sign-in" name="SignInButton">
+                <div className="flex justify-center items-center px-2 h-8 text-sm hfa:text-black text-gray-700">
+                  Login
+                </div>
+              </TelemetryLink>
+            </>
+            {/*: null}*/}
+            {/*{!session && !/^\/auth\/sign-up/i.test(router.pathname)
+              ? <>
+                  <TelemetryLink className="mr-2" href="/auth/sign-up" name="SignUpButton">
+                    <div className="flex justify-center items-center px-2 h-8 text-sm bg-gray-200 hover:bg-gray-300 rounded">
+                      Sign Up
+                    </div>
+                  </TelemetryLink>
+                </>
+              : null}*/}
             <ToggleThemeButton className="mr-2" />
             <ToggleStatsButton className="mr-2" />
-
             {/* Profile dropdown */}
-            {!session && router.pathname !== "/auth/sign-in"
-              ? <TelemetryLink className="mr-2" href="/auth/sign-in" name="LoginButton">
-                  <div className="flex justify-center items-center px-2 h-8 text-sm bg-gray-200 hover:bg-gray-300 rounded">
-                    Login
-                  </div>
-                </TelemetryLink>
-              : null}
             {session ? <ProfileDropdown /> : null}
           </nav>
         </div>

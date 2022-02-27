@@ -10,29 +10,16 @@ import EmailProvider from "next-auth/providers/email";
 export default NextAuth({
   // Configure one or more authentication providers
   adapter: PrismaAdapter(DB),
-
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     maxAge: 120 * 24 * 60 * 60, // 120 days
   },
+  debug: true,
   providers: [
     EmailProvider({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
       maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
-    }),
-    CredentialsProvider({
-      name: "email",
-
-      async authorize(credentials, req) {
-        const user = {
-          /* add function to get user */
-        };
-        return user;
-      },
-      credentials: {
-        username: { label: "Username", type: "text " },
-        password: { label: "Password", type: "password" },
-      },
     }),
     GithubProvider({
       clientId: process.env.GITHUB_ID,
@@ -49,4 +36,10 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  /*callbacks: {
+    signIn: async ({ user, account }) => {
+      console.log({ user, account });
+      return true;
+    },
+  },*/
 });

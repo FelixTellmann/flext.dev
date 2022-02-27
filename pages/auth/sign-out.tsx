@@ -9,7 +9,6 @@ export const SignOut: FC = () => {
     if (session) {
       signOut({ callbackUrl: "http://localhost:3000/" });
     }
-    router.push("/");
   });
 
   return <></>;
