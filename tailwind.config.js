@@ -365,6 +365,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require("@tailwindcss/forms"),
     plugin(({ addVariant }) => {
       addVariant("hfa", ["&:hover", "&:focus", "&:active"]);
       addVariant("hf", ["&:hover", "&:focus"]);

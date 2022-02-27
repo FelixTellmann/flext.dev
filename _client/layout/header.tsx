@@ -82,9 +82,9 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
 
   return (
     <>
-      <header className="h-header border-b border-gray-200 border-solid">
-        <div className="flex px-2 mx-auto w-wrapper max-w-full h-full">
-          <div className="hidden items-center h-header sm:flex">
+      <header className="border-b border-gray-200 border-solid h-header">
+        <div className="flex px-2 mx-auto max-w-full h-full w-wrapper">
+          <div className="hidden items-center sm:flex h-header">
             <TelemetryLink href={logo.href} name="headerLogo">
               <Image alt={logo.alt} height={66} src={logo.src} width={110} />
             </TelemetryLink>
@@ -115,15 +115,15 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
             ))}
           </nav>
           <nav className="flex items-center ml-auto">
-            {/*{!session && !/^\/auth\/sign-in/i.test(router.pathname) ?*/}
-            <>
-              <TelemetryLink className="mr-2" href="/auth/sign-in" name="SignInButton">
-                <div className="flex justify-center items-center px-2 h-8 text-sm hfa:text-black text-gray-700">
-                  Login
-                </div>
-              </TelemetryLink>
-            </>
-            {/*: null}*/}
+            {!session && !/^\/auth\/sign-in/i.test(router.pathname)
+              ? <>
+                  <TelemetryLink className="mr-2" href="/auth/sign-in" name="SignInButton">
+                    <div className="flex justify-center items-center px-2 h-8 text-sm hfa:text-black text-gray-700">
+                      Login
+                    </div>
+                  </TelemetryLink>
+                </>
+              : null}
             {/*{!session && !/^\/auth\/sign-up/i.test(router.pathname)
               ? <>
                   <TelemetryLink className="mr-2" href="/auth/sign-up" name="SignUpButton">

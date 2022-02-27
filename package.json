@@ -21,6 +21,7 @@
     "@prisma/client": "^3.10.0",
     "@radix-ui/react-id": "^0.1.1",
     "@radix-ui/react-tooltip": "^0.1.1",
+    "@tailwindcss/forms": "^0.4.0",
     "install": "^0.13.0",
     "mysql2": "^2.3.3-rc.0",
     "next": "^12.1.0",

@@ -2,17 +2,26 @@ import { Checkbox } from "_client/form/checkbox";
 import { Divider } from "_client/form/divider";
 import { IconButton } from "_client/form/icon-button";
 import { TextInput } from "_client/form/text-input";
-import { signIn } from "next-auth/react";
-import { FC, useRef } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { FC, useEffect, useRef } from "react";
 import { IoLogoGithub, IoLogoGoogle, IoLogoTwitter } from "react-icons/io5";
 import NextLink from "next/link";
 
 type indexProps = {};
 
 const SignIn: FC<indexProps> = ({}) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const rememberRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (session && status !== "loading" && router.isReady) {
+      router.push("/daily");
+    }
+  }, [router, session, status]);
 
   return (
     <>
@@ -30,7 +39,17 @@ const SignIn: FC<indexProps> = ({}) => {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="py-8 px-4 bg-white shadow sm:px-10 sm:rounded-lg">
-            <form action="#" className="space-y-6" method="POST">
+            <form
+              action="#"
+              className="space-y-6"
+              onSubmit={(e) => {
+                e.preventDefault();
+                signIn("email", {
+                  email: emailRef.current.value,
+                  callbackUrl: "http://localhost:3000/",
+                });
+              }}
+            >
               <TextInput
                 required
                 autoComplete="email"
@@ -39,9 +58,6 @@ const SignIn: FC<indexProps> = ({}) => {
                 name="email"
                 type="email"
               />
-              <div className="flex justify-between items-center">
-                <Checkbox forwardRef={rememberRef} label="Remember me" />
-              </div>
 
               <button
                 className="flex justify-center py-2 px-4 w-full text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md border border-transparent focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
