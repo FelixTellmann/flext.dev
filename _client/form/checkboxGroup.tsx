@@ -17,8 +17,10 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({ title, subtitle, items }
     <>
       <fieldset>
         <div>
-          <legend className="text-base font-medium text-gray-900">{title}</legend>
-          <p className="text-sm text-gray-500">{subtitle}</p>
+          <legend className="text-base font-medium text-gray-900 dark:text-dark-headings">
+            {title}
+          </legend>
+          <p className="text-sm text-gray-500 dark:text-dark-text">{subtitle}</p>
         </div>
         <div className="mt-4 space-y-4">
           {items.map((item, index) => (

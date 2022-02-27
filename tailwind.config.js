@@ -14,6 +14,9 @@ module.exports = {
   mode: "jit",
   theme: {
     extend: {
+      boxShadow: {
+        dark: "0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05)",
+      },
       spacing: {
         header: "66px",
         wrapper: "62.5rem",
@@ -21,9 +24,10 @@ module.exports = {
       "shadow-border": `box-shadow: black 0px 0px 0px 2px`,
       colors: {
         dark: {
-          bg: "#171923",
+          bg: "#1b1c1c",
+          card: "#282727",
           headings: "#f9fafa",
-          text: "#a0aec0",
+          text: "#aaabb7",
         },
         selected: "#d2e3fd",
         selectedTag: "#ecf3fd",

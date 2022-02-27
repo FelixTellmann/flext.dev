@@ -1,15 +1,24 @@
 import { AnnotatedLayout } from "_client/form/annotatedLayout";
 import { CheckboxGroup } from "_client/form/checkboxGroup";
+import { useApi } from "_client/hooks/useApi";
 import { HrBreak } from "_client/hrBreak";
 import { Page } from "_client/page";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const Daily = () => {
   const router = useRouter();
+  const { api } = useApi();
   const { data: session, status } = useSession();
+
+  const [loading, setLoading] = useState();
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [habits, setHabits] = useState({ teeth: false });
+
+  const handleSave = useCallback(async () => {
+    await api("saveDaily", { habits, date });
+  }, [api, date, habits]);
 
   useEffect(() => {
     if (!session && status !== "loading" && router.isReady) {
@@ -23,15 +32,7 @@ export const Daily = () => {
         subtitle="Tracking Habits daily to analyze different correlations and measure success."
         title="Habit Tracking"
       >
-        <AnnotatedLayout
-          description="Track your Habits today!"
-          title={new Date().toLocaleDateString(undefined, {
-            weekday: "short",
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        >
+        <AnnotatedLayout description="Track your Habits today!" title={date}>
           <CheckboxGroup
             items={[
               {
@@ -44,61 +45,9 @@ export const Daily = () => {
             subtitle="Daily habits that relate to a healthier lifestyle."
             title="Health Habits"
           />
-          <fieldset>
-            <div>
-              <legend className="text-base font-medium text-gray-900">Push Notifications</legend>
-              <p className="text-sm text-gray-500">
-                These are delivered via SMS to your mobile phone.
-              </p>
-            </div>
-            <div className="mt-4 space-y-4">
-              <div className="flex items-center">
-                <input
-                  className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  id="push-everything"
-                  name="push-notifications"
-                  type="radio"
-                />
-                <label
-                  className="block ml-3 text-sm font-medium text-gray-700"
-                  htmlFor="push-everything"
-                >
-                  Everything
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  id="push-email"
-                  name="push-notifications"
-                  type="radio"
-                />
-                <label
-                  className="block ml-3 text-sm font-medium text-gray-700"
-                  htmlFor="push-email"
-                >
-                  Same as email
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  id="push-nothing"
-                  name="push-notifications"
-                  type="radio"
-                />
-                <label
-                  className="block ml-3 text-sm font-medium text-gray-700"
-                  htmlFor="push-nothing"
-                >
-                  No push notifications
-                </label>
-              </div>
-            </div>
-          </fieldset>
         </AnnotatedLayout>
 
-        <HrBreak />
+        {/*       <HrBreak />
 
         <div className="mt-10 sm:mt-0">
           <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -399,17 +348,18 @@ export const Daily = () => {
               </form>
             </div>
           </div>
-        </div>
+        </div>*/}
         <div className="flex justify-end mt-6">
           <button
             className="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
             type="button"
           >
-            Cancel
+            Reset
           </button>
           <button
             className="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md border border-transparent focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
-            type="submit"
+            type="button"
+            onClick={handleSave}
           >
             Save
           </button>

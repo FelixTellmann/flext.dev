@@ -27,11 +27,11 @@ export const ToggleThemeButton: FC<ToggleThemeButtonProps> = ({ className }) => 
   return (
     <TelemetryButton className={clsx(className)} name="ToggleThemeButton" onClick={handleClick}>
       {theme === "light"
-        ? <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
-            <FiMoon className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
+        ? <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600 rounded">
+            <FiMoon className="text-gray-700 hover:text-gray-800 dark:text-dark-text transition-colors duration-75" />
           </div>
-        : <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
-            <FiSun className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
+        : <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600 rounded">
+            <FiSun className="text-gray-700 hover:text-gray-800 dark:text-dark-text transition-colors duration-75" />
           </div>}
     </TelemetryButton>
   );

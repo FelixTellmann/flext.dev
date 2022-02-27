@@ -28,8 +28,8 @@ export const CheckboxItem: FC<CheckboxItemProps> = ({
           />
         </div>
         <div className="ml-3 text-sm">
-          <div className="font-medium text-gray-700">{title}</div>
-          <p className="text-gray-500">{subtitle}</p>
+          <div className="font-medium text-gray-700 dark:text-dark-headings">{title}</div>
+          <p className="text-gray-500 dark:text-dark-text">{subtitle}</p>
         </div>
       </label>
     </>

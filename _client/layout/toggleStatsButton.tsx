@@ -36,15 +36,12 @@ export const ToggleStatsButton: FC<ToggleStatsButtonProps> = ({
   const { api } = useApi();
   const [telemetry, setTelemetry] = useTelemetryStore();
 
-  const updateTelemetry = useCallback(
-    (e) => {
-      api("telemetry", { name });
+  const updateTelemetry = useCallback((e) => {
+    api("telemetry", { name });
 
-      setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
-      handleClick();
-    },
-    [api, handleClick, setTelemetry]
-  );
+    setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
+    handleClick();
+  }, [api, handleClick, setTelemetry]);
 
   return (
     <ToolTip.Root delayDuration={1200}>
@@ -55,19 +52,19 @@ export const ToggleStatsButton: FC<ToggleStatsButtonProps> = ({
         onFocus={onFocus}
       >
         {showStats
-          ? <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
-              <IoIosAnalytics className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
+          ? <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600 rounded">
+              <IoIosAnalytics className="text-gray-700 hover:text-gray-800 dark:text-dark-text transition-colors duration-75" />
             </div>
-          : <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded">
-              <BiAnalyse className="text-gray-700 hover:text-gray-800 transition-colors duration-75" />
+          : <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600 rounded">
+              <BiAnalyse className="text-gray-700 hover:text-gray-800 dark:text-dark-text transition-colors duration-75" />
             </div>}
       </ToolTip.Trigger>
       <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
-        <div className="p-3 text-sm bg-white rounded-sm shadow-2xl drop-shadow-lg">
+        <div className="p-3 text-sm bg-white dark:bg-dark-card rounded-sm shadow-2xl drop-shadow-lg">
           {showStats ? "Hide" : "Show"} stats
           <br />
           {showStats ? <>{telemetry[name] ?? 0} clicks</> : null}
-          <div className="text-white shadow-2xl fill-current">
+          <div className="text-white dark:text-dark-text shadow-2xl fill-current">
             <ToolTip.Arrow height={8} offset={8} width={12} />
           </div>
         </div>

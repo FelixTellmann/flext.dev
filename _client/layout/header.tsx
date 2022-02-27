@@ -4,6 +4,7 @@ import { TelemetryButton } from "_client/telemetryButton";
 import { TelemetryLink } from "_client/telemetryLink";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
+import Logo from "public/logo.svg";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -82,11 +83,12 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
 
   return (
     <>
-      <header className="border-b border-gray-200 border-solid h-header">
-        <div className="flex px-2 mx-auto max-w-full h-full w-wrapper">
-          <div className="hidden items-center sm:flex h-header">
+      <header className="h-header border-b border-gray-200 dark:border-gray-700 border-solid">
+        <div className="flex px-2 mx-auto w-wrapper max-w-full h-full">
+          <div className="hidden items-center h-header sm:flex">
             <TelemetryLink href={logo.href} name="headerLogo">
-              <Image alt={logo.alt} height={66} src={logo.src} width={110} />
+              <Logo className="h-[50px] dark:fill-white" />
+              {/*<Image alt={logo.alt} height={66} src={logo.src} width={110} />*/}
             </TelemetryLink>
           </div>
           <nav
@@ -96,7 +98,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
             onMouseOver={handleNavHover}
           >
             <div
-              className="absolute top-1/2 z-0 h-8 bg-gray-200 rounded opacity-60 transform -translate-y-1/2"
+              className="absolute top-1/2 z-0 h-8 bg-gray-200 dark:bg-gray-700 rounded opacity-60 transform -translate-y-1/2"
               style={{
                 width: `${navHover.width}px`,
                 left: `${navHover.left}px`,
