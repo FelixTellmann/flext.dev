@@ -1,8 +1,8 @@
 import { FC } from "react";
 
 type AnnotatedLayoutProps = {
-  description: string;
   title: string;
+  description?: string;
 };
 
 export const AnnotatedLayout: FC<AnnotatedLayoutProps> = ({ description, title, children }) => {
@@ -15,11 +15,13 @@ export const AnnotatedLayout: FC<AnnotatedLayoutProps> = ({ description, title, 
             <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-headings">
               {title}
             </h3>
-            <p className="mt-1 text-sm text-gray-600 dark:text-dark-text">{description}</p>
+            {description
+              ? <p className="mt-1 text-sm text-gray-600 dark:text-dark-text">{description}</p>
+              : null}
           </div>
         </div>
         <div className="mt-5 md:col-span-2 md:mt-0">
-          <div className="overflow-hidden shadow sm:rounded-md">
+          <div className="shadow sm:rounded-md">
             <div className="py-5 px-4 space-y-6 bg-white dark:bg-dark-card sm:p-6">{children}</div>
           </div>
         </div>

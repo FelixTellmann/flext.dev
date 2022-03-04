@@ -18,10 +18,6 @@ export const LAYOUT = {
         name: "Snippets",
         href: "/snippets",
       },
-      {
-        name: "Snippets2",
-        href: "/snippets2",
-      },
     ],
     profile: {
       nav: [

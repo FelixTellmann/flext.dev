@@ -1,8 +1,10 @@
 import { AnnotatedLayout } from "_client/form/annotatedLayout";
-import { CheckboxGroup } from "_client/form/checkboxGroup";
+import { HabitCheckbox } from "_client/form/habit-checkbox";
+import { HabitTimePicker } from "_client/form/habit-time-picker";
 import { useApi } from "_client/hooks/useApi";
 import { HrBreak } from "_client/hrBreak";
 import { Page } from "_client/page";
+import { HABITS } from "content/habits";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -14,11 +16,20 @@ export const Daily = () => {
 
   const [loading, setLoading] = useState();
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [habits, setHabits] = useState({ teeth: false });
+  const [habits, setHabits] = useState(HABITS);
 
   const handleSave = useCallback(async () => {
     await api("saveDaily", { habits, date });
   }, [api, date, habits]);
+
+  const updateHabits = useCallback((groupTitle, habitTitle, value) => {
+    setHabits((data) => {
+      data
+        .find(({ title }) => title === groupTitle)
+        .steps.find(({ title }) => title === habitTitle).value = value;
+      return [...data];
+    });
+  }, []);
 
   useEffect(() => {
     if (!session && status !== "loading" && router.isReady) {
@@ -30,9 +41,41 @@ export const Daily = () => {
     <>
       <Page
         subtitle="Tracking Habits daily to analyze different correlations and measure success."
-        title="Habit Tracking"
+        title={`${date} - Habit Tracking`}
       >
-        <AnnotatedLayout description="Track your Habits today!" title={date}>
+        {habits.map((group) => (
+          <>
+            <AnnotatedLayout key={group.title} title={group.title}>
+              {group.steps.map((habit) => {
+                switch (habit.type) {
+                  case "TIME": {
+                    return (
+                      <HabitTimePicker
+                        key={habit.title}
+                        setValue={(value) => updateHabits(group.title, habit.title, value)}
+                        title={habit.title}
+                        value={habit.value}
+                      />
+                    );
+                  }
+                  case "BOOLEAN": {
+                    return (
+                      <HabitCheckbox
+                        key={habit.title}
+                        setValue={(value) => updateHabits(group.title, habit.title, value)}
+                        title={habit.title}
+                        value={habit.value}
+                      />
+                    );
+                  }
+                }
+                return "";
+              })}
+            </AnnotatedLayout>
+            <HrBreak />
+          </>
+        ))}
+        {/* <AnnotatedLayout title="Track your Habits today!">
           <CheckboxGroup
             items={[
               {
@@ -45,7 +88,7 @@ export const Daily = () => {
             subtitle="Daily habits that relate to a healthier lifestyle."
             title="Health Habits"
           />
-        </AnnotatedLayout>
+        </AnnotatedLayout>*/}
 
         {/*       <HrBreak />
 
