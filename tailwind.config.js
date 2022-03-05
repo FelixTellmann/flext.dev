@@ -1,6 +1,8 @@
 // eslint-disable-next-line node/no-unpublished-require
 const plugin = require("tailwindcss/plugin");
+// eslint-disable-next-line node/no-unpublished-require
 const colors = require("tailwindcss/colors");
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -23,11 +25,14 @@ module.exports = {
       },
       "shadow-border": `box-shadow: black 0px 0px 0px 2px`,
       colors: {
+        bg: "#f4f4f5",
         dark: {
+          border: "#3f3f46",
           bg: "#1b1c1c",
           card: "#282727",
           headings: "#f9fafa",
           text: "#aaabb7",
+          success: "#06b6d4",
         },
         selected: "#d2e3fd",
         selectedTag: "#ecf3fd",
@@ -373,6 +378,7 @@ module.exports = {
     plugin(({ addVariant }) => {
       addVariant("hfa", ["&:hover", "&:focus", "&:active"]);
       addVariant("hf", ["&:hover", "&:focus"]);
+      addVariant("h", ["&:hover"]);
       addVariant("hfa", ["&:hover", "&:focus", "&:active, &.active"]);
       addVariant("group-hfa", [".group:hover &", ".group:focus &", ".group:active &"]);
     }),
