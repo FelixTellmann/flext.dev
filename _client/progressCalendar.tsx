@@ -50,10 +50,7 @@ const ProgressDay: FC<{ boundary; date: string; status: "incomplete" | "complete
     reference,
     floating,
     strategy,
-    middlewareData: {
-      offset: { x: offsetX, y: offsetY } = {},
-      arrow: { x: arrowX, y: arrowY, centerOffset } = {},
-    },
+    middlewareData: { offset: { y: offsetY } = {}, arrow: { x: arrowX, centerOffset } = {} },
   } = useFloating({
     placement: "top",
     middleware: [
@@ -75,7 +72,6 @@ const ProgressDay: FC<{ boundary; date: string; status: "incomplete" | "complete
     ],
   });
 
-  console.log({ arrowX, offsetX, arrowY, offsetY, centerOffset });
   return (
     <>
       <button
