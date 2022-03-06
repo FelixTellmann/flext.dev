@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @heroicons
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add typescript@latest
 
 PATH: 
   C:\cmder\bin;C:\cmder\vendor\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\pscale;C:\Program Files\JetBrains\Toolbox\apps\IDEA-U\ch-0\213.5744.223\bin\;C:\Ruby30-x64\bin;C:\Users\Felix\AppData\Local\Microsoft\WindowsApps;C:\Program Files\nvm;C:\Program Files\nodejs;C:\Program Files\pscale;C:\Program Files\JetBrains\Toolbox\apps\IDEA-U\ch-0\213.5744.223\bin\;C:\development\flext.dev\node_modules\.bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\cmder
@@ -14,23 +14,19 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@heroicons: Request "https://registry.yarnpkg.com/@heroicons" returned a 405
-      at Request.params.callback [as _callback] (C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:67038:18)
-      at Request.self.callback (C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:140883:22)
-      at Request.emit (node:events:390:28)
-      at Request.<anonymous> (C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:141855:10)
-      at Request.emit (node:events:390:28)
-      at IncomingMessage.<anonymous> (C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:141777:12)
-      at Object.onceWrapper (node:events:509:28)
-      at IncomingMessage.emit (node:events:402:35)
-      at endReadableNT (node:internal/streams/readable:1343:12)
-      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+  SyntaxError: C:\development\flext.dev\package.json: Unexpected token : in JSON at position 86
+      at JSON.parse (<anonymous>)
+      at C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:310:30)
+      at C:\PROGRA~1\nvm\v16.13.2\node_modules\yarn\lib\cli.js:321:13
 
 npm manifest: 
   {
     "name": "flex",
     "version": "0.0.1",
     "license": "MIT",
+    "private":
     "scripts": {
       "dev": "rimraf .next && next --port 3000",
       "db:local": "npm-run-all --parallel db:dev db:shadow",
@@ -45,13 +41,17 @@ npm manifest:
       "node": ">=12.0.0"
     },
     "dependencies": {
+      "@floating-ui/react-dom": "^0.5.0",
       "@headlessui/react": "^1.5.0",
+      "@heroicons/react": "^1.0.6",
       "@next-auth/prisma-adapter": "^0.5.2-next.19",
       "@prisma/client": "^3.10.0",
       "@radix-ui/react-id": "^0.1.1",
       "@radix-ui/react-tooltip": "^0.1.1",
       "@svgr/webpack": "^6.2.1",
       "@tailwindcss/forms": "^0.4.0",
+      "@types/react-tooltip": "^4.2.4",
+      "date-fns": "^2.28.0",
       "install": "^0.13.0",
       "mysql2": "^2.3.3-rc.0",
       "next": "^12.1.0",
@@ -63,7 +63,9 @@ npm manifest:
       "react": "^17.0.2",
       "react-dom": "^17.0.2",
       "react-icons": "^4.3.1",
-      "react-query": "^3.34.16"
+      "react-query": "^3.34.16",
+      "react-tooltip": "^4.2.21",
+      "tinycolor2": "^1.4.2"
     },
     "devDependencies": {
       "@types/chrome": "^0.0.178",
@@ -1098,6 +1100,26 @@ Lockfile:
       minimatch "^3.0.4"
       strip-json-comments "^3.1.1"
   
+  "@floating-ui/core@^0.5.0":
+    version "0.5.1"
+    resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-0.5.1.tgz#d85d18938c4080f28dae338f5499d372ff93a7ff"
+    integrity sha512-LOFg65vdU4o4eZjVKNhu7VXbjdnY0amMw9sydLtKZiCNwj0eMD06rmktbWp9L/f6w6s9Qqe22lkks8PbwYwy4Q==
+  
+  "@floating-ui/dom@^0.3.0":
+    version "0.3.1"
+    resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-0.3.1.tgz#d5608b9f16a17054c66f9e7b7e6bc289d65b64ec"
+    integrity sha512-HJX/2xgGPt01YHQNAya2taqg5HDnY6ipF0B0Bk/Th2s4FD9R89Ecw3TEegLLO+VrQnPEGbuHOGJ6Fr3BPM0DYg==
+    dependencies:
+      "@floating-ui/core" "^0.5.0"
+  
+  "@floating-ui/react-dom@^0.5.0":
+    version "0.5.0"
+    resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-0.5.0.tgz#e3747850c45889bd0cd197f5fe434f1d813b0917"
+    integrity sha512-nb9PlHPX1dXoJAJK5YGnwJjU64DscL/ec+j6C8UiCY2dUeknyaBpabOg/wr87FRwnk5v0v5jQZ0pbmK2qNvw7g==
+    dependencies:
+      "@floating-ui/dom" "^0.3.0"
+      use-isomorphic-layout-effect "^1.1.1"
+  
   "@gar/promisify@^1.0.1":
     version "1.1.3"
     resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
@@ -1107,6 +1129,11 @@ Lockfile:
     version "1.5.0"
     resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.5.0.tgz#483b44ba2c8b8d4391e1d2c863898d7dd0cc0296"
     integrity sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==
+  
+  "@heroicons/react@^1.0.6":
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-1.0.6.tgz#35dd26987228b39ef2316db3b1245c42eb19e324"
+    integrity sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==
   
   "@humanwhocodes/config-array@^0.5.0":
     version "0.5.0"
@@ -1810,6 +1837,13 @@ Lockfile:
     integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
     dependencies:
       "@types/react" "*"
+  
+  "@types/react-tooltip@^4.2.4":
+    version "4.2.4"
+    resolved "https://registry.yarnpkg.com/@types/react-tooltip/-/react-tooltip-4.2.4.tgz#d0acad2a3061806e10aab91dd26a95a77fd35125"
+    integrity sha512-UzjzmgY/VH3Str6DcAGTLMA1mVVhGOyARNTANExrirtp+JgxhaIOVDxq4TIRmpSi4voLv+w4HA9CC5GvhhCA0A==
+    dependencies:
+      react-tooltip "*"
   
   "@types/react@*", "@types/react@^17.0.39":
     version "17.0.39"
@@ -2755,6 +2789,11 @@ Lockfile:
     version "1.0.8"
     resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
     integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
+  
+  date-fns@^2.28.0:
+    version "2.28.0"
+    resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
+    integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
   
   debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2:
     version "4.3.3"
@@ -5713,7 +5752,7 @@ Lockfile:
     dependencies:
       read "1"
   
-  prop-types@^15.8.1:
+  prop-types@^15.7.2, prop-types@^15.8.1:
     version "15.8.1"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
     integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5814,6 +5853,14 @@ Lockfile:
       "@babel/runtime" "^7.5.5"
       broadcast-channel "^3.4.1"
       match-sorter "^6.0.2"
+  
+  react-tooltip@*, react-tooltip@^4.2.21:
+    version "4.2.21"
+    resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.2.21.tgz#840123ed86cf33d50ddde8ec8813b2960bfded7f"
+    integrity sha512-zSLprMymBDowknr0KVDiJ05IjZn9mQhhg4PRsqln0OZtURAJ1snt1xi5daZfagsh6vfsziZrc9pErPTDY1ACig==
+    dependencies:
+      prop-types "^15.7.2"
+      uuid "^7.0.3"
   
   react@^17.0.2:
     version "17.0.2"
@@ -6603,6 +6650,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/tiny-relative-date/-/tiny-relative-date-1.3.0.tgz#fa08aad501ed730f31cc043181d995c39a935e07"
     integrity sha512-MOQHpzllWxDCHHaDno30hhLfbouoYlOI8YlMNtvKe1zXbjEVhbcEovQxvZrPvtiYW630GQDoMMarCnjfyfHA+A==
   
+  tinycolor2@^1.4.2:
+    version "1.4.2"
+    resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
+    integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
+  
   tmp@^0.0.33:
     version "0.0.33"
     resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -6705,10 +6757,15 @@ Lockfile:
     dependencies:
       is-typedarray "^1.0.0"
   
-  typescript@^4.3.5, typescript@^4.5.5:
+  typescript@^4.3.5:
     version "4.5.5"
     resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
     integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
+  
+  typescript@^4.6.2:
+    version "4.6.2"
+    resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.2.tgz#fe12d2727b708f4eef40f51598b3398baa9611d4"
+    integrity sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==
   
   unbox-primitive@^1.0.1:
     version "1.0.1"
@@ -6816,6 +6873,11 @@ Lockfile:
     dependencies:
       prepend-http "^2.0.0"
   
+  use-isomorphic-layout-effect@^1.1.1:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.1.1.tgz#7bb6589170cd2987a152042f9084f9effb75c225"
+    integrity sha512-L7Evj8FGcwo/wpbv/qvSfrkHFtOpCzvM5yl2KVyDJoylVuSvzphiiasmjgQPttIGBAy2WKiBNR98q8w7PiNgKQ==
+  
   use-subscription@1.5.1:
     version "1.5.1"
     resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.5.1.tgz#73501107f02fad84c6dd57965beb0b75c68c42d1"
@@ -6827,6 +6889,11 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
     integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
+  
+  uuid@^7.0.3:
+    version "7.0.3"
+    resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+    integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
   
   uuid@^8.3.2:
     version "8.3.2"

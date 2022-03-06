@@ -1,6 +1,6 @@
-import { CheckIcon } from "@heroicons/react/solid";
+import { ProgressButton } from "_client/progress-button";
 import { ProgressCalendar } from "_client/progress-calendar";
-import clsx from "clsx";
+import { ProgressSteps } from "_client/progress-steps";
 import { FC, useCallback, useState } from "react";
 
 type indexProps = {};
@@ -76,85 +76,38 @@ const Index: FC<indexProps> = ({}) => {
       <ProgressCalendar handleSelectDay={handleSelectDay} />
       <div className="flex gap-10 mt-12 mb-36">
         <div className="flex flex-1 justify-center items-center left">
-          <nav aria-label="Progress " className="max-w-[300px]">
-            <ol className="overflow-hidden" role="list">
-              {steps.map((step, stepIdx) => (
-                <li
-                  key={step.name}
-                  className={clsx(stepIdx !== steps.length - 1 ? "pb-10" : "", "relative")}
-                >
-                  {step.status === "complete"
-                    ? <>
-                        {stepIdx !== steps.length - 1
-                          ? <div
-                              aria-hidden="true"
-                              className="absolute top-4 left-4 mt-0.5 -ml-px w-0.5 h-full bg-indigo-600"
-                            />
-                          : null}
-                        <button className="group flex relative items-start text-left">
-                          <span className="flex items-center h-9">
-                            <span className="flex relative z-10 justify-center items-center w-8 h-8 bg-indigo-600 group-hover:bg-indigo-800 rounded-full">
-                              <CheckIcon aria-hidden="true" className="w-5 h-5 text-white" />
-                            </span>
-                          </span>
-                          <span className="flex flex-col ml-4 min-w-0">
-                            <span className="text-xs font-semibold tracking-wide uppercase">
-                              {step.name}
-                            </span>
-                            <span className="text-[13px] text-gray-500">{step.description}</span>
-                          </span>
-                        </button>
-                      </>
-                    : step.status === "current"
-                    ? <>
-                        {stepIdx !== steps.length - 1
-                          ? <div
-                              aria-hidden="true"
-                              className="absolute top-4 left-4 mt-0.5 -ml-px w-0.5 h-full bg-gray-300"
-                            />
-                          : null}
-                        <button
-                          aria-current="step"
-                          className="group flex relative items-start text-left"
-                        >
-                          <span aria-hidden="true" className="flex items-center h-9">
-                            <span className="flex relative z-10 justify-center items-center w-8 h-8 bg-white rounded-full border-2 border-indigo-600">
-                              <span className="w-2.5 h-2.5 bg-indigo-600 rounded-full" />
-                            </span>
-                          </span>
-                          <span className="flex flex-col ml-4 min-w-0">
-                            <span className="text-xs font-semibold tracking-wide text-indigo-600 uppercase">
-                              {step.name}
-                            </span>
-                            <span className="text-[13px] text-gray-500">{step.description}</span>
-                          </span>
-                        </button>
-                      </>
-                    : <>
-                        {stepIdx !== steps.length - 1
-                          ? <div
-                              aria-hidden="true"
-                              className="absolute top-4 left-4 mt-0.5 -ml-px w-0.5 h-full bg-gray-300"
-                            />
-                          : null}
-                        <button className="group flex relative items-start text-left">
-                          <span aria-hidden="true" className="flex items-center h-9">
-                            <span className="flex relative z-10 justify-center items-center w-8 h-8 bg-white rounded-full border-2 border-gray-300 group-hover:border-gray-400">
-                              <span className="w-2.5 h-2.5 bg-transparent group-hover:bg-gray-300 rounded-full" />
-                            </span>
-                          </span>
-                          <span className="flex flex-col ml-4 min-w-0">
-                            <span className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                              {step.name}
-                            </span>
-                            <span className="text-[13px] text-gray-500">{step.description}</span>
-                          </span>
-                        </button>
-                      </>}
-                </li>
-              ))}
-            </ol>
-          </nav>
+          <ProgressSteps>
+            <ProgressButton
+              step={steps[0]}
+              onClick={() => {
+                console.log(steps[0]);
+              }}
+            />
+            <ProgressButton
+              step={steps[1]}
+              onClick={() => {
+                console.log(steps[1]);
+              }}
+            />
+            <ProgressButton
+              step={steps[2]}
+              onClick={() => {
+                console.log(steps[2]);
+              }}
+            />
+            <ProgressButton
+              step={steps[3]}
+              onClick={() => {
+                console.log(steps[3]);
+              }}
+            />
+            <ProgressButton
+              step={steps[4]}
+              onClick={() => {
+                console.log(steps[4]);
+              }}
+            />
+          </ProgressSteps>
         </div>
         <div className="flex-1 right ">
           <div className="shadow sm:overflow-hidden sm:rounded-md">
