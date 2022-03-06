@@ -25,6 +25,8 @@
     "@radix-ui/react-tooltip": "^0.1.1",
     "@svgr/webpack": "^6.2.1",
     "@tailwindcss/forms": "^0.4.0",
+    "@types/react-tooltip": "^4.2.4",
+    "date-fns": "^2.28.0",
     "install": "^0.13.0",
     "mysql2": "^2.3.3-rc.0",
     "next": "^12.1.0",
@@ -36,7 +38,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-query": "^3.34.16"
+    "react-query": "^3.34.16",
+    "react-tooltip": "^4.2.21",
+    "tinycolor2": "^1.4.2"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.178",

@@ -1,5 +1,5 @@
-import { ProgressCalendar } from "_client/progressCalendar";
 import { FC, useCallback, useState } from "react";
+import { ProgressCalendar } from "_client/progress-calendar";
 
 type indexProps = {};
 
@@ -30,10 +30,14 @@ const Page: FC<{ subtitle: string; title: string }> = ({ title, subtitle, childr
 
 const Index: FC<indexProps> = ({}) => {
   const title = "Full-Stack Developer";
-  const subtitle = "Checkout and Payments Team";
+  const subtitle = "Tracking Habits daily to analyze different correlations and measure success.";
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
+
+  const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
+
   return (
-    <Page subtitle={subtitle} title={title}>
-      <ProgressCalendar />
+    <Page subtitle={subtitle} title={currentDate}>
+      <ProgressCalendar handleSelectDay={handleSelectDay} />
     </Page>
   );
 };

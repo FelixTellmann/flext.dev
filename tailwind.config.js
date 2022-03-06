@@ -375,12 +375,17 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/forms"),
-    plugin(({ addVariant }) => {
+    plugin(({ addVariant, addUtilities }) => {
       addVariant("hfa", ["&:hover", "&:focus", "&:active"]);
       addVariant("hf", ["&:hover", "&:focus"]);
       addVariant("h", ["&:hover"]);
       addVariant("hfa", ["&:hover", "&:focus", "&:active, &.active"]);
       addVariant("group-hfa", [".group:hover &", ".group:focus &", ".group:active &"]);
+      addUtilities({
+        ".shape-geometric-precision": {
+          "shape-rendering": "geometricPrecision",
+        },
+      });
     }),
   ],
 };
