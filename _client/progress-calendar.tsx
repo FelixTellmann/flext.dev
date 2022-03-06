@@ -1,59 +1,8 @@
-import { useIsMount } from "_client/hooks/useIsMount";
 import { ProgressDay } from "_client/progress-day";
 import clsx from "clsx";
-import { useRouter } from "next/router";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { IoCaretUp } from "react-icons/io5";
 import ReactTooltip from "react-tooltip";
-
-export type Days = {
-  date: string;
-  hide: boolean;
-  level: number;
-}[][];
-
-const createDateRange = (
-  originalDate: string = new Date().toISOString().split("T")[0],
-  year = false
-): Days => {
-  let date = new Date(originalDate);
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  date = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
-  if (date.getDay() !== 0) {
-    date.setDate(date.getDate() + (7 - date.getDay()));
-  }
-
-  date.setDate(date.getDate() - 7 * 53 + 1);
-
-  const weeks = [];
-  for (let i = 0; i < 53; i++) {
-    weeks[i] = [];
-    for (let j = 0; j < 7; j++) {
-      if (year) {
-        if (date.getFullYear() !== new Date(originalDate).getFullYear()) {
-          weeks[i][j] = {
-            date: `${date.toISOString().split("T")[0]}`,
-            level: 0,
-            hide: true,
-          };
-          date.setDate(date.getDate() + 1);
-          continue;
-        }
-      }
-      weeks[i][j] = {
-        date: `${date.toISOString().split("T")[0]}`,
-        level: 0,
-        hide: false,
-      };
-      date.setDate(date.getDate() + 1);
-    }
-  }
-
-  return weeks;
-};
 
 type ProgressCalendarProps = {
   handleSelectDay: (date: string) => void;
@@ -136,16 +85,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
                         html
                         backgroundColor="#24292f"
                         className="!py-2 !px-4 !leading-[18px] !rounded-md !rounded-[6px] after:!border-t-[9px] !border-none"
-                        overridePosition={(
-                          position,
-                          currentEvent,
-                          currentTarget,
-                          refNode,
-                          place,
-                          desiredPlace,
-                          effect,
-                          offset
-                        ) => {
+                        overridePosition={(position, currentEvent, currentTarget, refNode) => {
                           const { top, left } = (
                             currentTarget as HTMLElement
                           ).getBoundingClientRect();
@@ -239,4 +179,53 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
       </div>
     </>
   );
+};
+
+export type Days = {
+  date: string;
+  hide: boolean;
+  level: number;
+}[][];
+
+export const createDateRange = (
+  originalDate: string = new Date().toISOString().split("T")[0],
+  year = false
+): Days => {
+  let date = new Date(originalDate);
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  date = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+  if (date.getDay() !== 0) {
+    date.setDate(date.getDate() + (7 - date.getDay()));
+  }
+
+  date.setDate(date.getDate() - 7 * 53 + 1);
+
+  const weeks = [];
+  for (let i = 0; i < 53; i++) {
+    weeks[i] = [];
+    for (let j = 0; j < 7; j++) {
+      if (year) {
+        if (date.getFullYear() !== new Date(originalDate).getFullYear()) {
+          weeks[i][j] = {
+            date: `${date.toISOString().split("T")[0]}`,
+            level: 0,
+            hide: true,
+          };
+          date.setDate(date.getDate() + 1);
+          continue;
+        }
+      }
+      weeks[i][j] = {
+        date: `${date.toISOString().split("T")[0]}`,
+        level: 0,
+        hide: false,
+      };
+      date.setDate(date.getDate() + 1);
+    }
+  }
+
+  return weeks;
 };
