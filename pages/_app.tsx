@@ -11,6 +11,7 @@ import { FC } from "react";
 import "styles/tailwind.css";
 import "styles/theme.scss";
 import "styles/animations.scss";
+import "styles/utils.scss";
 import { getSession, SessionProvider } from "next-auth/react";
 
 const App: FC<AppProps> = ({ pageProps, Component }) => {

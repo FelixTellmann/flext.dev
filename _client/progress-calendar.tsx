@@ -1,6 +1,6 @@
 import { ProgressDay } from "_client/progress-day";
 import clsx from "clsx";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { IoCaretUp } from "react-icons/io5";
 import ReactTooltip from "react-tooltip";
 
@@ -10,6 +10,7 @@ type ProgressCalendarProps = {
 
 export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay }) => {
   const [isMounted, setMount] = useState(false);
+  const progressContainer = useRef<HTMLDivElement>(null);
   const [toolTipRendered, setToolTipRendered] = useState(false);
   const [showProgress, setShowProgress] = useState(true);
   const [yearSelection, setYearSelection] = useState(new Date().toISOString().split("T")[0]);
@@ -27,6 +28,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
 
   useEffect(() => {
     setMount(true);
+    progressContainer.current.scrollLeft = progressContainer.current.scrollWidth;
   }, []);
 
   return (
@@ -52,7 +54,10 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
       >
         <div className="flex pb-5">
           <div className="flex overflow-hidden justify-end mx-auto">
-            <div className="grid auto-cols-min auto-rows-min gap-1">
+            <div
+              ref={progressContainer}
+              className="grid overflow-x-scroll auto-cols-min auto-rows-min gap-1 scrollbar-none"
+            >
               <div className="flex col-start-2 gap-1 text-[9px]">
                 {weeks.map((week) => {
                   const monday = new Date(week[0].date);
@@ -84,13 +89,33 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
                       <ReactTooltip
                         html
                         backgroundColor="#24292f"
-                        className="!py-2 !px-4 !leading-[18px] !rounded-md !rounded-[6px] after:!border-t-[9px] !border-none"
-                        overridePosition={(position, currentEvent, currentTarget, refNode) => {
-                          const { top, left } = (
-                            currentTarget as HTMLElement
-                          ).getBoundingClientRect();
-                          const { width } = (refNode as HTMLElement).getBoundingClientRect();
-                          return { left: 11 / 2 + left - width / 2, top: top - 33 };
+                        className="!py-2 !px-4 !leading-[18px] !rounded-md !rounded-[6px] !border-none"
+                        overridePosition={(position, currentEvent, currentTarget, ref, place) => {
+                          const block = (currentTarget as HTMLElement).getBoundingClientRect();
+                          const { width, height } = (ref as HTMLElement).getBoundingClientRect();
+                          switch (place) {
+                            case "top":
+                              return {
+                                left: 11 / 2 + block.left - width / 2,
+                                top: block.top - 33,
+                              };
+                            case "right":
+                              return {
+                                left: block.left + 10,
+                                top: 11 / 2 + block.top - height / 2,
+                              };
+                            case "left":
+                              return {
+                                left: block.right + 10,
+                                top: 11 / 2 + block.top - height / 2,
+                              };
+                            case "bottom": {
+                              return {
+                                left: 11 / 2 + block.left - width / 2,
+                                top: block.bottom,
+                              };
+                            }
+                          }
                         }}
                       />
                     </>
