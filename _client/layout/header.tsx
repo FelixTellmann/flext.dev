@@ -83,7 +83,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
 
   return (
     <>
-      <header className="h-header border-b border-gray-200 dark:border-gray-700 border-solid">
+      <header className="sticky top-0 z-10 h-header bg-white border-b border-gray-200 dark:border-gray-700 border-solid">
         <div className="flex px-2 mx-auto w-wrapper max-w-full h-full">
           <div className="hidden items-center h-header sm:flex">
             <TelemetryLink href={logo.href} name="headerLogo">
