@@ -16,7 +16,6 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@floating-ui/react-dom": "^0.5.0",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@next-auth/prisma-adapter": "^0.5.2-next.19",
@@ -40,7 +39,8 @@
     "react-icons": "^4.3.1",
     "react-query": "^3.34.16",
     "react-tooltip": "^4.2.21",
-    "tinycolor2": "^1.4.2"
+    "tinycolor2": "^1.4.2",
+    "tailwindcss": "^3.0.23"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.178",
@@ -55,7 +55,6 @@
     "postcss": "^8.4.5",
     "prisma": "^3.10.0",
     "sass": "^1.43.4",
-    "tailwindcss": "^3.0.23",
     "typescript": "^4.6.2"
   }
 }
