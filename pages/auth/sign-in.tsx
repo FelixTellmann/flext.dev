@@ -18,7 +18,7 @@ const SignIn: FC<indexProps> = ({}) => {
   const rememberRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (session && status !== "loading" && router.isReady) {
+    if (session && router.isReady) {
       router.push("/daily");
     }
   }, [router, session, status]);
@@ -45,7 +45,7 @@ const SignIn: FC<indexProps> = ({}) => {
               onSubmit={(e) => {
                 e.preventDefault();
                 signIn("email", {
-                  email: emailRef.current.value,
+                  email: emailRef.current?.value,
                   callbackUrl: "http://localhost:3000/",
                 });
               }}

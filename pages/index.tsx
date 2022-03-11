@@ -1,4 +1,5 @@
-import { ProgressButton } from "_client/progress-button";
+import { API } from "_client/hooks/trcpAPI";
+import { ProgressButton, Steps } from "_client/progress-button";
 import { ProgressCalendar } from "_client/progress-calendar";
 import { ProgressSteps } from "_client/progress-steps";
 import { FC, useCallback, useState } from "react";
@@ -34,9 +35,12 @@ const Index: FC<indexProps> = ({}) => {
   const title = "Full-Stack Developer";
   const subtitle = "Tracking Habits daily to analyze different correlations and measure success.";
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
+  const hello = API.useQuery(["hello", { text: "client" }]);
+
+  console.log(hello?.data?.greeting);
 
   const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
-  const steps = [
+  const steps: Steps[] = [
     {
       name: "Rise & Shine",
       description: "Getting ready in the morning for a fresh start in the day.",

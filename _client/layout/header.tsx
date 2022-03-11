@@ -22,9 +22,13 @@ type HeaderProps = {
   nav: Omit<NavItemProps, "active">[];
 };
 
-function getParentNodeByClass(target: HTMLElement, className: string, i = 0) {
+const getParentNodeByClass = (
+  target: HTMLElement,
+  className: string,
+  i = 0
+): HTMLElement | null => {
   if (i > 20) {
-    return false;
+    return null;
   }
   if (target?.classList?.contains(className)) {
     return target;
@@ -32,8 +36,8 @@ function getParentNodeByClass(target: HTMLElement, className: string, i = 0) {
   if (target.parentNode) {
     return getParentNodeByClass(target.parentNode as HTMLElement, className, i++);
   }
-  return false;
-}
+  return null;
+};
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
 

@@ -28,7 +28,9 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
 
   useEffect(() => {
     setMount(true);
-    progressContainer.current.scrollLeft = progressContainer.current.scrollWidth;
+    if (progressContainer.current !== null) {
+      progressContainer.current.scrollLeft = progressContainer.current.scrollWidth;
+    }
   }, []);
 
   return (
@@ -206,16 +208,16 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
   );
 };
 
-export type Days = {
+export type Day = {
   date: string;
   hide: boolean;
   level: number;
-}[][];
+};
 
 export const createDateRange = (
   originalDate: string = new Date().toISOString().split("T")[0],
   year = false
-): Days => {
+): Day[][] => {
   let date = new Date(originalDate);
   date.setHours(0);
   date.setMinutes(0);
@@ -228,7 +230,7 @@ export const createDateRange = (
 
   date.setDate(date.getDate() - 7 * 53 + 1);
 
-  const weeks = [];
+  const weeks: Day[][] = [];
   for (let i = 0; i < 53; i++) {
     weeks[i] = [];
     for (let j = 0; j < 7; j++) {

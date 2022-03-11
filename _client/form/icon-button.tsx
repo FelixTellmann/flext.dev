@@ -1,9 +1,9 @@
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 
 type IconButtonProps = {
   content: string;
   icon: string | JSX.Element;
-  onClick: (e) => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 export const IconButton: FC<IconButtonProps> = ({ content, icon, onClick }) => {

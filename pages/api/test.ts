@@ -18,7 +18,7 @@ const Test: TestFunction = async (req, res) => {
 
     console.log(test, `${Date.now() - startTime}ms`);
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
   res.status(200).json({ name: "John Doe" });
 };

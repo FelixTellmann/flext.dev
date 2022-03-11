@@ -14,7 +14,7 @@ export const ProfileDropdown = () => {
         <img
           alt=""
           className="flex w-8 h-8 bg-gray-800 rounded border border-gray-200 group-hfa:border-gray-300"
-          src={session?.user?.image}
+          src={session?.user?.image ?? undefined}
         />
       </Menu.Button>
       <Transition

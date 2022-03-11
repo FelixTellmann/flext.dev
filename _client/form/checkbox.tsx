@@ -1,8 +1,8 @@
-import { FC, InputHTMLAttributes, MutableRefObject } from "react";
+import { FC, InputHTMLAttributes, MutableRefObject, RefObject } from "react";
 
 type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
   label: string;
-  forwardRef?: MutableRefObject<HTMLInputElement>;
+  forwardRef?: RefObject<HTMLInputElement>;
 };
 
 export const Checkbox: FC<CheckboxProps> = ({ label, forwardRef, ...htmlInputElementProps }) => {

@@ -1,9 +1,8 @@
-import { Combobox, Listbox, Switch, Transition } from "@headlessui/react";
+import { Listbox, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { FC, Fragment, useState } from "react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
-type HabitTimePickerProps = { setValue: (value) => void; title: string; value: any };
+type HabitTimePickerProps = { setValue: (value: any) => void; title: string; value: any };
 
 export const HabitTimePicker: FC<HabitTimePickerProps> = ({ title, value, setValue }) => {
   const [hour, setHour] = useState(0);

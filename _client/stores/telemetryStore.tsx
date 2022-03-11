@@ -18,7 +18,7 @@ export const useLoadInitialTelemetry = () => {
   const [telemetry, setTelemetry] = useStore();
 
   const loadTelemetry = useCallback(async () => {
-    const data = await api("load-telemetry");
+    const data: { count: number; name: string }[] = await api("load-telemetry");
     console.log(data);
     setTelemetry(() => ({
       initialDataLoaded: true,

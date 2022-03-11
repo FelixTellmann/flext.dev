@@ -4,7 +4,7 @@ import { HabitTimePicker } from "_client/form/habit-time-picker";
 import { useApi } from "_client/hooks/useApi";
 import { HrBreak } from "_client/hrBreak";
 import { Page } from "_client/page";
-import { HABITS } from "content/habits";
+import { HABITS, HabitsType } from "content/habits";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export const Daily = () => {
 
   const [loading, setLoading] = useState();
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [habits, setHabits] = useState(HABITS);
+  const [habits, setHabits] = useState<HabitsType>(HABITS);
 
   const handleSave = useCallback(async () => {
     await api("saveDaily", { habits, date });
@@ -24,9 +24,10 @@ export const Daily = () => {
 
   const updateHabits = useCallback((groupTitle, habitTitle, value) => {
     setHabits((data) => {
-      data
+      // @ts-ignore
+      const group = (data
         .find(({ title }) => title === groupTitle)
-        .steps.find(({ title }) => title === habitTitle).value = value;
+        .steps.find(({ title }) => title === habitTitle).value = value);
       return [...data];
     });
   }, []);

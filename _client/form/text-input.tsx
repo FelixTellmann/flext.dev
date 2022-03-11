@@ -1,8 +1,8 @@
-import { FC, HTMLInputTypeAttribute, InputHTMLAttributes, MutableRefObject } from "react";
+import { FC, HTMLInputTypeAttribute, InputHTMLAttributes, MutableRefObject, RefObject } from "react";
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
-  forwardRef?: MutableRefObject<HTMLInputElement>;
+  forwardRef?: RefObject<HTMLInputElement>;
 };
 
 export const TextInput: FC<TextInputProps> = ({

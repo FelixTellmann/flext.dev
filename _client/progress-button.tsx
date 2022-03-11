@@ -1,7 +1,10 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 
-function ProgressStepLine({ status }: { status: any }) {
+type Status = "complete" | "current" | "upcoming";
+
+export type Steps = { description: string; name: string; status: Status };
+function ProgressStepLine({ status }: { status: Status }) {
   return (
     <div
       aria-hidden="true"
@@ -17,7 +20,7 @@ function ProgressStepLine({ status }: { status: any }) {
   );
 }
 
-const ProgressStepItemIcon = ({ status }: { status: any }) => {
+const ProgressStepItemIcon = ({ status }: { status: Status }) => {
   return {
     complete: <CheckIcon aria-hidden="true" className="w-5 h-5 text-white" />,
     current: <span className="w-2.5 h-2.5 bg-indigo-600 rounded-full" />,
@@ -25,7 +28,7 @@ const ProgressStepItemIcon = ({ status }: { status: any }) => {
   }[status];
 };
 
-export const ProgressButton = (props: { onClick: any; step: any; isLast?: boolean }) => (
+export const ProgressButton = (props: { onClick: any; step: Steps; isLast?: boolean }) => (
   <li className={clsx(props.isLast ? "" : "pb-10", "relative")}>
     {props.isLast ? null : <ProgressStepLine status={props.step.status} />}
     <button
