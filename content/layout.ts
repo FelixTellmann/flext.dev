@@ -7,30 +7,30 @@ export const LAYOUT = {
   header: {
     nav: [
       {
-        title: "Home",
+        name: "Home",
         href: "/",
       },
       {
-        title: "Daily",
+        name: "Daily",
         href: "/daily",
       },
       {
-        title: "Snippets",
+        name: "Snippets",
         href: "/snippets",
       },
     ],
     profile: {
       nav: [
         {
-          title: "Your Profile",
+          name: "Your Profile",
           href: "/profile",
         },
         {
-          title: "Settings",
+          name: "Settings",
           href: "/settings",
         },
         {
-          title: "Sign out",
+          name: "Sign out",
           href: "/auth/sign-out",
         },
       ],
@@ -39,15 +39,15 @@ export const LAYOUT = {
   footer: {
     nav: [
       {
-        title: "Home",
+        name: "Home",
         href: "/",
       },
       {
-        title: "Tools",
+        name: "Tools",
         href: "/",
       },
       {
-        title: "Snippets",
+        name: "Snippets",
         href: "/",
       },
     ],

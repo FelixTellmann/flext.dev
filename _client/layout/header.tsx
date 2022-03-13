@@ -112,10 +112,10 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
             />
             {nav.map((navItem, i) => (
               <NavItem
-                key={navItem.href + navItem.title + i}
+                key={navItem.href + navItem.name + i}
                 active={router.asPath === navItem.href}
                 href={navItem.href}
-                name={navItem.title}
+                name={navItem.name}
                 onFocus={handleNavFocus}
               />
             ))}
