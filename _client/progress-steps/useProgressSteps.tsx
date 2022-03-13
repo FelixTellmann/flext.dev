@@ -1,8 +1,13 @@
-import { Step } from "_client/progress-steps/progress-steps";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 
-type UseProgressStepsHook = (steps: Step[]) => [Step[], any];
+export type ProcessStep = {
+  completed: boolean;
+  selected: boolean;
+  title: string;
+  description?: string;
+};
+
+type UseProgressStepsHook = (steps: ProcessStep[]) => [ProcessStep[], any];
 
 export const useProgressSteps: UseProgressStepsHook = (initialSteps) => {
   const [steps, setSteps] = useState(initialSteps);
