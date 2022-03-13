@@ -1,0 +1,91 @@
+import { Step } from "_client/progress-steps/progress-steps";
+
+export const PROCESS_STEPS: Step[] = [
+  {
+    title: "Rise & Shine",
+    description: "Getting ready in the morning for a fresh start in the day.",
+    completed: true,
+    selected: false,
+    sections: [
+      {
+        id: "wakeUpTime",
+        label: "Get up in the morning",
+        type: "datetime",
+        minute: "2-digit",
+        hour: "2-digit",
+        hour12: true,
+      },
+      {
+        id: "maui",
+        label: "Maui",
+        info: "Today is going to be a great day",
+        type: "switch",
+      },
+      {
+        id: "plan",
+        label: "Plan my day",
+        info: "Review the time blocks & tasks for the day.",
+        type: "switch",
+      },
+      {
+        id: "weight",
+        label: "Weight",
+        info: "Measure weight in the morning",
+        type: "number",
+        unit: "kg",
+        float: true,
+      },
+      {
+        id: "teethMorning",
+        label: "Brush & Floss",
+        info: "Best done right before taking a shower.",
+        type: "switch",
+      },
+      {
+        id: "showerMorning",
+        label: "Morning Shower",
+        info: "Best done right before taking a shower.",
+        type: "switch",
+      },
+      {
+        id: "coffeeCount",
+        label: "Coffee Count",
+        info: "Measure weight in the morning",
+        type: "range",
+        step: 1,
+        min: 0,
+        max: 6,
+        unit: " cups",
+        default: 0,
+      },
+    ],
+  },
+  {
+    title: "Exercise",
+    description: "Do something today that your future self will thank you for.",
+    completed: false,
+    selected: false,
+    sections: [],
+  },
+  {
+    title: "Food & Drinks",
+    description: "Nothing tastes as good as Slim feels.",
+    completed: false,
+    selected: false,
+    sections: [],
+  },
+  {
+    title: "Household",
+    description: "Why can’t the house clean itself? It seems to get dirty by itself.",
+    completed: false,
+    selected: false,
+    sections: [],
+  },
+  {
+    title: "Wind Down",
+    description: "Your future depends on your dreams, so go to sleep",
+    completed: false,
+    selected: false,
+    sections: [],
+  },
+];

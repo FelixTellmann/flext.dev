@@ -1,7 +1,9 @@
 import { API } from "_client/hooks/trcpAPI";
-import { ProgressButton, Steps } from "_client/progress-button";
+import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressCalendar } from "_client/progress-calendar";
-import { ProgressSteps } from "_client/progress-steps";
+import { ProgressSteps } from "_client/progress-steps/progress-steps";
+import useProgressSteps from "_client/progress-steps/useProgressSteps";
+import { PROCESS_STEPS } from "content/steps";
 import { FC, useCallback, useState } from "react";
 
 type indexProps = {};
@@ -34,39 +36,14 @@ const Page: FC<{ subtitle: string; title: string }> = ({ title, subtitle, childr
 const Index: FC<indexProps> = ({}) => {
   const title = "Full-Stack Developer";
   const subtitle = "Tracking Habits daily to analyze different correlations and measure success.";
+  const [steps, selectProcessStep] = useProgressSteps(PROCESS_STEPS);
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
   const hello = API.useQuery(["hello", { text: "client" }]);
 
   console.log(hello?.data?.greeting);
 
   const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
-  const steps: Steps[] = [
-    {
-      name: "Rise & Shine",
-      description: "Getting ready in the morning for a fresh start in the day.",
-      status: "complete",
-    },
-    {
-      name: "Exercise",
-      description: "Do something today that your future self will thank you for.",
-      status: "current",
-    },
-    {
-      name: "Food & Drinks",
-      description: "Nothing tastes as good as Slim feels.",
-      status: "upcoming",
-    },
-    {
-      name: "Household",
-      description: "Why can’t the house clean itself? It seems to get dirty by itself.",
-      status: "upcoming",
-    },
-    {
-      name: "Wind Down",
-      description: "Your future depends on your dreams, so go to sleep",
-      status: "upcoming",
-    },
-  ];
+
   return (
     <Page
       subtitle={subtitle}
@@ -78,39 +55,20 @@ const Index: FC<indexProps> = ({}) => {
       })}
     >
       <ProgressCalendar handleSelectDay={handleSelectDay} />
-      <div className="flex gap-10 mt-12 mb-36">
+      <div className="flex gap-10 pb-36 mt-12">
         <div className="flex flex-1 justify-center items-center left">
           <ProgressSteps>
-            <ProgressButton
-              step={steps[0]}
-              onClick={() => {
-                console.log(steps[0]);
-              }}
-            />
-            <ProgressButton
-              step={steps[1]}
-              onClick={() => {
-                console.log(steps[1]);
-              }}
-            />
-            <ProgressButton
-              step={steps[2]}
-              onClick={() => {
-                console.log(steps[2]);
-              }}
-            />
-            <ProgressButton
-              step={steps[3]}
-              onClick={() => {
-                console.log(steps[3]);
-              }}
-            />
-            <ProgressButton
-              step={steps[4]}
-              onClick={() => {
-                console.log(steps[4]);
-              }}
-            />
+            {steps.map((step, index) => (
+              <ProgressButton
+                key={step.title}
+                completed={step.completed}
+                description={step.description}
+                last={steps.length - 1 === index}
+                selected={step.selected}
+                title={step.title}
+                onClick={() => selectProcessStep(index, true)}
+              />
+            ))}
           </ProgressSteps>
         </div>
         <div className="flex-1 right ">

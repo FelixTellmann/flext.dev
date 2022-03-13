@@ -87,7 +87,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
               <div className="flex col-start-2 row-start-2 gap-1">
                 {isMounted
                   ? <>
-                      {toolTipRendered === false && setToolTipRendered(true)}
+                      {!toolTipRendered && setToolTipRendered(true)}
                       <ReactTooltip
                         html
                         backgroundColor="#24292f"
