@@ -4,10 +4,10 @@ import { FC } from "react";
 
 export type ProgressButtonProps = {
   completed: boolean;
-  description: string;
   onClick: () => void;
   selected: boolean;
   title: string;
+  description?: string;
   last?: boolean;
 };
 

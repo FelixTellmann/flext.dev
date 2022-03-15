@@ -9,8 +9,8 @@
 }
 
 .focus-border:focus {
-  -webkit-box-shadow: black 0px 0px 0px 2px;
   -moz-box-shadow: black 0px 0px 0px 2px;
+  -webkit-box-shadow: black 0px 0px 0px 2px;
   box-shadow: black 0px 0px 0px 2px;
 }
 
@@ -37,20 +37,20 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-button  {
+button {
   &:hover, &:focus, &:active {
-      outline: none;
+    outline: none;
   }
 }
 
 .scrollbar-none {
-  -webkit-overflow-scrolling:touch;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+  -ms-overflow-style: none; /* IE 10+ */
   &::-webkit-scrollbar {
-    background: transparent; /* Chrome/Safari/Webkit */
     width: 0;
-    display: none;
     height: 0;
+    display: none;
+    background: transparent; /* Chrome/Safari/Webkit */
   }
 }

@@ -1,9 +1,10 @@
+import { HabitBlocks } from "_client/habits/habit-blocks";
 import { API } from "_client/hooks/trcpAPI";
-import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressCalendar } from "_client/progress-calendar";
+import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressSteps } from "_client/progress-steps/progress-steps";
 import useProgressSteps from "_client/progress-steps/useProgressSteps";
-import { PROCESS_STEPS } from "content/steps";
+import { HABITS } from "content/habits";
 import { FC, useCallback, useState } from "react";
 
 type indexProps = {};
@@ -36,7 +37,7 @@ const Page: FC<{ subtitle: string; title: string }> = ({ title, subtitle, childr
 const Index: FC<indexProps> = ({}) => {
   const title = "Full-Stack Developer";
   const subtitle = "Tracking Habits daily to analyze different correlations and measure success.";
-  const [steps, selectProcessStep] = useProgressSteps(PROCESS_STEPS);
+  const [steps, selectProcessStep] = useProgressSteps(HABITS);
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
   const hello = API.useQuery(["hello", { text: "client" }]);
 
@@ -73,8 +74,8 @@ const Index: FC<indexProps> = ({}) => {
         </div>
         <div className="flex-1 right ">
           <div className="shadow sm:overflow-hidden sm:rounded-md">
-            <div className="py-5 px-4 space-y-6 min-h-[500px] max-h-[600px] bg-white sm:p-6">
-              asdasdasd
+            <div className="flex flex-col gap-2 py-5 px-4 space-y-6 min-h-[500px] max-h-[600px] bg-white sm:p-6">
+              <HabitBlocks />
             </div>
           </div>
         </div>

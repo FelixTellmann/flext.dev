@@ -1,6 +1,11 @@
 import { ProcessStep } from "_client/progress-steps/useProgressSteps";
 
-export type HabitSteps = ProcessStep & {
+export type HabitStepState = ProcessStep & {
+  blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+  sections: HabitSection[];
+};
+
+export type HabitStep = ProcessStep & {
   blocks?: HabitBlock[];
   sections?: HabitSection[];
 };
@@ -12,6 +17,7 @@ export type HabitBlock =
       type: "checkbox";
       default?: boolean;
       info?: string;
+      value?: boolean;
     }
   | {
       id: string;
@@ -19,6 +25,7 @@ export type HabitBlock =
       type: "switch";
       default?: boolean;
       info?: string;
+      value?: boolean;
     }
   | {
       id: string;
@@ -27,16 +34,18 @@ export type HabitBlock =
       type: "radio";
       default?: string;
       info?: string;
+      value?: string;
     }
   | {
       id: string;
       label: string;
       type: "number";
-      default?: number;
+      default?: string;
       float?: boolean;
       info?: string;
       placeholder?: string;
       unit?: string;
+      value?: string;
     }
   | {
       default: number;
@@ -48,6 +57,7 @@ export type HabitBlock =
       type: "range";
       unit: string;
       info?: string;
+      value?: number;
     }
   | {
       id: string;
@@ -56,6 +66,7 @@ export type HabitBlock =
       type: "select";
       default?: string;
       info?: string;
+      value?: string;
     }
   | {
       id: string;
@@ -64,6 +75,7 @@ export type HabitBlock =
       default?: string;
       info?: string;
       placeholder?: string;
+      value?: string;
     }
   | {
       id: string;
@@ -72,6 +84,7 @@ export type HabitBlock =
       default?: string;
       info?: string;
       placeholder?: string;
+      value?: string;
     }
   | {
       id: string;
@@ -80,6 +93,7 @@ export type HabitBlock =
       default?: string;
       info?: string;
       placeholder?: string;
+      value?: string;
     }
   | {
       id: string;
@@ -94,15 +108,20 @@ export type HabitBlock =
       month?: "numeric" | "2-digit" | "long" | "short" | "narrow" | undefined;
       placeholder?: string;
       second?: "numeric" | "2-digit" | undefined;
+      value?: Date;
       weekday?: "long" | "short" | "narrow" | undefined;
     }
   | {
       content: string;
       type: "header";
+      default?: "";
+      value?: "";
     }
   | {
       content: string;
       type: "paragraph";
+      default?: "";
+      value?: "";
     };
 
 export type HabitSection = {
@@ -112,7 +131,7 @@ export type HabitSection = {
   limit?: number;
 };
 
-export const HABITS: HabitSteps[] = [
+export const HABITS: HabitStep[] = [
   {
     title: "Rise & Shine",
     description: "Getting ready in the morning for a fresh start in the day.",
@@ -140,12 +159,6 @@ export const HABITS: HabitSteps[] = [
         type: "switch",
       },
       {
-        id: "plan",
-        label: "Plan my day",
-        info: "Review the time blocks & tasks for the day.",
-        type: "switch",
-      },
-      {
         id: "weight",
         label: "Weight",
         info: "Measure weight in the morning",
@@ -170,6 +183,18 @@ export const HABITS: HabitSteps[] = [
         label: "Made the bed",
         info: "Done in the morning before starting anything else.",
         type: "switch",
+      },
+      {
+        id: "plan",
+        label: "Plan my day",
+        info: "Review the time blocks & tasks for the day.",
+        type: "switch",
+      },
+      {
+        id: "onething",
+        label: "The One Thing",
+        info: "What is today's ONE THING such as by doing it, that everything else will be easier or unnecessary?",
+        type: "richtext",
       },
     ],
   },
@@ -202,8 +227,8 @@ export const HABITS: HabitSteps[] = [
             label: "Type of Exercise",
             options: [
               { label: "Run", value: "run" },
-              { label: "Walk", value: "run" },
-              { label: "Hike", value: "run" },
+              { label: "Walk", value: "walk" },
+              { label: "Hike", value: "hike" },
             ],
             type: "select",
           },
@@ -328,12 +353,86 @@ export const HABITS: HabitSteps[] = [
     completed: false,
     selected: false,
     blocks: [],
+    sections: [
+      {
+        type: "chores",
+        label: "Household Chores",
+        blocks: [
+          {
+            id: "type",
+            label: "Type of Household Work",
+            options: [
+              { label: "Dishes", value: "dishes" },
+              { label: "Laundry", value: "laundry" },
+              { label: "Ironing", value: "ironing" },
+              { label: "Clean Kitchen", value: "cleanKitchen" },
+              { label: "Clean Living Room", value: "cleanLivingRoom" },
+              { label: "Clean Office", value: "cleanOffice" },
+              { label: "Clean Bedroom", value: "cleanBedroom" },
+            ],
+            type: "select",
+          },
+          {
+            id: "duration",
+            type: "datetime",
+            label: "Duration",
+            minute: "2-digit",
+            hour: "2-digit",
+            default: new Date(0),
+          },
+        ],
+      },
+    ],
   },
   {
     title: "Wind Down",
     description: "Your future depends on your dreams, so go to sleep",
     completed: false,
     selected: false,
-    blocks: [],
+    blocks: [
+      {
+        id: "bedTime",
+        label: "Time in bed",
+        type: "datetime",
+        minute: "2-digit",
+        hour: "2-digit",
+        hour12: true,
+      },
+      {
+        id: "appreciation",
+        label: "Appreciation",
+        info: "Share 3 appreciations with Liz",
+        type: "switch",
+      },
+      {
+        id: "reflect",
+        label: "Reflect on my Day",
+        info: "How was my day? Anything exciting, new fun? How was I feeling?",
+        type: "richtext",
+      },
+      {
+        id: "reviewPlan",
+        label: "Review Plan for Tomorrow",
+        info: "Whats up on my list for tomorrow?",
+        type: "switch",
+      },
+      {
+        id: "teethEvening",
+        label: "Brush & Floss",
+        info: "Best done right before taking a shower.",
+        type: "switch",
+      },
+      {
+        id: "read",
+        label: "Reading in bed",
+        info: "What book am I reading? What has my last part been about>",
+        type: "richtext",
+      },
+      {
+        id: "deviceCleared",
+        label: "Charge devices away from bedside",
+        type: "switch",
+      },
+    ],
   },
 ];

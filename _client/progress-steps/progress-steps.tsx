@@ -1,4 +1,3 @@
-import { ProcessStep } from "_client/progress-steps/useProgressSteps";
 import { Children, cloneElement, FC, isValidElement } from "react";
 
 export const ProgressSteps: FC = ({ children }) => {
