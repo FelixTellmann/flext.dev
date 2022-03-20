@@ -18,6 +18,10 @@ export const LAYOUT = {
         name: "Snippets",
         href: "/snippets",
       },
+      {
+        name: "UI Components",
+        href: "/ui",
+      },
     ],
     profile: {
       nav: [
