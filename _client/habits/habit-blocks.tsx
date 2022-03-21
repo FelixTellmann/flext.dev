@@ -1,175 +1,84 @@
+import { HabitTimeSelector } from "_client/habits/_habit-time-selector";
 import { HabitNumber } from "_client/habits/_habit-number";
+import { HabitReducerActions } from "_client/habits/_habit-reducer";
 import { HabitSwitch } from "_client/habits/_habit-switch";
-import { HabitBlock, HABITS, HabitStep, HabitStepState } from "content/habits";
-import { FC, useReducer } from "react";
+import { HabitStepState } from "content/habits";
+import { Dispatch, FC } from "react";
 
-type HabitBlocksProps = {};
-
-type HabitReducerActions =
-  | {
-      payload: {
-        blockIndex: number;
-        habitIndex: number;
-      };
-      type: "TOGGLE_SWITCH";
-    }
-  | {
-      payload: {
-        blockIndex: number;
-        habitIndex: number;
-        value: any;
-      };
-      type: "SET_VALUE";
-    };
-
-const habitReducer = (habits: HabitStepState[], action: HabitReducerActions): HabitStepState[] => {
-  const { type, payload } = action;
-  switch (type) {
-    case "SET_VALUE": {
-      const { blockIndex, habitIndex, value } = payload;
-      return habits.map((habit, i) => {
-        if (i !== habitIndex) return habit;
-
-        return {
-          ...habit,
-          blocks: habit.blocks.map((block, j) => {
-            if (j !== blockIndex) return block;
-            return {
-              ...block,
-              value,
-            };
-          }),
-        } as HabitStepState;
-      });
-    }
-    case "TOGGLE_SWITCH": {
-      const { blockIndex, habitIndex } = payload;
-      return habits.map((habit, i) => {
-        if (i !== habitIndex) return habit;
-
-        return {
-          ...habit,
-          blocks: habit.blocks.map((block, j) => {
-            if (j !== blockIndex) return block;
-            return {
-              ...block,
-              value: !block.value,
-            };
-          }),
-        } as HabitStepState;
-      });
-    }
-  }
-  // return habits;
+type HabitBlocksProps = {
+  dispatch: Dispatch<HabitReducerActions>;
+  index: number;
+  habit?: HabitStepState;
 };
 
-function getBlockDefault(block: HabitBlock): HabitBlock["value"] {
-  switch (block.type) {
-    case "header":
-      return block.default ?? "";
-    case "checkbox":
-      return block.default ?? false;
-    case "switch":
-      return block.default ?? false;
-    case "radio":
-      return block.default ?? block.options.at(0)?.value;
-    case "number":
-      return block.default ?? "0";
-    case "range":
-      return block.default;
-    case "select":
-      return block.default ?? block.options.at(0)?.value;
-    case "text":
-      return block.default ?? "";
-    case "textarea":
-      return block.default ?? "";
-    case "richtext":
-      return block.default ?? "";
-    case "datetime":
-      return block.default ?? new Date(0);
-    case "paragraph":
-      return block.default ?? "";
-  }
-}
-
-function habitInitializer(HABITS: HabitStep[]): HabitStepState[] {
-  /* @ts-ignore */
-  return HABITS.map((habit) => ({
-    ...habit,
-    blocks: habit.blocks
-      ? habit.blocks.map((block) => ({ ...block, value: getBlockDefault(block) }))
-      : [],
-    sections: habit.sections
-      ? habit.sections.map((section) => ({
-          ...section,
-          blocks: section.blocks.map((block) => ({ ...block, value: getBlockDefault(block) })),
-        }))
-      : [],
-  }));
-}
-
-export const HabitBlocks: FC<HabitBlocksProps> = ({}) => {
-  const initialHabits = habitInitializer(HABITS);
-  const [habits, dispatch] = useReducer(habitReducer, initialHabits);
-
+export const HabitBlocks: FC<HabitBlocksProps> = ({ habit, index, dispatch }) => {
   return (
     <>
-      {habits[0].blocks?.map((block, blockIndex) => {
+      {habit?.blocks?.map((block, blockIndex) => {
         switch (block.type) {
           case "header": {
-            return <div>header</div>;
+            return <div key={habit.title}>header</div>;
           }
           case "checkbox": {
-            return <div>checkbox</div>;
+            return <div key={habit.title + block.id}>checkbox</div>;
           }
           case "switch": {
             return (
               <HabitSwitch
-                key={habits[0].title + block.id}
+                key={habit.title + block.id}
                 id={block.id}
                 info={block.info}
                 label={block.label}
                 setValue={() =>
-                  dispatch({ type: "TOGGLE_SWITCH", payload: { habitIndex: 0, blockIndex } })
+                  dispatch({ type: "TOGGLE_SWITCH", payload: { habitIndex: index, blockIndex } })
                 }
                 value={block.value}
               />
             );
           }
           case "radio": {
-            return <div>radio</div>;
+            return <div key={habit.title + block.id}>radio</div>;
           }
           case "number": {
             return (
               <HabitNumber
-                key={habits[0].title + block.id}
+                key={habit.title + block.id}
                 setValue={(value) =>
-                  dispatch({ type: "SET_VALUE", payload: { habitIndex: 0, blockIndex, value } })
+                  dispatch({ type: "SET_VALUE", payload: { habitIndex: index, blockIndex, value } })
                 }
                 {...block}
               />
             );
           }
           case "range": {
-            return <div>range</div>;
+            return <div key={habit.title + block.id}>range</div>;
           }
           case "select": {
-            return <div>select</div>;
+            return <div key={habit.title + block.id}>select</div>;
           }
           case "text": {
-            return <div>text</div>;
+            return <div key={habit.title + block.id}>text</div>;
           }
           case "textarea": {
-            return <div>textarea</div>;
+            return <div key={habit.title + block.id}>textarea</div>;
           }
           case "richtext": {
-            return <div>richtext</div>;
+            return <div key={habit.title + block.id}>richtext</div>;
           }
-          case "datetime": {
-            return <div>datetime</div>;
+          case "time": {
+            return (
+              <HabitTimeSelector
+                key={habit.title + block.id}
+                info={block.info}
+                setValue={(value) =>
+                  dispatch({ type: "SET_VALUE", payload: { habitIndex: index, blockIndex, value } })
+                }
+                {...block}
+              />
+            );
           }
           case "paragraph": {
-            return <div>paragraph</div>;
+            return <div key={habit.title}>paragraph</div>;
           }
         }
       })}

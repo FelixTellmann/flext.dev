@@ -98,18 +98,15 @@ export type HabitBlock =
   | {
       id: string;
       label: string;
-      type: "datetime";
-      day?: "numeric" | "2-digit" | undefined;
+      type: "time";
       default?: Date;
-      hour?: "numeric" | "2-digit" | undefined;
+      hour?: boolean;
       hour12?: boolean | undefined;
       info?: string;
-      minute?: "numeric" | "2-digit" | undefined;
-      month?: "numeric" | "2-digit" | "long" | "short" | "narrow" | undefined;
+      minute?: boolean;
       placeholder?: string;
-      second?: "numeric" | "2-digit" | undefined;
+      second?: boolean;
       value?: Date;
-      weekday?: "long" | "short" | "narrow" | undefined;
     }
   | {
       content: string;
@@ -133,6 +130,7 @@ export type HabitSection = {
 
 export const HABITS: HabitStep[] = [
   {
+    id: "morning",
     title: "Rise & Shine",
     description: "Getting ready in the morning for a fresh start in the day.",
     completed: true,
@@ -147,10 +145,11 @@ export const HABITS: HabitStep[] = [
       {
         id: "wakeUpTime",
         label: "Get up in the morning",
-        type: "datetime",
-        minute: "2-digit",
-        hour: "2-digit",
-        hour12: true,
+        type: "time",
+        minute: true,
+        hour: true,
+        hour12: false,
+        default: new Date(new Date(0).setHours(6, 45)),
       },
       {
         id: "maui",
@@ -199,6 +198,7 @@ export const HABITS: HabitStep[] = [
     ],
   },
   {
+    id: "exercise",
     title: "Exercise",
     description: "Do something today that your future self will thank you for.",
     completed: false,
@@ -234,10 +234,10 @@ export const HABITS: HabitStep[] = [
           },
           {
             id: "duration",
-            type: "datetime",
+            type: "time",
             label: "Duration",
-            minute: "2-digit",
-            hour: "2-digit",
+            minute: true,
+            hour: true,
             default: new Date(0),
           },
           {
@@ -256,6 +256,7 @@ export const HABITS: HabitStep[] = [
     ],
   },
   {
+    id: "food",
     title: "Food & Drinks",
     description: "Nothing tastes as good as Slim feels.",
     completed: false,
@@ -348,6 +349,7 @@ export const HABITS: HabitStep[] = [
     ],
   },
   {
+    id: "household",
     title: "Household",
     description: "Why can’t the house clean itself? It seems to get dirty by itself.",
     completed: false,
@@ -374,10 +376,10 @@ export const HABITS: HabitStep[] = [
           },
           {
             id: "duration",
-            type: "datetime",
+            type: "time",
             label: "Duration",
-            minute: "2-digit",
-            hour: "2-digit",
+            minute: true,
+            hour: true,
             default: new Date(0),
           },
         ],
@@ -385,6 +387,7 @@ export const HABITS: HabitStep[] = [
     ],
   },
   {
+    id: "evening",
     title: "Wind Down",
     description: "Your future depends on your dreams, so go to sleep",
     completed: false,
@@ -393,9 +396,9 @@ export const HABITS: HabitStep[] = [
       {
         id: "bedTime",
         label: "Time in bed",
-        type: "datetime",
-        minute: "2-digit",
-        hour: "2-digit",
+        type: "time",
+        minute: true,
+        hour: true,
         hour12: true,
       },
       {

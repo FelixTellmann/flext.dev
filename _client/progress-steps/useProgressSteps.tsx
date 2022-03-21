@@ -1,91 +1,129 @@
-import { useCallback, useEffect, useState } from "react";
+import { habitReducer } from "_client/habits/_habit-reducer";
+import { Dispatch, Reducer, ReducerWithoutAction, useCallback, useEffect, useReducer, useState } from "react";
+import { unknown } from "zod";
 
 export type ProcessStep = {
   completed: boolean;
+  id: string;
   selected: boolean;
   title: string;
   description?: string;
 };
 
-type UseProgressStepsHook = (steps: ProcessStep[]) => [ProcessStep[], any];
+export type BaseReducerActions = {
+  payload: {
+    index?: number;
+    selectAny?: boolean;
+  };
+  type: "SELECT_STEP";
+};
 
-export const useProgressSteps: UseProgressStepsHook = (initialSteps) => {
-  const [steps, setSteps] = useState(initialSteps);
+const baseReducer = <T extends any, A extends any>(
+  state: (ProcessStep & T)[],
+  action: BaseReducerActions,
+  reducer: Reducer<(ProcessStep & T)[], A extends BaseReducerActions ? BaseReducerActions : any>
+) => {
+  switch (action.type) {
+    case "SELECT_STEP": {
+      const { index, selectAny } = action.payload;
 
-  const selectProcessStep = useCallback((index: number, selectAny = false) => {
-    if (selectAny) {
-      setSteps((steps) => {
-        if (steps[index].selected) return steps;
-        return steps.map((step, i) => {
+      if (index === undefined) {
+        if (state.some((step) => step.selected)) return state;
+
+        for (let i = 0; i < state.length; i++) {
+          state[i].selected = true;
+          if (state[i].completed) {
+            state[i].selected = false;
+            continue;
+          }
+          return state.map((step, j) => {
+            step.selected = i === j;
+            return step;
+          });
+        }
+        state[state.length - 1].selected = true;
+
+        return state.map((step, j) => {
+          step.selected = j === state.length - 1;
+          return step;
+        });
+      }
+
+      if (selectAny) {
+        if (state[index].selected) return state;
+        return state.map((step, i) => {
           step.selected = i === index;
           return step;
         });
-      });
-    }
+      }
 
-    if (!selectAny) {
-      setSteps((steps) => {
-        if (steps[index].selected) return steps;
+      if (!selectAny) {
+        if (state[index].selected) return state;
 
-        for (let i = 0; i < steps.length; i++) {
-          steps[i].selected = true;
+        for (let i = 0; i < state.length; i++) {
+          state[i].selected = true;
 
           if (i === index) {
-            return steps.map((step, j) => {
+            return state.map((step, j) => {
               step.selected = i === j;
               return step;
             });
           }
 
-          if (steps[i].completed) {
-            steps[i].selected = false;
+          if (state[i].completed) {
+            state[i].selected = false;
             continue;
           }
-          return steps.map((step, j) => {
+          return state.map((step, j) => {
             step.selected = i === j;
             return step;
           });
         }
 
-        steps[steps.length - 1].selected = true;
+        state[state.length - 1].selected = true;
 
-        return steps.map((step, j) => {
-          step.selected = j === steps.length - 1;
-          return step;
-        });
-      });
-    }
-  }, []);
-
-  const selectInitialStep = useCallback(() => {
-    setSteps((steps) => {
-      if (steps.some((step) => step.selected)) return steps;
-
-      for (let i = 0; i < steps.length; i++) {
-        steps[i].selected = true;
-        if (steps[i].completed) {
-          steps[i].selected = false;
-          continue;
-        }
-        return steps.map((step, j) => {
-          step.selected = i === j;
+        return state.map((step, j) => {
+          step.selected = j === state.length - 1;
           return step;
         });
       }
-      steps[steps.length - 1].selected = true;
+      break;
+    }
+    default: {
+      return reducer(state, action);
+    }
+  }
 
-      return steps.map((step, j) => {
-        step.selected = j === steps.length - 1;
-        return step;
-      });
-    });
+  return state;
+};
+
+export const useProgressSteps = <T extends unknown, ReducerActions extends any>(
+  initialSteps: (ProcessStep & T)[],
+  reducer: Reducer<(ProcessStep & T)[], ReducerActions> = (state, action) => state
+): {
+  dispatch: Dispatch<BaseReducerActions & ReducerActions>;
+  selectStep: (index: number, selectAny?: any) => void;
+  steps: (ProcessStep & T)[];
+} => {
+  const [steps, dispatch] = useReducer(
+    (state: any[], action: BaseReducerActions) =>
+      baseReducer<T, ReducerActions>(state, action, reducer),
+    initialSteps
+  );
+
+  const selectStep = useCallback((index: number, selectAny = false) => {
+    dispatch({ type: "SELECT_STEP", payload: { index, selectAny } });
+  }, []);
+
+  const selectInitialStep = useCallback(() => {
+    dispatch({ type: "SELECT_STEP", payload: {} });
   }, []);
 
   useEffect(() => {
     selectInitialStep();
   }, [selectInitialStep]);
 
-  return [steps, selectProcessStep];
+  return { steps, selectStep, dispatch };
 };
 
 export default useProgressSteps;
