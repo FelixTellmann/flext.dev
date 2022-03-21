@@ -78,7 +78,7 @@ const Index: FC<indexProps> = ({}) => {
         </div>
         <div className="flex-1 right ">
           <div className="shadow sm:overflow-hidden sm:rounded-md">
-            <div className="flex flex-col gap-2 py-5 px-4 space-y-6 min-h-[500px] max-h-[600px] bg-white sm:p-6">
+            <div className="flex flex-col gap-2 py-5 px-4 space-y-6 min-h-[500px] bg-white sm:p-6">
               <HabitBlocks
                 dispatch={dispatch as Dispatch<HabitReducerActions>}
                 habit={habits.find(({ selected }) => selected) as HabitStepState}

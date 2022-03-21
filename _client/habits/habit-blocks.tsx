@@ -1,3 +1,4 @@
+import { HabitRichtext } from "_client/habits/_habit-richtext";
 import { HabitTimeSelector } from "_client/habits/_habit-time-selector";
 import { HabitNumber } from "_client/habits/_habit-number";
 import { HabitReducerActions } from "_client/habits/_habit-reducer";
@@ -63,7 +64,16 @@ export const HabitBlocks: FC<HabitBlocksProps> = ({ habit, index, dispatch }) =>
             return <div key={habit.title + block.id}>textarea</div>;
           }
           case "richtext": {
-            return <div key={habit.title + block.id}>richtext</div>;
+            return (
+              <HabitRichtext
+                key={habit.title + block.id}
+                info={block.info}
+                setValue={(value) =>
+                  dispatch({ type: "SET_VALUE", payload: { habitIndex: index, blockIndex, value } })
+                }
+                {...block}
+              />
+            );
           }
           case "time": {
             return (

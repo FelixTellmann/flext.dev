@@ -1,7 +1,5 @@
-import { Switch } from "@headlessui/react";
-import clsx from "clsx";
-import { FC, InputHTMLAttributes, useCallback, useEffect, useRef, useState } from "react";
-import { IoCaretDown, IoCaretDownOutline, IoCaretUpOutline } from "react-icons/io5";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { IoMdTimer } from "react-icons/io";
 
 type HabitDateTimeProps = {
   id: string;
@@ -161,8 +159,6 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
               ? <div className="bg-gray-50 rounded-r-md border-l border-l-gray-300">
                   <select
                     className="py-0 pr-7 pl-2 h-[38px] text-xs text-gray-500 bg-gray-50 bg-transparent rounded-r-md border-transparent focus:border-indigo-500 focus:ring-indigo-500"
-                    id="currency"
-                    name="currency"
                     value={hour12Select}
                     onChange={handleSelectChange}
                   >
@@ -170,7 +166,11 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
                     <option value="PM">PM</option>
                   </select>
                 </div>
-              : null}
+              : <div className="bg-gray-50 rounded-r-md border-l border-l-gray-300">
+                  <div className="flex justify-center items-center p-1.5 h-[38px] text-xl text-gray-500 bg-gray-50 rounded-r-md">
+                    <IoMdTimer />
+                  </div>
+                </div>}
           </div>
         </div>
       </div>

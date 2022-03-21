@@ -145,6 +145,7 @@ export const HABITS: HabitStep[] = [
       {
         id: "wakeUpTime",
         label: "Get up in the morning",
+        info: "Make the most out of the day!",
         type: "time",
         minute: true,
         hour: true,
