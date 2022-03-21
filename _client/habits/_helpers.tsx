@@ -19,9 +19,25 @@ function getBlockDefault(block: HabitBlock): HabitBlock["value"] {
     case "text":
       return block.default ?? "";
     case "textarea":
-      return block.default ?? "";
+      return (
+        block.default ??
+        JSON.stringify([
+          {
+            type: "paragraph",
+            children: [{ text: "" }],
+          },
+        ])
+      );
     case "richtext":
-      return block.default ?? "";
+      return (
+        block.default ??
+        JSON.stringify([
+          {
+            type: "paragraph",
+            children: [{ text: "" }],
+          },
+        ])
+      );
     case "time":
       return block.default ?? new Date(new Date(0).setHours(0, 0));
     case "paragraph":

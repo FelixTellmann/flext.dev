@@ -14,7 +14,7 @@ export const HabitSwitch: FC<HabitSwitchProps> = ({ label, value, setValue, info
   return (
     <label className="flex relative items-start">
       <div className="flex-1 min-w-0 text-sm">
-        <div className="font-medium text-gray-700 dark:text-dark-text select-none">{label}</div>
+        <div className="font-medium text-gray-700 select-none dark:text-dark-text">{label}</div>
         {info ? <p className="mt-1 text-gray-500 ">{info}</p> : null}
       </div>
       <div className="flex items-center ml-4">
@@ -22,7 +22,7 @@ export const HabitSwitch: FC<HabitSwitchProps> = ({ label, value, setValue, info
           checked={value}
           className={clsx(
             value ? "bg-green-500 dark:bg-teal-500" : "bg-gray-200 dark:bg-dark-bg",
-            "inline-flex relative flex-shrink-0 w-11 h-6 rounded-full border-2 border-transparent focus:ring-2 focus:ring-green-500 dark:focus:ring-teal-500 focus:ring-offset-2 transition-colors duration-200 ease-in-out cursor-pointer focus:outline-none"
+            "inline-flex relative flex-shrink-0 w-11 h-6 rounded-full border-2 border-transparent focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 ease-in-out cursor-pointer focus:outline-none dark:focus:ring-teal-500"
           )}
           onChange={setValue}
         >

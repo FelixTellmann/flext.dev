@@ -1,8 +1,9 @@
+import { useDebouncedEffect } from "_client/utils/debounce";
 import { Element, HoveringToolbar, Leaf, toggleFormat, withShortcuts } from "_client/utils/slate";
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
-import { Editable, RenderElementProps, Slate, withReact } from "slate-react";
+import { Editable, ReactEditor, RenderElementProps, Slate, useFocused, withReact } from "slate-react";
 
 type HabitRichtextProps = {
   id: string;
@@ -23,15 +24,24 @@ const initialValue: Descendant[] = [
 export const HabitRichtext: FC<HabitRichtextProps> = ({
   id,
   label,
-  /*  setValue,
-  value,*/
+  setValue,
+  value,
   info,
   placeholder,
 }) => {
   const renderElement = useCallback((props: RenderElementProps) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const [editor] = useState(() => withShortcuts(withHistory(withReact(createEditor()))));
-  const [content, setContent] = useState<Descendant[]>(initialValue);
+  const [content, setContent] = useState<Descendant[]>(JSON.parse(value) ?? initialValue);
+  const [inFocus, setInFocus] = useState(false);
+
+  useDebouncedEffect(
+    () => {
+      setValue(JSON.stringify(content));
+    },
+    400,
+    [content, editor.operations]
+  );
 
   return (
     <label className="flex relative items-start">
@@ -48,7 +58,8 @@ export const HabitRichtext: FC<HabitRichtextProps> = ({
                 <Editable
                   autoFocus
                   spellCheck
-                  placeholder="Enter some text..."
+                  className="!min-h-[90px]"
+                  placeholder={placeholder ?? "Enter some text..."}
                   renderElement={renderElement}
                   renderLeaf={renderLeaf}
                   onDOMBeforeInput={(event: InputEvent) => {

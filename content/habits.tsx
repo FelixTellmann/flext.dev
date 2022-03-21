@@ -90,6 +90,9 @@ export type HabitBlock =
       id: string;
       label: string;
       type: "richtext";
+      /**
+       * JSON.parse able to match Slate editor
+       * */
       default?: string;
       info?: string;
       placeholder?: string;
@@ -401,6 +404,7 @@ export const HABITS: HabitStep[] = [
         minute: true,
         hour: true,
         hour12: true,
+        default: new Date(new Date(0).setHours(22, 30)),
       },
       {
         id: "appreciation",
@@ -429,7 +433,7 @@ export const HABITS: HabitStep[] = [
       {
         id: "read",
         label: "Reading in bed",
-        info: "What book am I reading? What has my last part been about>",
+        info: "What book am I reading? What has my last part been about",
         type: "richtext",
       },
       {

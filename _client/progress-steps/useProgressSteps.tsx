@@ -36,25 +36,30 @@ const baseReducer = <T extends any, A extends any>(
             state[i].selected = false;
             continue;
           }
-          return state.map((step, j) => {
-            step.selected = i === j;
-            return step;
-          });
+          return [
+            ...state.map((step, j) => {
+              step.selected = i === j;
+              return step;
+            }),
+          ];
         }
         state[state.length - 1].selected = true;
 
-        return state.map((step, j) => {
-          step.selected = j === state.length - 1;
-          return step;
-        });
+        return [
+          ...state.map((step, j) => {
+            step.selected = j === state.length - 1;
+            return step;
+          }),
+        ];
       }
 
       if (selectAny) {
-        if (state[index].selected) return state;
-        return state.map((step, i) => {
-          step.selected = i === index;
-          return step;
-        });
+        return [
+          ...state.map((step, i) => {
+            step.selected = i === index;
+            return step;
+          }),
+        ];
       }
 
       if (!selectAny) {
@@ -64,10 +69,12 @@ const baseReducer = <T extends any, A extends any>(
           state[i].selected = true;
 
           if (i === index) {
-            return state.map((step, j) => {
-              step.selected = i === j;
-              return step;
-            });
+            return [
+              ...state.map((step, j) => {
+                step.selected = i === j;
+                return step;
+              }),
+            ];
           }
 
           if (state[i].completed) {
@@ -82,10 +89,12 @@ const baseReducer = <T extends any, A extends any>(
 
         state[state.length - 1].selected = true;
 
-        return state.map((step, j) => {
-          step.selected = j === state.length - 1;
-          return step;
-        });
+        return [
+          ...state.map((step, j) => {
+            step.selected = j === state.length - 1;
+            return step;
+          }),
+        ];
       }
       break;
     }
