@@ -54,3 +54,9 @@ button {
     background: transparent; /* Chrome/Safari/Webkit */
   }
 }
+
+
+input[type=range]::-webkit-slider-thumb {
+   @apply appearance-none h-4 bg-pink-500 w-4 rounded-full relative cursor-pointer;
+
+}

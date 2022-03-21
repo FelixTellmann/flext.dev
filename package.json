@@ -23,6 +23,7 @@
     "@prisma/client": "^3.10.0",
     "@radix-ui/react-id": "^0.1.1",
     "@radix-ui/react-tooltip": "^0.1.1",
+    "@shopify/polaris": "^9.2.4-rc.2",
     "@svgr/webpack": "^6.2.1",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.2",

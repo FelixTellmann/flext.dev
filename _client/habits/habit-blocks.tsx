@@ -1,4 +1,6 @@
+import { HabitRangeSlider } from "_client/habits/_habit-range-slider";
 import { HabitRichtext } from "_client/habits/_habit-richtext";
+import HabitSelect from "_client/habits/_habit-select";
 import { HabitTimeSelector } from "_client/habits/_habit-time-selector";
 import { HabitNumber } from "_client/habits/_habit-number";
 import { HabitReducerActions } from "_client/habits/_habit-reducer";
@@ -52,10 +54,31 @@ export const HabitBlocks: FC<HabitBlocksProps> = ({ habit, index, dispatch }) =>
             );
           }
           case "range": {
-            return <div key={habit.title + block.id}>range</div>;
+            return (
+              <HabitRangeSlider
+                key={habit.title + block.id}
+                info={block.info}
+                setValue={(value) =>
+                  dispatch({
+                    type: "SET_VALUE",
+                    payload: { habitIndex: index, blockIndex, value },
+                  })
+                }
+                {...block}
+              />
+            );
           }
           case "select": {
-            return <div key={habit.title + block.id}>select</div>;
+            return (
+              <HabitSelect
+                key={habit.title + block.id}
+                info={block.info}
+                setValue={(value) =>
+                  dispatch({ type: "SET_VALUE", payload: { habitIndex: index, blockIndex, value } })
+                }
+                {...block}
+              />
+            );
           }
           case "text": {
             return <div key={habit.title + block.id}>text</div>;
