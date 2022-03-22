@@ -55,8 +55,29 @@ button {
   }
 }
 
+.range {
 
-input[type=range]::-webkit-slider-thumb {
-   @apply appearance-none h-4 bg-pink-500 w-4 rounded-full relative cursor-pointer;
+  @apply appearance-none flex  relative;
+  //=============== TRACK ================
+  &::-webkit-slider-runnable-track {
+    @apply bg-pink-500 cursor-pointer h-1 w-full rounded-sm;
+  }
 
+  //=============== THUMB ================
+  &::-webkit-slider-thumb {
+    @apply text-pink-500 bg-pink-500 cursor-grab flex appearance-none w-4 h-4 transition-all rounded-full ;
+    margin-top: calc((16px - 4px) * -1 / 2)
+  }
+  &:focus {
+    &::-webkit-slider-thumb {
+      @apply border-solid border-2 border-white;
+      box-shadow: 0 0 0 1.5px rgb(236, 72, 153);
+    }
+  }
+  &:active {
+    &::-webkit-slider-thumb {
+    transform: scale(1.5)
+    }
+  }
 }
+

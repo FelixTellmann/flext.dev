@@ -1,3 +1,4 @@
+import { RangeSlider } from "@shopify/polaris";
 import { FC } from "react";
 
 type HabitRangeSliderProps = {
@@ -31,12 +32,18 @@ export const HabitRangeSlider: FC<HabitRangeSliderProps> = ({
       </div>
       <div className="flex flex-col">
         <input
-          className="p-0 w-full h-6 bg-transparent focus:ring-0 focus:shadow-none appearance-none focus:outline-none form-range"
+          className="range"
           max={max}
           min={min}
           step={step}
           type="range"
+          onChange={(e) => setValue(+e.target.value)}
         />
+        <output className="range-output">
+          <div>
+            <span>{value}</span>
+          </div>
+        </output>
         <div className="flex justify-between px-1 text-xs">
           <span>{min}</span>
           <span>{max}</span>
