@@ -1,17 +1,12 @@
 import { NavItem, NavItemProps } from "_client/layout/navItem";
-import { ProfileDropdown } from "_client/layout/profileDropdown";
-import { TelemetryButton } from "_client/telemetryButton";
+import { ProfileDropdown } from "_client/layout/profile-dropdown";
 import { TelemetryLink } from "_client/telemetryLink";
-import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import Logo from "public/logo.svg";
-
-import Image from "next/image";
 import { useRouter } from "next/router";
+import Logo from "public/logo.svg";
 import { FC, useCallback, useState } from "react";
-import { FiMoon, FiSun } from "react-icons/fi";
-import { ToggleThemeButton } from "./toggleThemeButton";
-import { ToggleStatsButton } from "./toggleStatsButton";
+import { ToggleStatsButton } from "_client/layout/toggle-stats-button";
+import { ToggleThemeButton } from "_client/layout/toggle-theme-button";
 
 type HeaderProps = {
   logo: {

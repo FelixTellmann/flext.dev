@@ -7,7 +7,7 @@ import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressSteps } from "_client/progress-steps/progress-steps";
 import useProgressSteps from "_client/progress-steps/useProgressSteps";
 import { HABITS, HabitStep, HabitStepState } from "content/habits";
-import { Dispatch, FC, useCallback, useReducer, useState } from "react";
+import { Dispatch, FC, useCallback, useEffect, useReducer, useState } from "react";
 
 type indexProps = {};
 
@@ -44,20 +44,30 @@ const Index: FC<indexProps> = ({}) => {
     selectStep,
     dispatch,
   } = useProgressSteps<HabitStep, HabitReducerActions>(habitInitializer(HABITS), habitReducer);
-  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
+  const [currentDate, setCurrentDate] = useState<string>("");
   const hello = API.useQuery(["hello", { text: "client" }]);
 
   const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
 
+  useEffect(() => {
+    if (window) {
+      setCurrentDate(new Date().toISOString().split("T")[0]);
+    }
+  }, []);
+
   return (
     <Page
       subtitle={subtitle}
-      title={new Date(currentDate).toLocaleDateString(undefined, {
-        weekday: "long",
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })}
+      title={
+        currentDate
+          ? new Date(currentDate).toLocaleDateString(undefined, {
+              weekday: "long",
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : ""
+      }
     >
       <ProgressCalendar handleSelectDay={handleSelectDay} />
       <div className="flex gap-10 pb-36 mt-12">

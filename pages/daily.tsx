@@ -1,3 +1,15 @@
+import { FC } from "react";
+
+type DailyProps = {};
+
+export const Daily: FC<DailyProps> = (props) => {
+  return <>Daily</>;
+};
+
+export default Daily;
+/*
+
+
 import { AnnotatedLayout } from "_client/form/annotatedLayout";
 import { HabitCheckbox } from "_client/form/habit-checkbox";
 import { HabitTimePicker } from "_client/form/habit-time-picker";
@@ -76,7 +88,7 @@ export const Daily = () => {
             <HrBreak />
           </>
         ))}
-        {/* <AnnotatedLayout title="Track your Habits today!">
+        {/!* <AnnotatedLayout title="Track your Habits today!">
           <CheckboxGroup
             items={[
               {
@@ -89,9 +101,9 @@ export const Daily = () => {
             subtitle="Daily habits that relate to a healthier lifestyle."
             title="Health Habits"
           />
-        </AnnotatedLayout>*/}
+        </AnnotatedLayout>*!/}
 
-        {/*       <HrBreak />
+        {/!*       <HrBreak />
 
         <div className="mt-10 sm:mt-0">
           <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -392,7 +404,7 @@ export const Daily = () => {
               </form>
             </div>
           </div>
-        </div>*/}
+        </div>*!/}
         <div className="flex justify-end mt-6">
           <button
             className="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
@@ -414,3 +426,4 @@ export const Daily = () => {
 };
 
 export default Daily;
+*/

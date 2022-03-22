@@ -390,9 +390,13 @@ module.exports = {
     require("@tailwindcss/typography"),
     plugin(({ addVariant, addUtilities }) => {
       addVariant("hfa", ["&:hover", "&:focus", "&:active"]);
+      addVariant("ha", ["&:hover", "&:active"]);
       addVariant("hf", ["&:hover", "&:focus"]);
+      addVariant("fa", ["&:focus", "&:active"]);
       addVariant("h", ["&:hover"]);
-      addVariant("hfa", ["&:hover", "&:focus", "&:active, &.active"]);
+      addVariant("a", ["&:active"]);
+      addVariant("b", ["&::before"]);
+      addVariant("hfaa", ["&:hover", "&:focus", "&:active, &.active"]);
       addVariant("group-hfa", [".group:hover &", ".group:focus &", ".group:active &"]);
       addUtilities({
         ".shape-geometric-precision": {
