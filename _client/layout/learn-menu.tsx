@@ -1,6 +1,7 @@
 import { Portal } from "_client/utils/slate";
 import clsx from "clsx";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { BsLayoutSidebarInset } from "react-icons/bs";
@@ -143,6 +144,7 @@ export const LearnMenu: FC<LearnMenuProps> = ({}) => {
             "overflow-hidden fixed inset-0 z-30 w-screen h-screen bg-gray-500/75 opacity-0 backdrop-blur transition-opacity ",
             navActive ? "opacity-100" : "opacity-0 pointer-events-none"
           )}
+          onClick={() => setNavActive(false)}
         >
           <button
             className="group flex absolute top-0 right-0 justify-center items-center m-8 w-8 h-8"

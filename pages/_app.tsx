@@ -41,9 +41,11 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
             : null}
 
           {/^\/examples/gi.test(router.asPath) ? <LearnMenu /> : null}
+
           <main>
             <Component {...pageProps} />
           </main>
+
           {!/^\/examples/gi.test(router.asPath)
             ? <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
             : null}
