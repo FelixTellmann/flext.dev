@@ -14,7 +14,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
   const [toolTipRendered, setToolTipRendered] = useState(false);
   const [showProgress, setShowProgress] = useState(true);
   const [yearSelection, setYearSelection] = useState(new Date().toISOString().split("T")[0]);
-  const [weeks, setWeeks] = useState(createDateRange(yearSelection));
+  const [weeks, setWeeks] = useState<Day[][]>(createDateRange(yearSelection));
 
   const toggleProgress = useCallback(() => {
     setShowProgress((current) => !current);
@@ -66,7 +66,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
                   if (monday.getDate() >= 1 && monday.getDate() < 8) {
                     return (
                       <div key={monday.toISOString()} className="w-[11px]">
-                        {new Date(week[6].date).toLocaleDateString(undefined, {
+                        {new Date(week[6].date).toLocaleDateString("en-US", {
                           month: "short",
                         })}
                       </div>
@@ -87,7 +87,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
               <div className="flex col-start-2 row-start-2 gap-1">
                 {isMounted
                   ? <>
-                      {toolTipRendered === false && setToolTipRendered(true)}
+                      {!toolTipRendered && setToolTipRendered(true)}
                       <ReactTooltip
                         html
                         backgroundColor="#24292f"

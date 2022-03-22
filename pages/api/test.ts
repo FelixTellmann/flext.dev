@@ -12,7 +12,7 @@ const Test: TestFunction = async (req, res) => {
     const startTime = Date.now();
     const test = await DB.test.findMany({
       where: {
-        name: "felxi2",
+        title: "felxi2",
       },
     });
 
@@ -20,7 +20,7 @@ const Test: TestFunction = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  res.status(200).json({ name: "John Doe" });
+  res.status(200).json({ title: "John Doe" });
 };
 
 export default Test;

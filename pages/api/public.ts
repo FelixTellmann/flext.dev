@@ -17,7 +17,7 @@ const Test: TestFunction = async (req, res) => {
       break;
     }
     case "telemetry": {
-      const data = await DB.telemetry.create({ data: { name: body.name } });
+      const data = await DB.telemetry.create({ data: { title: body.title } });
       res.status(200).json(data);
       break;
     }

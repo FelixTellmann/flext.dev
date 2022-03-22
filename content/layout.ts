@@ -19,8 +19,8 @@ export const LAYOUT = {
         href: "/snippets",
       },
       {
-        name: "UI Components",
-        href: "/ui",
+        name: "Learn",
+        href: "/examples",
       },
     ],
     profile: {

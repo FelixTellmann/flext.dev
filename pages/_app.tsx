@@ -3,6 +3,7 @@ import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
 import { Footer } from "_client/footer";
 import { Header } from "_client/layout/header";
+import { LearnMenu } from "_client/layout/learn-menu";
 import { ContextProviders } from "_client/stores/_contextProviders";
 import { LoadInitialData } from "_client/stores/_loadInitialData";
 import { LAYOUT } from "content/layout";
@@ -23,22 +24,29 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
   console.log({ session: pageProps.session });
 
+  console.log(router);
   return (
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
       <ContextProviders>
         <LoadInitialData>
           <DefaultSeo
-            canonical={`${SEO.url}${router.pathname}`}
+            canonical={`${SEO.url}${router.asPath}`}
             description={SEO.description}
             openGraph={SEO.openGraph}
             title={SEO.title}
             twitter={SEO.twitter}
           />
-          <Header logo={LAYOUT.logo} nav={LAYOUT.header.nav} />
+          {!/^\/examples/gi.test(router.asPath)
+            ? <Header logo={LAYOUT.logo} nav={LAYOUT.header.nav} />
+            : null}
+
+          {/^\/examples/gi.test(router.asPath) ? <LearnMenu /> : null}
           <main>
             <Component {...pageProps} />
           </main>
-          <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+          {!/^\/examples/gi.test(router.asPath)
+            ? <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+            : null}
         </LoadInitialData>
       </ContextProviders>
     </SessionProvider>

@@ -9,8 +9,8 @@
 }
 
 .focus-border:focus {
-  -webkit-box-shadow: black 0px 0px 0px 2px;
   -moz-box-shadow: black 0px 0px 0px 2px;
+  -webkit-box-shadow: black 0px 0px 0px 2px;
   box-shadow: black 0px 0px 0px 2px;
 }
 
@@ -37,20 +37,53 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-button  {
+button {
   &:hover, &:focus, &:active {
-      outline: none;
+    outline: none;
   }
 }
 
 .scrollbar-none {
-  -webkit-overflow-scrolling:touch;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+  -ms-overflow-style: none; /* IE 10+ */
   &::-webkit-scrollbar {
-    background: transparent; /* Chrome/Safari/Webkit */
     width: 0;
-    display: none;
     height: 0;
+    display: none;
+    background: transparent; /* Chrome/Safari/Webkit */
   }
 }
+
+.range {
+
+  @apply appearance-none flex  relative;
+  &:before {
+    content: "";
+    @apply w-full h-full left-0 right-0 bg-gray-100 absolute;
+  }
+  //=============== TRACK ================
+  &::-webkit-slider-runnable-track {
+    @apply cursor-pointer h-1 w-full rounded-sm relative;
+    background: linear-gradient(90deg, #EC4899 0%,#EC4899 var(--range-progress), transparent var(--range-progress), transparent 100%);
+
+  }
+
+  //=============== THUMB ================
+  &::-webkit-slider-thumb {
+    @apply text-pink-500 bg-pink-500 cursor-grab flex appearance-none w-4 h-4 transition-all rounded-full ;
+    margin-top: calc((16px - 4px) * -1 / 2)
+  }
+  &:focus {
+    &::-webkit-slider-thumb {
+      @apply border-solid border-2 border-white;
+      box-shadow: 0 0 0 1.5px rgb(236, 72, 153);
+    }
+  }
+  &:active {
+    &::-webkit-slider-thumb {
+    transform: scale(1.5)
+    }
+  }
+}
+
