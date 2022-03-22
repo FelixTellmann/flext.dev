@@ -58,9 +58,15 @@ button {
 .range {
 
   @apply appearance-none flex  relative;
+  &:before {
+    content: "";
+    @apply w-full h-full left-0 right-0 bg-gray-100 absolute;
+  }
   //=============== TRACK ================
   &::-webkit-slider-runnable-track {
-    @apply bg-pink-500 cursor-pointer h-1 w-full rounded-sm;
+    @apply cursor-pointer h-1 w-full rounded-sm relative;
+    background: linear-gradient(90deg, #EC4899 0%,#EC4899 var(--range-progress), transparent var(--range-progress), transparent 100%);
+
   }
 
   //=============== THUMB ================

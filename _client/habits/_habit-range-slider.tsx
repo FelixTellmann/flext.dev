@@ -32,19 +32,25 @@ export const HabitRangeSlider: FC<HabitRangeSliderProps> = ({
       </div>
       <div className="flex flex-col">
         <input
-          className="range"
+          className="range peer"
           max={max}
           min={min}
           step={step}
+          // @ts-ignore
+          style={{ "--range-progress": `${((value - min) / (max - min)) * 100}%` }}
           type="range"
+          value={value}
           onChange={(e) => setValue(+e.target.value)}
         />
-        <output className="range-output">
-          <div>
-            <span>{value}</span>
+        <output className="relative mx-2 w-[calc(100%-16px)] h-1 opacity-0 peer-active:opacity-100 delay-75 pointer-events-none">
+          <div
+            className="flex absolute -top-12 justify-center items-center p-2 w-7 h-7 text-xs bg-white rounded border border-gray-300 border-solid shadow-md -translate-x-1/2 pointer-events-none peer-active:pointer-events-auto range-output"
+            style={{ left: `calc(${((value - min) / (max - min)) * 100}%)` }}
+          >
+            {value}
           </div>
         </output>
-        <div className="flex justify-between px-1 text-xs">
+        <div className="flex justify-between px-1 mt-2 text-xs">
           <span>{min}</span>
           <span>{max}</span>
         </div>

@@ -33,7 +33,6 @@ export const HabitRichtext: FC<HabitRichtextProps> = ({
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const [editor] = useState(() => withShortcuts(withHistory(withReact(createEditor()))));
   const [content, setContent] = useState<Descendant[]>(JSON.parse(value) ?? initialValue);
-  const [inFocus, setInFocus] = useState(false);
 
   useDebouncedEffect(
     () => {
@@ -46,7 +45,7 @@ export const HabitRichtext: FC<HabitRichtextProps> = ({
   return (
     <label className="flex relative items-start">
       <div className="flex-1 min-w-0 text-sm">
-        <div className="mb-1 font-medium text-gray-700 select-none dark:text-dark-text">
+        <div className="mb-1 font-medium text-gray-700 dark:text-dark-text select-none">
           {label}
         </div>
 
@@ -56,7 +55,6 @@ export const HabitRichtext: FC<HabitRichtextProps> = ({
               <Slate editor={editor} value={content} onChange={setContent}>
                 <HoveringToolbar />
                 <Editable
-                  autoFocus
                   spellCheck
                   className="!min-h-[90px]"
                   placeholder={placeholder ?? "Enter some text..."}
