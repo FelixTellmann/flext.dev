@@ -2,7 +2,7 @@ import { DB } from "_server/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type TestFunction = (
-  req: NextApiRequest & { topic: string },
+  req: NextApiRequest & { topic: string; title?: string },
   res: NextApiResponse
 ) => Promise<void>;
 
@@ -17,7 +17,7 @@ const Test: TestFunction = async (req, res) => {
       break;
     }
     case "telemetry": {
-      const data = await DB.telemetry.create({ data: { title: body.title } });
+      const data = await DB.telemetry.create({ data: { name: body.title } });
       res.status(200).json(data);
       break;
     }
