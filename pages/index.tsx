@@ -1,7 +1,7 @@
 import { habitReducer, HabitReducerActions } from "_client/habits/_habit-reducer";
 import { habitInitializer } from "_client/habits/_helpers";
 import { HabitBlocks } from "_client/habits/habit-blocks";
-import { API } from "_client/hooks/trcpAPI";
+import { API } from "_client/hooks/trpcAPI";
 import { ProgressCalendar } from "_client/progress-calendar";
 import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressSteps } from "_client/progress-steps/progress-steps";
@@ -69,7 +69,7 @@ const Index: FC<indexProps> = ({}) => {
           : ""
       }
     >
-      <ProgressCalendar handleSelectDay={handleSelectDay} />
+      <ProgressCalendar handleSelectDay={handleSelectDay} selected={currentDate} />
       <div className="flex gap-10 pb-36 mt-12">
         <div className="flex sticky flex-1 justify-center pt-12 left">
           <ProgressSteps>

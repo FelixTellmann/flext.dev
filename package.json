@@ -3,7 +3,7 @@
   "version": "0.0.6",
   "license": "MIT",
   "scripts": {
-    "dev": "rimraf .next && next --port 3000",
+    "dev": "SET NEXT_PUBLIC_PORT=3001&& rimraf .next && next --port 3001",
     "db:local": "npm-run-all --parallel db:dev db:shadow",
     "db:dev": "pscale connect flext dev --port 3309",
     "db:shadow": "pscale connect flext shadow --port 3310",
@@ -23,7 +23,6 @@
     "@prisma/client": "^3.10.0",
     "@radix-ui/react-id": "^0.1.1",
     "@radix-ui/react-tooltip": "^0.1.1",
-    "@shopify/polaris": "^9.2.4-rc.2",
     "@svgr/webpack": "^6.2.1",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.2",

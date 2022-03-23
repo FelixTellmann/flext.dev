@@ -6,9 +6,10 @@ import ReactTooltip from "react-tooltip";
 
 type ProgressCalendarProps = {
   handleSelectDay: (date: string) => void;
+  selected?: string;
 };
 
-export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay }) => {
+export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, selected }) => {
   const [isMounted, setMount] = useState(false);
   const progressContainer = useRef<HTMLDivElement>(null);
   const [toolTipRendered, setToolTipRendered] = useState(false);
@@ -131,6 +132,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay })
                         date={date}
                         hide={hide}
                         level={level}
+                        selected={selected === date}
                         onClick={() => handleSelectDay(date)}
                       />
                     ))}

@@ -6,9 +6,10 @@ type ProgressDayProps = {
   hide: boolean;
   level: number;
   onClick: MouseEventHandler<HTMLButtonElement>;
+  selected: boolean;
 };
 
-export const ProgressDay: FC<ProgressDayProps> = ({ date, level, onClick, hide }) => {
+export const ProgressDay: FC<ProgressDayProps> = ({ date, level, onClick, hide, selected }) => {
   const disabled = new Date(date).getTime() > Date.now();
   return (
     <>
@@ -19,6 +20,9 @@ export const ProgressDay: FC<ProgressDayProps> = ({ date, level, onClick, hide }
               "w-[11px] h-[11px] bg-zinc-200 rounded-[2px] border border-gray-300",
               date === new Date().toISOString().split("T")[0] &&
                 "bg-green-200/50 border-dark-success",
+              selected &&
+                date !== new Date().toISOString().split("T")[0] &&
+                "bg-cyan-200/50 border-cyan-400",
               disabled && "opacity-50 cursor-default"
             )}
             data-delay-hide="100"

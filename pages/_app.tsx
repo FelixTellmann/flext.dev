@@ -76,7 +76,7 @@ export default withTRPC<AppRouter>({
         httpBatchLink({
           url: process.env.VERCEL_URL
             ? `https://${process.env.VERCEL_URL}/api/trpc`
-            : `http://localhost:${process.env.PORT ?? 3000}/api/trpc`,
+            : `http://localhost:${process.env.NEXT_PUBLIC_PORT ?? 3000}/api/trpc`,
         }),
       ],
       /**

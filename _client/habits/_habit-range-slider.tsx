@@ -1,4 +1,3 @@
-import { RangeSlider } from "@shopify/polaris";
 import { FC } from "react";
 
 type HabitRangeSliderProps = {
