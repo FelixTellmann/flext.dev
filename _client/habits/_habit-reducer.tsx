@@ -16,6 +16,30 @@ export type HabitReducerActions =
         value: any;
       };
       type: "SET_VALUE";
+    }
+  | {
+      payload: {
+        blockIndex: number;
+        habitIndex: number;
+        sectionIndex: number;
+      };
+      type: "SECTION_BLOCK_TOGGLE_SWITCH";
+    }
+  | {
+      payload: {
+        blockIndex: number;
+        habitIndex: number;
+        sectionIndex: number;
+        value: any;
+      };
+      type: "SECTION_BLOCK_SET_VALUE";
+    }
+  | {
+      payload: {
+        habitIndex: number;
+        type: string;
+      };
+      type: "ADD_SECTION";
     };
 
 export const habitReducer = (
@@ -24,7 +48,12 @@ export const habitReducer = (
 ): HabitStepState[] => {
   const habits = initHabits as (ProcessStep & {
     blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
-    sections: HabitSection[];
+    sections: (Omit<HabitSection, "blocks"> & {
+      blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+    })[];
+    sectionsAdded?: (Omit<HabitSection, "blocks"> & {
+      blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+    })[];
   })[];
   const { type, payload } = action;
   switch (type) {
@@ -42,11 +71,13 @@ export const habitReducer = (
               value,
             };
           }),
-        } as HabitStepState;
+        };
       });
     }
+
     case "TOGGLE_SWITCH": {
       const { blockIndex, habitIndex } = payload;
+
       return habits.map((habit, i) => {
         if (i !== habitIndex) return habit;
 
@@ -56,10 +87,79 @@ export const habitReducer = (
             if (j !== blockIndex) return block;
             return {
               ...block,
-              value: !block.value,
+              value: !block.value as any,
             };
           }),
-        } as HabitStepState;
+        };
+      });
+    }
+
+    case "SECTION_BLOCK_SET_VALUE": {
+      const { blockIndex, habitIndex, sectionIndex, value } = payload;
+      return habits.map((habit, i) => {
+        if (i !== habitIndex) return habit;
+
+        return {
+          ...habit,
+          sectionsAdded: habit.sectionsAdded?.map((sect, i) => {
+            if (i !== sectionIndex) return sect;
+
+            return {
+              ...sect,
+              blocks: sect.blocks.map((block, j) => {
+                if (j !== blockIndex) return block;
+                return {
+                  ...block,
+                  value,
+                };
+              }),
+            };
+          }),
+        };
+      });
+    }
+
+    case "SECTION_BLOCK_TOGGLE_SWITCH": {
+      const { blockIndex, habitIndex, sectionIndex } = payload;
+      return habits.map((habit, i) => {
+        if (i !== habitIndex) return habit;
+
+        return {
+          ...habit,
+          sectionsAdded: habit.sectionsAdded?.map((sect, i) => {
+            if (i !== sectionIndex) return sect;
+
+            return {
+              ...sect,
+              blocks: sect.blocks.map((block, j) => {
+                if (j !== blockIndex) return block;
+                return {
+                  ...block,
+                  value: !block.value as any,
+                };
+              }),
+            };
+          }),
+        };
+      });
+    }
+
+    case "ADD_SECTION": {
+      const { habitIndex, type } = payload;
+
+      return habits.map((habit, i) => {
+        if (i !== habitIndex) return habit;
+
+        const section = habit.sections.find((section) => section.type === type);
+
+        if (section) {
+          return {
+            ...habit,
+            sectionsAdded: [...(habit.sectionsAdded ?? []), section],
+          };
+        }
+
+        return habit;
       });
     }
   }

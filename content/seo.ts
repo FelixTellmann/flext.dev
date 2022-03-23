@@ -1,5 +1,5 @@
 export const SEO = {
-  title: "Flext",
+  title: "Flext.dev",
   url: "https://flext.dev",
   description: "my dev site",
   siteName: "Flext.dev",
@@ -12,8 +12,8 @@ export const SEO = {
     type: "website",
     locale: "en_IE",
     url: "https://flext.dev",
-    site_name: "Flext.dev",
-    title: "Flext",
+    site_name: "flext.dev",
+    title: "flext.dev - building things with code",
     description: "my dev site",
     images: [
       {

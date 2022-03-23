@@ -1,40 +1,19 @@
 import { habitReducer, HabitReducerActions } from "_client/habits/_habit-reducer";
 import { habitInitializer } from "_client/habits/_helpers";
+import { HabitAddSections } from "_client/habits/habit-add-sections";
 import { HabitBlocks } from "_client/habits/habit-blocks";
+import { HabitPage } from "_client/habits/habit-page";
+import { HabitSections } from "_client/habits/habit-sections";
 import { API } from "_client/hooks/trpcAPI";
 import { ProgressCalendar } from "_client/progress-calendar";
 import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressSteps } from "_client/progress-steps/progress-steps";
-import useProgressSteps from "_client/progress-steps/useProgressSteps";
+import { useProgressSteps } from "_client/progress-steps/useProgressSteps";
 import { HABITS, HabitStep, HabitStepState } from "content/habits";
-import { Dispatch, FC, useCallback, useEffect, useReducer, useState } from "react";
+
+import { Dispatch, FC, useCallback, useEffect, useState } from "react";
 
 type indexProps = {};
-
-const Page: FC<{ subtitle: string; title: string }> = ({ title, subtitle, children }) => (
-  <div className="min-h-[calc(100vh-66px)] bg-bg dark:bg-dark-bg">
-    <div className="px-4 mx-auto max-w-[1024px]">
-      <>
-        <div className="pt-12 pb-5">
-          <div className="sm:flex sm:justify-between sm:items-end">
-            <div className="sm:flex-1 sm:w-0">
-              <h1
-                className="text-lg font-medium text-gray-900 dark:text-dark-headings"
-                id="message-heading"
-              >
-                {title}
-              </h1>
-              <p className="overflow-hidden mt-1 text-sm text-gray-500 dark:text-dark-text overflow-ellipsis">
-                {subtitle}
-              </p>
-            </div>
-          </div>
-        </div>
-      </>
-      {children}
-    </div>
-  </div>
-);
 
 const Index: FC<indexProps> = ({}) => {
   const title = "Full-Stack Developer";
@@ -56,7 +35,7 @@ const Index: FC<indexProps> = ({}) => {
   }, []);
 
   return (
-    <Page
+    <HabitPage
       subtitle={subtitle}
       title={
         currentDate
@@ -87,9 +66,21 @@ const Index: FC<indexProps> = ({}) => {
           </ProgressSteps>
         </div>
         <div className="flex-1 right ">
-          <div className="shadow sm:overflow-hidden sm:rounded-md">
-            <div className="flex flex-col gap-2 py-5 px-4 space-y-6 min-h-[500px] bg-white sm:p-6">
+          <div className="relative shadow sm:rounded-md">
+            <div className="flex relative z-0 flex-col gap-2 py-5 px-4 space-y-6 min-h-[400px] bg-white sm:p-6">
               <HabitBlocks
+                dispatch={dispatch as Dispatch<HabitReducerActions>}
+                habit={habits.find(({ selected }) => selected) as HabitStepState}
+                index={habits.findIndex(({ selected }) => selected)}
+              />
+              <HabitSections
+                dispatch={dispatch as Dispatch<HabitReducerActions>}
+                habit={habits.find(({ selected }) => selected) as HabitStepState}
+                index={habits.findIndex(({ selected }) => selected)}
+              />
+            </div>
+            <div className="relative z-20 px-4 pb-5 mt-auto bg-white">
+              <HabitAddSections
                 dispatch={dispatch as Dispatch<HabitReducerActions>}
                 habit={habits.find(({ selected }) => selected) as HabitStepState}
                 index={habits.findIndex(({ selected }) => selected)}
@@ -98,7 +89,7 @@ const Index: FC<indexProps> = ({}) => {
           </div>
         </div>
       </div>
-    </Page>
+    </HabitPage>
   );
 };
 

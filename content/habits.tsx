@@ -3,6 +3,9 @@ import { ProcessStep } from "_client/progress-steps/useProgressSteps";
 export type HabitStepState = ProcessStep & {
   blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
   sections: HabitSection[];
+  sectionsAdded?: (Omit<HabitSection, "blocks"> & {
+    blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+  })[];
 };
 
 export type HabitStep = ProcessStep & {
@@ -219,16 +222,6 @@ export const HABITS: HabitStep[] = [
         label: "Step on the Scale",
         info: "Doing it makes all the difference.",
         type: "switch",
-      },
-      {
-        id: "type",
-        label: "Type of Exercise",
-        options: [
-          { label: "Run", value: "run" },
-          { label: "Walk", value: "walk" },
-          { label: "Hike", value: "hike" },
-        ],
-        type: "select",
       },
     ],
     sections: [

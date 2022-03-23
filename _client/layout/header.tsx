@@ -80,6 +80,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
     }
   }, []);
 
+  console.log(router);
   return (
     <>
       <header className="sticky top-0 z-10 h-header bg-white border-b border-gray-200 dark:border-gray-700 border-solid">
@@ -108,7 +109,7 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
             {nav.map((navItem, i) => (
               <NavItem
                 key={navItem.href + navItem.name + i}
-                active={router.asPath === navItem.href}
+                active={router.asPath.split("#")[0] === navItem.href}
                 href={navItem.href}
                 name={navItem.name}
                 onFocus={handleNavFocus}

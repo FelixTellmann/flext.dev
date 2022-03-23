@@ -29,7 +29,7 @@ export const HabitRangeSlider: FC<HabitRangeSliderProps> = ({
         <div className="font-medium text-gray-700 dark:text-dark-text select-none">{label}</div>
         {info ? <p className="mt-1 text-gray-500 ">{info}</p> : null}
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-3">
         <input
           className="range peer"
           max={max}
