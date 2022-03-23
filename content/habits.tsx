@@ -139,7 +139,7 @@ export const HABITS: HabitStep[] = [
     id: "morning",
     title: "Rise & Shine",
     description: "Getting ready in the morning for a fresh start in the day.",
-    completed: true,
+    completed: false,
     selected: false,
     blocks: [
       {
@@ -245,7 +245,7 @@ export const HABITS: HabitStep[] = [
             label: "Duration",
             minute: true,
             hour: true,
-            default: new Date(0),
+            default: new Date(new Date(0).setHours(0)),
           },
           {
             id: "intensity",
@@ -387,7 +387,7 @@ export const HABITS: HabitStep[] = [
             label: "Duration",
             minute: true,
             hour: true,
-            default: new Date(0),
+            default: new Date(new Date(0).setHours(0)),
           },
         ],
       },

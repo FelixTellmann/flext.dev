@@ -24,7 +24,7 @@ export const HabitSelect: FC<HabitSelectProps> = ({ label, options, setValue, va
       <Listbox value={value} onChange={setValue}>
         {({ open }) => (
           <>
-            <div className="relative min-w-[33%]">
+            <div className="relative z-20 min-w-[45%]">
               <Listbox.Button className="relative py-2 pr-10 pl-3 w-full text-left bg-white rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-sm cursor-default focus:outline-none sm:text-sm">
                 <span className="block truncate">{selectedOption?.label}</span>
                 <span className="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
@@ -39,7 +39,7 @@ export const HabitSelect: FC<HabitSelectProps> = ({ label, options, setValue, va
                 leaveTo="opacity-0"
                 show={open}
               >
-                <Listbox.Options className="overflow-auto absolute z-10 py-1 mt-1 w-full max-h-60 text-base bg-white rounded-md ring-1 ring-black ring-opacity-5 shadow-lg focus:outline-none sm:text-sm">
+                <Listbox.Options className="overflow-auto absolute z-50 py-1 mt-1 w-full max-h-60 text-base bg-white rounded-md ring-1 ring-black ring-opacity-5 shadow-lg focus:outline-none sm:text-sm">
                   {options.map((option) => (
                     <Listbox.Option
                       key={option.value}

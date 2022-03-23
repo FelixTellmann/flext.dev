@@ -66,25 +66,25 @@ const baseReducer = <T extends any, A extends any>(
         if (state[index].selected) return state;
 
         for (let i = 0; i < state.length; i++) {
-          state[i].selected = true;
-
           if (i === index) {
+            console.log(i);
             return [
               ...state.map((step, j) => {
-                step.selected = i === j;
-                return step;
+                return { ...step, selected: i === j };
               }),
             ];
           }
 
           if (state[i].completed) {
-            state[i].selected = false;
             continue;
           }
-          return state.map((step, j) => {
-            step.selected = i === j;
-            return step;
-          });
+
+          return [
+            ...state.map((step, j) => {
+              step.selected = i === j;
+              return step;
+            }),
+          ];
         }
 
         state[state.length - 1].selected = true;
@@ -112,6 +112,7 @@ export const useProgressSteps = <T extends unknown, ReducerActions extends any>(
 ): {
   dispatch: Dispatch<BaseReducerActions & ReducerActions>;
   selectStep: (index: number, selectAny?: any) => void;
+  selectedIndex: number;
   steps: (ProcessStep & T)[];
 } => {
   const [steps, dispatch] = useReducer(
@@ -132,7 +133,12 @@ export const useProgressSteps = <T extends unknown, ReducerActions extends any>(
     selectInitialStep();
   }, [selectInitialStep]);
 
-  return { steps, selectStep, dispatch };
+  return {
+    steps,
+    selectStep,
+    dispatch: dispatch as Dispatch<BaseReducerActions & ReducerActions>,
+    selectedIndex: steps.findIndex(({ selected }) => selected),
+  };
 };
 
 export default useProgressSteps;

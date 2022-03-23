@@ -40,6 +40,12 @@ export type HabitReducerActions =
         type: string;
       };
       type: "ADD_SECTION";
+    }
+  | {
+      payload: {
+        habitIndex: number;
+      };
+      type: "COMPLETE_HABIT";
     };
 
 export const habitReducer = (
@@ -160,6 +166,15 @@ export const habitReducer = (
         }
 
         return habit;
+      });
+    }
+
+    case "COMPLETE_HABIT": {
+      const { habitIndex } = payload;
+
+      return habits.map((habit, i) => {
+        if (i !== habitIndex) return habit;
+        return { ...habit, completed: true };
       });
     }
   }

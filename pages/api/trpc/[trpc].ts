@@ -1,10 +1,9 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { DB } from "_server/prisma";
-import { z } from "zod";
 
 import superjson from "superjson";
+import { z } from "zod";
 
 /**
  * Create your application's root router
@@ -30,6 +29,35 @@ export const appRouter = trpc
       return {
         greeting: `hello ${input?.text ?? "world"}`,
       };
+    },
+  })
+  .query("habits.findMany", {
+    input: z.object({ startsWith: z.string() }),
+    resolve: async ({ input: { startsWith } }) => {
+      return await DB.habits.findMany({
+        where: { id: { startsWith } },
+        select: { level: true, id: true },
+      });
+    },
+  })
+  .query("habits.findUnique", {
+    input: z.object({ id: z.string() }),
+    resolve: async ({ input: { id } }) => {
+      return await DB.habits.findUnique({
+        where: { id },
+      });
+    },
+  })
+  .mutation("habits.save", {
+    input: z.object({ id: z.string(), data: z.string(), level: z.number() }),
+    resolve: async ({ input: { id, data, level } }) => {
+      console.log({ id });
+      await DB.habits.upsert({
+        where: { id },
+        update: { id, data, level },
+        create: { id, data, level },
+      });
+      return "complete";
     },
   });
 

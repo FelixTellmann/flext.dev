@@ -4,19 +4,15 @@ import { FC } from "react";
 
 export type ProgressButtonProps = {
   completed: boolean;
+  description: string;
   name: string;
-  nextCompleted: boolean;
-  nextSelected: boolean;
   onClick: () => void;
   selected: boolean;
-  description?: string;
   isLast?: boolean;
 };
 
 export const ProgressButton: FC<ProgressButtonProps> = ({
   completed,
-  nextCompleted,
-  nextSelected,
   description,
   name,
   onClick,
@@ -30,9 +26,7 @@ export const ProgressButton: FC<ProgressButtonProps> = ({
           aria-hidden="true"
           className={clsx(
             "absolute top-4 left-1/2 mt-0.5 -ml-px w-full h-0.5 md:top-4 md:left-4 md:w-0.5 md:h-full",
-            (completed && nextSelected) || nextCompleted
-              ? "bg-primary-600 dark:bg-primary-500"
-              : "bg-gray-300 dark:bg-gray-700"
+            completed ? "bg-primary-600 dark:bg-primary-500" : "bg-gray-300 dark:bg-gray-700"
           )}
         />}
     <button
@@ -48,7 +42,7 @@ export const ProgressButton: FC<ProgressButtonProps> = ({
             completed
               ? "bg-primary-600 group-hover:bg-primary-800"
               : "bg-white dark:bg-gray-700 border-2 border-gray-300 group-hover:border-gray-400 dark:border-gray-500",
-            selected && !completed && "!bg-white !dark:bg-gray-700 border-2 !border-primary-500"
+            selected && !completed && "!dark:bg-gray-700 border-2 !bg-white !border-primary-500"
           )}
         >
           {completed
