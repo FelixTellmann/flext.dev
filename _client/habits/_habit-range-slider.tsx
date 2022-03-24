@@ -24,12 +24,12 @@ export const HabitRangeSlider: FC<HabitRangeSliderProps> = ({
   info,
 }) => {
   return (
-    <label className="flex relative items-start">
-      <div className="flex-1 min-w-0 text-sm">
-        <div className="font-medium text-gray-700 dark:text-dark-text select-none">{label}</div>
+    <label className="relative flex items-start">
+      <div className="min-w-0 flex-1 text-sm">
+        <div className="select-none font-medium text-gray-700 dark:text-dark-text">{label}</div>
         {info ? <p className="mt-1 text-gray-500 ">{info}</p> : null}
       </div>
-      <div className="flex flex-col mt-3">
+      <div className="mt-3 flex flex-col">
         <input
           className="range peer"
           max={max}
@@ -41,15 +41,15 @@ export const HabitRangeSlider: FC<HabitRangeSliderProps> = ({
           value={value}
           onChange={(e) => setValue(+e.target.value)}
         />
-        <output className="relative mx-2 w-[calc(100%-16px)] h-1 opacity-0 peer-active:opacity-100 delay-75 pointer-events-none">
+        <output className="pointer-events-none relative mx-2 h-1 w-[calc(100%-16px)] opacity-0 delay-75 peer-active:opacity-100">
           <div
-            className="flex absolute -top-12 justify-center items-center p-2 w-7 h-7 text-xs bg-white rounded border border-gray-300 border-solid shadow-md -translate-x-1/2 pointer-events-none peer-active:pointer-events-auto range-output"
+            className="range-output pointer-events-none absolute -top-12 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded border border-solid border-gray-300 bg-white p-2 text-xs shadow-md peer-active:pointer-events-auto"
             style={{ left: `calc(${((value - min) / (max - min)) * 100}%)` }}
           >
             {value}
           </div>
         </output>
-        <div className="flex justify-between px-1 mt-2 text-xs">
+        <div className="mt-2 flex justify-between px-1 text-xs">
           <span>{min}</span>
           <span>{max}</span>
         </div>

@@ -15,9 +15,9 @@ export const NavItem: FC<NavItemProps> = ({ name, href, active, onFocus, onBlur 
     <>
       <TelemetryLink
         className={clsx(
-          "flex relative py-3 text-sm nav-item",
+          "nav-item relative flex py-3 text-sm",
           active &&
-            "before:absolute before:bottom-0 before:left-3 before:w-[calc(100%-24px)] before:h-[2px] before:bg-black"
+            "before:absolute before:bottom-0 before:left-3 before:h-[2px] before:w-[calc(100%-24px)] before:bg-black"
         )}
         href={href}
         name={`header_nav_${name}`}
@@ -25,7 +25,7 @@ export const NavItem: FC<NavItemProps> = ({ name, href, active, onFocus, onBlur 
         onBlur={onBlur}
         onFocus={onFocus}
       >
-        <span className="flex overflow-hidden justify-center items-center py-1 px-3 rounded-lg">
+        <span className="flex items-center justify-center overflow-hidden rounded-lg py-1 px-3">
           {name}
         </span>
       </TelemetryLink>

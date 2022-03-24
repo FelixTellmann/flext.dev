@@ -15,13 +15,13 @@ export const HabitSections: FC<HabitSectionProps> = ({ habit, index, dispatch })
     <>
       {habit?.sectionsAdded?.map((section, sectionIndex) => {
         return (
-          <div key={section.type + sectionIndex} className="flex flex-col gap-2 mb-4">
+          <div key={section.type + sectionIndex} className="mb-4 flex flex-col gap-2">
             <div className="relative">
-              <div className="flex absolute inset-0 items-center">
+              <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
               </div>
-              <div className="flex relative text-sm">
-                <span className="pr-4 font-bold text-cyan-500 bg-white">{section.label}</span>
+              <div className="relative flex text-sm">
+                <span className="bg-white pr-4 font-bold text-cyan-500">{section.label}</span>
               </div>
             </div>
             <div className="mb-4"></div>

@@ -43,15 +43,15 @@ export const HabitRichtext: FC<HabitRichtextProps> = ({
   );
 
   return (
-    <label className="flex relative items-start">
-      <div className="flex-1 min-w-0 text-sm">
-        <div className="mb-1 font-medium text-gray-700 dark:text-dark-text select-none">
+    <label className="relative flex items-start">
+      <div className="min-w-0 flex-1 text-sm">
+        <div className="mb-1 select-none font-medium text-gray-700 dark:text-dark-text">
           {label}
         </div>
 
         <div className="flex items-start space-x-4">
-          <div className="relative flex-1 min-w-0">
-            <div className="overflow-hidden py-3 px-3 min-h-[120px] rounded-lg border border-gray-300 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 shadow-sm">
+          <div className="relative min-w-0 flex-1">
+            <div className="min-h-[120px] overflow-hidden rounded-lg border border-gray-300 py-3 px-3 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
               <Slate editor={editor} value={content} onChange={setContent}>
                 <HoveringToolbar />
                 <Editable

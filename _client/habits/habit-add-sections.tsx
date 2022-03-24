@@ -18,15 +18,15 @@ export const HabitAddSections: FC<HabitSectionProps> = ({ habit, index, dispatch
     <>
       {habit?.sections.length
         ? <div className="relative">
-            <div className="flex absolute inset-0 items-center">
+            <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
             </div>
-            <div className="flex relative justify-center text-sm">
+            <div className="relative flex justify-center text-sm">
               <Popover className="relative">
                 {({ open, close }) => (
                   <>
-                    <Popover.Button className="px-2 text-gray-500 bg-white" type="button">
-                      <div className="flex justify-center items-center w-7 h-7 text-2xl h:text-white h:bg-cyan-400 rounded-full border-2 border-cyan-400 transition-colors">
+                    <Popover.Button className="bg-white px-2 text-gray-500" type="button">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-cyan-400 text-2xl transition-colors h:bg-cyan-400 h:text-white">
                         <BsPlus />
                       </div>
                     </Popover.Button>
@@ -39,12 +39,12 @@ export const HabitAddSections: FC<HabitSectionProps> = ({ habit, index, dispatch
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <Popover.Panel className="absolute bottom-full left-1/2 z-10 px-4 mb-2 transform -translate-x-1/2 sm:px-0 lg:max-w-3xl">
+                      <Popover.Panel className="absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
                         <div className="flex flex-col gap-3 p-4">
                           {habit.sections.map(({ label, type }) => (
                             <button
                               key={type}
-                              className="flex relative z-10 py-2 px-4 text-xs bg-white h:bg-cyan-300 rounded ring-1 ring-black ring-opacity-5 shadow-md box-shadow-4xl"
+                              className="box-shadow-4xl relative z-10 flex rounded bg-white py-2 px-4 text-xs shadow-md ring-1 ring-black ring-opacity-5 h:bg-cyan-300"
                               type="button"
                               onClick={(e) => {
                                 console.log(e);

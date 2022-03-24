@@ -19,35 +19,35 @@ export const HabitCheckbox: FC<HabitCheckboxProps> = ({
 }) => {
   return (
     <>
-      <label className="flex relative items-start">
-        <div className="flex-1 min-w-0 text-sm">
-          <div className="font-medium text-gray-700 dark:text-dark-text select-none">{title}</div>
+      <label className="relative flex items-start">
+        <div className="min-w-0 flex-1 text-sm">
+          <div className="select-none font-medium text-gray-700 dark:text-dark-text">{title}</div>
         </div>
-        <div className="flex items-center ml-3 h-5">
+        <div className="ml-3 flex h-5 items-center">
           <Switch
             checked={value}
             className={clsx(
               value ? "bg-green-500 dark:bg-teal-500" : "bg-gray-200 dark:bg-dark-bg",
-              "inline-flex relative flex-shrink-0 w-11 h-6 rounded-full border-2 border-transparent focus:ring-2 focus:ring-green-500 dark:focus:ring-teal-500 focus:ring-offset-2 transition-colors duration-200 ease-in-out cursor-pointer focus:outline-none"
+              "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-teal-500"
             )}
             onChange={setValue}
           >
             <span className="sr-only">Use setting</span>
             <span
               className={clsx(
-                value ? "dark:bg-gray-200 translate-x-5" : "dark:bg-gray-700 translate-x-0",
-                "inline-block relative w-5 h-5 bg-white rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none"
+                value ? "translate-x-5 dark:bg-gray-200" : "translate-x-0 dark:bg-gray-700",
+                "pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
               )}
             >
               <span
                 aria-hidden="true"
                 className={clsx(
                   value ? "opacity-0 duration-100 ease-out" : "opacity-100 duration-200 ease-in",
-                  "flex absolute inset-0 justify-center items-center w-full h-full transition-opacity"
+                  "absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
                 )}
               >
                 <svg
-                  className="w-3 h-3 text-gray-400 dark:text-gray-20"
+                  className="dark:text-gray-20 h-3 w-3 text-gray-400"
                   fill="none"
                   viewBox="0 0 12 12"
                 >
@@ -64,11 +64,11 @@ export const HabitCheckbox: FC<HabitCheckboxProps> = ({
                 aria-hidden="true"
                 className={clsx(
                   value ? "opacity-100 duration-200 ease-in" : "opacity-0 duration-100 ease-out",
-                  "flex absolute inset-0 justify-center items-center w-full h-full transition-opacity"
+                  "absolute inset-0 flex h-full w-full items-center justify-center transition-opacity"
                 )}
               >
                 <svg
-                  className="w-3 h-3 text-green-600 dark:text-teal-600"
+                  className="h-3 w-3 text-green-600 dark:text-teal-600"
                   fill="currentColor"
                   viewBox="0 0 12 12"
                 >

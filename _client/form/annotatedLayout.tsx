@@ -22,7 +22,7 @@ export const AnnotatedLayout: FC<AnnotatedLayoutProps> = ({ description, title, 
         </div>
         <div className="mt-5 md:col-span-2 md:mt-0">
           <div className="shadow sm:rounded-md">
-            <div className="py-5 px-4 space-y-6 bg-white dark:bg-dark-card sm:p-6">{children}</div>
+            <div className="space-y-6 bg-white py-5 px-4 dark:bg-dark-card sm:p-6">{children}</div>
           </div>
         </div>
       </div>

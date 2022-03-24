@@ -37,13 +37,13 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
   return (
     <>
       <div className="relative mb-10">
-        <div aria-hidden="true" className="flex absolute inset-0 items-center">
+        <div aria-hidden="true" className="absolute inset-0 flex items-center">
           <div className="w-full border-b border-gray-200 dark:border-dark-border" />
         </div>
-        <div className="flex relative justify-center">
-          <div className="px-4 bg-bg dark:bg-dark-bg">
+        <div className="relative flex justify-center">
+          <div className="bg-bg px-4 dark:bg-dark-bg">
             <button
-              className=" mb-1 w-5 h-5 bg-green-300 h:bg-green-400 dark:bg-dark-success rounded-[3px] border border-gray-500 dark:border-dark-text shadow dark:shadow-dark transition duration-75"
+              className=" mb-1 h-5 w-5 rounded-[3px] border border-gray-500 bg-green-300 shadow transition duration-75 h:bg-green-400 dark:border-dark-text dark:bg-dark-success dark:shadow-dark"
               onClick={toggleProgress}
             />
           </div>
@@ -51,17 +51,17 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
       </div>
       <div
         className={clsx(
-          "flex overflow-hidden flex-col justify-end transition-all",
+          "flex flex-col justify-end overflow-hidden transition-all",
           showProgress ? "max-h-[200px]" : "max-h-0"
         )}
       >
         <div className="flex pb-5">
-          <div className="flex overflow-hidden justify-end mx-auto">
+          <div className="mx-auto flex justify-end overflow-hidden">
             <div
               ref={progressContainer}
-              className="grid overflow-x-scroll auto-cols-min auto-rows-min gap-1 scrollbar-none"
+              className="scrollbar-none grid auto-cols-min auto-rows-min gap-1 overflow-x-scroll"
             >
-              <div className="flex col-start-2 gap-1 text-[9px]">
+              <div className="col-start-2 flex gap-1 text-[9px]">
                 {weeks.map((week) => {
                   const monday = new Date(week[0].date);
                   if (monday.getDate() >= 1 && monday.getDate() < 8) {
@@ -76,7 +76,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
                   return <div key={week[6].date} className="w-[11px]" />;
                 })}
               </div>
-              <div className="flex flex-col row-start-2 gap-1 mr-1 text-[9px]">
+              <div className="row-start-2 mr-1 flex flex-col gap-1 text-[9px]">
                 <div className="h-[11px]">Mon</div>
                 <div className="h-[11px]" />
                 <div className="h-[11px]">Wed</div>
@@ -85,14 +85,14 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
                 <div className="h-[11px]" />
                 <div className="h-[11px]">Sun</div>
               </div>
-              <div className="flex col-start-2 row-start-2 gap-1">
+              <div className="col-start-2 row-start-2 flex gap-1">
                 {isMounted
                   ? <>
                       {!toolTipRendered && setToolTipRendered(true)}
                       <ReactTooltip
                         html
                         backgroundColor="#24292f"
-                        className="!py-2 !px-4 !leading-[18px] !rounded-md !rounded-[6px] !border-none"
+                        className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
                         overridePosition={(position, currentEvent, currentTarget, ref, place) => {
                           const block = (currentTarget as HTMLElement).getBoundingClientRect();
                           const { width, height } = (ref as HTMLElement).getBoundingClientRect();
@@ -143,10 +143,10 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
             <div className="flex flex-col gap-2 pt-4 pr-2 pb-2 pl-8">
               <button
                 className={clsx(
-                  "inline-flex items-start py-1.5 px-2.5 text-xs font-medium rounded border focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none sm:min-w-[80px]",
+                  "inline-flex items-start rounded border py-1.5 px-2.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:min-w-[80px]",
                   new Date(yearSelection).getFullYear() === 2022
-                    ? "text-white bg-indigo-500 hover:bg-indigo-700 border-transparent"
-                    : "hover:bg-indigo-100 border-gray-300"
+                    ? "border-transparent bg-indigo-500 text-white hover:bg-indigo-700"
+                    : "border-gray-300 hover:bg-indigo-100"
                 )}
                 type="button"
                 onClick={() => {
@@ -158,10 +158,10 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
               </button>
               <button
                 className={clsx(
-                  "inline-flex items-start py-1.5 px-2.5 text-xs font-medium rounded border focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none sm:min-w-[80px]",
+                  "inline-flex items-start rounded border py-1.5 px-2.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:min-w-[80px]",
                   new Date(yearSelection).getFullYear() === 2021
-                    ? "text-white bg-indigo-500 hover:bg-indigo-700 border-transparent"
-                    : "hover:bg-indigo-100 border-gray-300"
+                    ? "border-transparent bg-indigo-500 text-white hover:bg-indigo-700"
+                    : "border-gray-300 hover:bg-indigo-100"
                 )}
                 type="button"
                 onClick={() => {
@@ -173,10 +173,10 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
               </button>
               <button
                 className={clsx(
-                  "inline-flex items-start py-1.5 px-2.5 text-xs font-medium rounded border focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none sm:min-w-[80px]",
+                  "inline-flex items-start rounded border py-1.5 px-2.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:min-w-[80px]",
                   new Date(yearSelection).getFullYear() === 2020
-                    ? "text-white bg-indigo-500 hover:bg-indigo-700 border-transparent"
-                    : "hover:bg-indigo-100 border-gray-300"
+                    ? "border-transparent bg-indigo-500 text-white hover:bg-indigo-700"
+                    : "border-gray-300 hover:bg-indigo-100"
                 )}
                 type="button"
                 onClick={() => {
@@ -191,13 +191,13 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
         </div>
 
         <div className="relative">
-          <div aria-hidden="true" className="flex absolute inset-0 items-center">
+          <div aria-hidden="true" className="absolute inset-0 flex items-center">
             <div className="w-full border-b border-gray-200 dark:border-dark-border" />
           </div>
-          <div className="flex relative justify-center">
-            <div className="px-4 bg-bg dark:bg-dark-bg">
+          <div className="relative flex justify-center">
+            <div className="bg-bg px-4 dark:bg-dark-bg">
               <button
-                className="text-2xl text-gray-500 h:text-gray-700 transition duration-75"
+                className="text-2xl text-gray-500 transition duration-75 h:text-gray-700"
                 onClick={toggleProgress}
               >
                 <IoCaretUp />

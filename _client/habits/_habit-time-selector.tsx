@@ -101,21 +101,21 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
   }, [hour12, value]);
 
   return (
-    <label className="flex relative items-start">
-      <div className="flex-1 min-w-0 text-sm">
-        <div className="font-medium text-gray-700 dark:text-dark-text select-none">{label}</div>
+    <label className="relative flex items-start">
+      <div className="min-w-0 flex-1 text-sm">
+        <div className="select-none font-medium text-gray-700 dark:text-dark-text">{label}</div>
         {info ? <p className="mt-1 text-gray-500 ">{info}</p> : null}
       </div>
-      <div className="flex items-center ml-4">
+      <div className="ml-4 flex items-center">
         <div className="relative mt-1 rounded-md shadow-sm">
-          <div className="flex py-0 text-sm text-right rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+          <div className="flex rounded-md border border-gray-300 py-0 text-right text-sm focus:border-indigo-500 focus:ring-indigo-500">
             <div className="pl-1" />
             {hour
               ? <input
                   ref={hoursRef}
                   aria-autocomplete="none"
                   autoComplete="off"
-                  className="p-1 my-1 w-[26px] text-sm text-center rounded-sm focus:border-transparent border-none"
+                  className="my-1 w-[26px] rounded-sm border-none p-1 text-center text-sm focus:border-transparent"
                   style={{ boxShadow: "none" }}
                   type="text"
                   value={hours}
@@ -124,13 +124,13 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
                   onKeyDown={handleKeyDown}
                 />
               : null}
-            {hour && minute ? <div className="flex items-center py-1 my-1">:</div> : null}
+            {hour && minute ? <div className="my-1 flex items-center py-1">:</div> : null}
             {minute
               ? <input
                   ref={minutesRef}
                   aria-autocomplete="none"
                   autoComplete="off"
-                  className="p-1 my-1 w-[26px] text-sm text-center rounded-sm focus:border-transparent border-none"
+                  className="my-1 w-[26px] rounded-sm border-none p-1 text-center text-sm focus:border-transparent"
                   style={{ boxShadow: "none" }}
                   type="text"
                   value={minutes}
@@ -139,13 +139,13 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
                   onKeyDown={handleKeyDown}
                 />
               : null}
-            {minute && second ? <div className="flex items-center py-1 my-1">:</div> : null}
+            {minute && second ? <div className="my-1 flex items-center py-1">:</div> : null}
             {second
               ? <input
                   ref={secondsRef}
                   aria-autocomplete="none"
                   autoComplete="off"
-                  className="p-1 my-1 w-[26px] text-sm text-center rounded-sm focus:border-transparent border-none"
+                  className="my-1 w-[26px] rounded-sm border-none p-1 text-center text-sm focus:border-transparent"
                   style={{ boxShadow: "none" }}
                   type="text"
                   value={seconds}
@@ -156,9 +156,9 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
               : null}
             <div className="pl-1" />
             {hour12
-              ? <div className="bg-gray-50 rounded-r-md border-l border-l-gray-300">
+              ? <div className="rounded-r-md border-l border-l-gray-300 bg-gray-50">
                   <select
-                    className="py-0 pr-7 pl-2 h-[38px] text-xs text-gray-500 bg-gray-50 bg-transparent rounded-r-md border-transparent focus:border-indigo-500 focus:ring-indigo-500"
+                    className="h-[38px] rounded-r-md border-transparent bg-gray-50 bg-transparent py-0 pr-7 pl-2 text-xs text-gray-500 focus:border-indigo-500 focus:ring-indigo-500"
                     value={hour12Select}
                     onChange={handleSelectChange}
                   >
@@ -166,8 +166,8 @@ export const HabitTimeSelector: FC<HabitDateTimeProps> = ({
                     <option value="PM">PM</option>
                   </select>
                 </div>
-              : <div className="bg-gray-50 rounded-r-md border-l border-l-gray-300">
-                  <div className="flex justify-center items-center p-1.5 h-[38px] text-xl text-gray-500 bg-gray-50 rounded-r-md">
+              : <div className="rounded-r-md border-l border-l-gray-300 bg-gray-50">
+                  <div className="flex h-[38px] items-center justify-center rounded-r-md bg-gray-50 p-1.5 text-xl text-gray-500">
                     <IoMdTimer />
                   </div>
                 </div>}

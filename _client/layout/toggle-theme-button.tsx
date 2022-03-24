@@ -27,11 +27,11 @@ export const ToggleThemeButton: FC<ToggleThemeButtonProps> = ({ className }) => 
   return (
     <TelemetryButton className={clsx(className)} name="ToggleThemeButton" onClick={handleClick}>
       {theme === "light"
-        ? <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600 rounded">
-            <FiMoon className="text-gray-700 hover:text-gray-800 dark:text-dark-text transition-colors duration-75" />
+        ? <div className="flex h-8 w-8 items-center justify-center rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600">
+            <FiMoon className="text-gray-700 transition-colors duration-75 hover:text-gray-800 dark:text-dark-text" />
           </div>
-        : <div className="flex justify-center items-center w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600 rounded">
-            <FiSun className="text-gray-700 hover:text-gray-800 dark:text-dark-text transition-colors duration-75" />
+        : <div className="flex h-8 w-8 items-center justify-center rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600">
+            <FiSun className="text-gray-700 transition-colors duration-75 hover:text-gray-800 dark:text-dark-text" />
           </div>}
     </TelemetryButton>
   );
@@ -40,25 +40,25 @@ export const ToggleThemeButton: FC<ToggleThemeButtonProps> = ({ className }) => 
 export const sun = () => (
   <>
     <TelemetryButton name="ToggleThemeButton">
-      <div className="flex relative justify-center sun">
-        <div className="absolute bg-blue-400 rounded-full sun__main" />
-        <div className="absolute w-full h-full sun__dot--1">
-          <div className="absolute bg-blue-500 rounded-full sun__dot" />
+      <div className="sun relative flex justify-center">
+        <div className="sun__main absolute rounded-full bg-blue-400" />
+        <div className="sun__dot--1 absolute h-full w-full">
+          <div className="sun__dot absolute rounded-full bg-blue-500" />
         </div>
-        <div className="absolute w-full h-full sun__dot--2">
-          <div className="absolute bg-blue-500 rounded-full sun__dot" />
+        <div className="sun__dot--2 absolute h-full w-full">
+          <div className="sun__dot absolute rounded-full bg-blue-500" />
         </div>
-        <div className="absolute w-full h-full sun__dot--3">
-          <div className="absolute bg-blue-500 rounded-full sun__dot" />
+        <div className="sun__dot--3 absolute h-full w-full">
+          <div className="sun__dot absolute rounded-full bg-blue-500" />
         </div>
-        <div className="absolute w-full h-full sun__dot--4">
-          <div className="absolute bg-blue-500 rounded-full sun__dot" />
+        <div className="sun__dot--4 absolute h-full w-full">
+          <div className="sun__dot absolute rounded-full bg-blue-500" />
         </div>
-        <div className="absolute w-full h-full sun__dot--5">
-          <div className="absolute bg-blue-500 rounded-full sun__dot" />
+        <div className="sun__dot--5 absolute h-full w-full">
+          <div className="sun__dot absolute rounded-full bg-blue-500" />
         </div>
-        <div className="absolute w-full h-full sun__dot--6">
-          <div className="absolute bg-blue-500 rounded-full sun__dot" />
+        <div className="sun__dot--6 absolute h-full w-full">
+          <div className="sun__dot absolute rounded-full bg-blue-500" />
         </div>
       </div>
     </TelemetryButton>

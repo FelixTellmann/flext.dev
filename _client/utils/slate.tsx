@@ -135,10 +135,10 @@ export const EditorValue = forwardRef(
       .join("\n");
     return (
       <div ref={ref} {...props} className={clsx(className, "my-[30px] mx-[-20px]")}>
-        <div className="py-[5px] px-[20px] text-sm text-gray-500 bg-gray-200 border-t-2 border-gray-700">
+        <div className="border-t-2 border-gray-700 bg-gray-200 py-[5px] px-[20px] text-sm text-gray-500">
           Slate's value as text
         </div>
-        <div className="flex flex-col gap-4 py-[10px] px-[20px] font-mono text-xs text-gray-500 whitespace-pre-wrap">
+        <div className="flex flex-col gap-4 whitespace-pre-wrap py-[10px] px-[20px] font-mono text-xs text-gray-500">
           {textLines}
         </div>
       </div>
@@ -151,7 +151,7 @@ export const Icon = forwardRef(
     <span
       {...props}
       ref={ref}
-      className={clsx("material-icons", className, "text-lg align-text-bottom")}
+      className={clsx("material-icons", className, "align-text-bottom text-lg")}
     />
   )
 );
@@ -163,7 +163,7 @@ export const Instruction = forwardRef(
       ref={ref}
       className={clsx(
         className,
-        "py-[10px] px-[20px] mr-[-20px] ml-[10px] text-sm bg-gray-200 white-space-pre-wrap"
+        "white-space-pre-wrap mr-[-20px] ml-[10px] bg-gray-200 py-[10px] px-[20px] text-sm"
       )}
     />
   )
@@ -186,7 +186,7 @@ export const Toolbar = forwardRef(
       ref={ref}
       className={clsx(
         className,
-        "relative py-px pr-[18px] pb-[17px] mx-[-20px] mb-[20px] border-b-2 border-b-gray-500"
+        "relative mx-[-20px] mb-[20px] border-b-2 border-b-gray-500 py-px pr-[18px] pb-[17px]"
       )}
     />
   )
@@ -252,7 +252,7 @@ export const HoveringToolbar = () => {
     <Portal>
       <Menu
         ref={hoverMenuRef}
-        className="absolute top-[-10000px] left-[-10000px] z-10 px-[7px] pt-[8px] pb-[6px] mt-[-6px] bg-gray-700 rounded opacity-0 transition-opacity"
+        className="absolute top-[-10000px] left-[-10000px] z-10 mt-[-6px] rounded bg-gray-700 px-[7px] pt-[8px] pb-[6px] opacity-0 transition-opacity"
         onMouseDown={(e: { preventDefault: () => void }) => {
           // prevent toolbar from taking focus away from editor
           e.preventDefault();
@@ -332,7 +332,7 @@ export const Element: FC<Partial<RenderElementProps>> = ({ attributes, children,
     case "block-quote":
       return (
         <blockquote
-          className="py-1 pl-4 my-3 text-sm font-medium text-gray-700 border-l-4 border-pink-600"
+          className="my-3 border-l-4 border-pink-600 py-1 pl-4 text-sm font-medium text-gray-700"
           style={style}
           {...attributes}
         >
@@ -342,7 +342,7 @@ export const Element: FC<Partial<RenderElementProps>> = ({ attributes, children,
     case "bulleted-list":
       return (
         <ul
-          className="pl-4 my-4 text-sm font-medium list-disc text-gray-700"
+          className="my-4 list-disc pl-4 text-sm font-medium text-gray-700"
           style={style}
           {...attributes}
         >
@@ -352,7 +352,7 @@ export const Element: FC<Partial<RenderElementProps>> = ({ attributes, children,
     case "heading-one":
       return (
         <h1
-          className="mb-1 text-xl font-bold tracking-tight leading-tight"
+          className="mb-1 text-xl font-bold leading-tight tracking-tight"
           style={style}
           {...attributes}
         >
@@ -362,7 +362,7 @@ export const Element: FC<Partial<RenderElementProps>> = ({ attributes, children,
     case "heading-two":
       return (
         <h2
-          className="mb-1 font-semibold tracking-tight leading-tight"
+          className="mb-1 font-semibold leading-tight tracking-tight"
           style={style}
           {...attributes}
         >
@@ -378,7 +378,7 @@ export const Element: FC<Partial<RenderElementProps>> = ({ attributes, children,
     case "numbered-list":
       return (
         <ol
-          className="mb-4 text-sm font-medium list-disc text-gray-700"
+          className="mb-4 list-disc text-sm font-medium text-gray-700"
           style={style}
           {...attributes}
         >

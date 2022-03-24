@@ -71,8 +71,8 @@ const Index: FC<indexProps> = ({}) => {
       }
     >
       <ProgressCalendar handleSelectDay={handleSelectDay} selected={currentDate} />
-      <div className="flex gap-10 pb-36 mt-12">
-        <div className="flex sticky flex-1 justify-center pt-12 left">
+      <div className="mt-12 flex gap-10 pb-36">
+        <div className="left sticky flex flex-1 justify-center pt-12">
           <ProgressSteps>
             {habits.map((step, index) => (
               <ProgressButton
@@ -89,9 +89,9 @@ const Index: FC<indexProps> = ({}) => {
             ))}
           </ProgressSteps>
         </div>
-        <div className="flex-1 right ">
+        <div className="right flex-1 ">
           <div className="relative shadow sm:rounded-md">
-            <div className="flex relative flex-col gap-2 py-5 px-4 space-y-6 min-h-[400px] bg-white sm:p-6">
+            <div className="relative flex min-h-[400px] flex-col gap-2 space-y-6 bg-white py-5 px-4 sm:p-6">
               <HabitBlocks
                 dispatch={dispatch}
                 habit={habits.find(({ selected }) => selected) as HabitStepState}
@@ -103,7 +103,7 @@ const Index: FC<indexProps> = ({}) => {
                 index={habits.findIndex(({ selected }) => selected)}
               />
             </div>
-            <div className="relative z-20 px-4 pb-5 mt-auto bg-white">
+            <div className="relative z-20 mt-auto bg-white px-4 pb-5">
               <HabitAddSections
                 dispatch={dispatch}
                 habit={habits.find(({ selected }) => selected) as HabitStepState}
@@ -111,10 +111,10 @@ const Index: FC<indexProps> = ({}) => {
               />
             </div>
           </div>
-          <div className="flex gap-6 justify-end mt-6 mb-4">
+          <div className="mt-6 mb-4 flex justify-end gap-6">
             {selectedIndex > 0
               ? <button
-                  className="py-2 px-4 text-sm bg-white rounded-lg border border-gray-200 shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
+                  className="rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
                   type="button"
                   onClick={() => {
                     selectStep(Math.max(selectedIndex - 1, 0), true);
@@ -125,7 +125,7 @@ const Index: FC<indexProps> = ({}) => {
               : null}
             {selectedIndex < habits.length - 1
               ? <button
-                  className="py-2 px-4 text-sm bg-white rounded-lg border border-gray-200 shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
+                  className="rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
                   type="button"
                   onClick={() => {
                     dispatch({ type: "COMPLETE_HABIT", payload: { habitIndex: selectedIndex } });
@@ -137,7 +137,7 @@ const Index: FC<indexProps> = ({}) => {
               : null}
             {selectedIndex === habits.length - 1
               ? <button
-                  className="py-2 px-4 text-sm bg-cyan-400 rounded-lg border border-gray-200 shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
+                  className="rounded-lg border border-gray-200 bg-cyan-400 py-2 px-4 text-sm shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
                   type="button"
                   onClick={() => {
                     dispatch({ type: "COMPLETE_HABIT", payload: { habitIndex: selectedIndex } });

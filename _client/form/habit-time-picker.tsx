@@ -10,11 +10,11 @@ export const HabitTimePicker: FC<HabitTimePickerProps> = ({ title, value, setVal
 
   return (
     <>
-      <span className="flex relative items-start">
-        <div className="flex-1 min-w-0 text-sm">
-          <div className="font-medium text-gray-700 dark:text-dark-text select-none">{title}</div>
+      <span className="relative flex items-start">
+        <div className="min-w-0 flex-1 text-sm">
+          <div className="select-none font-medium text-gray-700 dark:text-dark-text">{title}</div>
         </div>
-        <div className="flex items-center ml-3 h-5">
+        <div className="ml-3 flex h-5 items-center">
           <Listbox value={hour} onChange={setHour}>
             {({ open }) => (
               <>
@@ -22,10 +22,10 @@ export const HabitTimePicker: FC<HabitTimePickerProps> = ({ title, value, setVal
                   Assigned to
                 </Listbox.Label>*/}
                 <div className="relative mt-1">
-                  <Listbox.Button className="relative py-2 pr-10 pl-3 w-full min-w-[70px] text-left bg-white rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-sm cursor-default focus:outline-none sm:text-sm">
+                  <Listbox.Button className="relative w-full min-w-[70px] cursor-default rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                     <span className="block truncate">{`${hour.toString().padStart(2, "0")}`}</span>
-                    <span className="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                      <pre className="w-5 h-5 text-gray-400">h</pre>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <pre className="h-5 w-5 text-gray-400">h</pre>
                     </span>
                   </Listbox.Button>
 
@@ -36,14 +36,14 @@ export const HabitTimePicker: FC<HabitTimePickerProps> = ({ title, value, setVal
                     leaveTo="opacity-0"
                     show={open}
                   >
-                    <Listbox.Options className="overflow-auto absolute z-10 py-1 mt-1 w-full max-h-60 text-base bg-white rounded-md ring-1 ring-black ring-opacity-5 shadow-lg focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                       {[...Array(13).keys()].map((hour) => (
                         <Listbox.Option
                           key={hour}
                           className={({ active }) =>
                             clsx(
-                              active ? "text-white bg-indigo-600" : "text-gray-900",
-                              "relative py-2 pr-3 pl-3 cursor-default select-none"
+                              active ? "bg-indigo-600 text-white" : "text-gray-900",
+                              "relative cursor-default select-none py-2 pr-3 pl-3"
                             )
                           }
                           value={hour}
@@ -76,12 +76,12 @@ export const HabitTimePicker: FC<HabitTimePickerProps> = ({ title, value, setVal
                   Assigned to
                 </Listbox.Label>*/}
                 <div className="relative mt-1">
-                  <Listbox.Button className="relative py-2 pr-10 pl-3 w-full min-w-[70px] text-left bg-white rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-sm cursor-default focus:outline-none sm:text-sm">
+                  <Listbox.Button className="relative w-full min-w-[70px] cursor-default rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                     <span className="block truncate">{`${minute
                       .toString()
                       .padStart(2, "0")}`}</span>
-                    <span className="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                      <pre className="w-5 h-5 text-gray-400">m</pre>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <pre className="h-5 w-5 text-gray-400">m</pre>
                     </span>
                   </Listbox.Button>
 
@@ -92,14 +92,14 @@ export const HabitTimePicker: FC<HabitTimePickerProps> = ({ title, value, setVal
                     leaveTo="opacity-0"
                     show={open}
                   >
-                    <Listbox.Options className="overflow-auto absolute z-10 py-1 mt-1 w-full max-h-60 text-base bg-white rounded-md ring-1 ring-black ring-opacity-5 shadow-lg focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                       {[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((hour) => (
                         <Listbox.Option
                           key={hour}
                           className={({ active }) =>
                             clsx(
-                              active ? "text-white bg-indigo-600" : "text-gray-900",
-                              "relative py-2 pr-3 pl-3 cursor-default select-none"
+                              active ? "bg-indigo-600 text-white" : "text-gray-900",
+                              "relative cursor-default select-none py-2 pr-3 pl-3"
                             )
                           }
                           value={hour}

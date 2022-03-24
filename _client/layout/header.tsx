@@ -83,22 +83,22 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
   console.log(router);
   return (
     <>
-      <header className="sticky top-0 z-10 h-header bg-white border-b border-gray-200 dark:border-gray-700 border-solid">
-        <div className="flex px-2 mx-auto w-wrapper max-w-full h-full">
-          <div className="hidden items-center h-header sm:flex">
+      <header className="sticky top-0 z-10 h-header border-b border-solid border-gray-200 bg-white dark:border-gray-700">
+        <div className="mx-auto flex h-full w-wrapper max-w-full px-2">
+          <div className="hidden h-header items-center sm:flex">
             <TelemetryLink className="flex" href={logo.href} name="headerLogo">
               <Logo className="w-[60px] dark:fill-white" />
               {/*<Image alt={logo.alt} height={66} src={logo.src} width={110} />*/}
             </TelemetryLink>
           </div>
           <nav
-            className="flex overflow-auto relative mx-4 mt-auto h-full scrollbar-none header-nav"
+            className="scrollbar-none header-nav relative mx-4 mt-auto flex h-full overflow-auto"
             onBlur={handleNavFocus}
             onMouseLeave={() => setNavHover(() => initialNavPosition)}
             onMouseOver={handleNavHover}
           >
             <div
-              className="absolute top-1/2 z-0 h-8 bg-gray-200 dark:bg-gray-700 rounded opacity-60 transform -translate-y-1/2"
+              className="absolute top-1/2 z-0 h-8 -translate-y-1/2 transform rounded bg-gray-200 opacity-60 dark:bg-gray-700"
               style={{
                 width: `${navHover.width}px`,
                 left: `${navHover.left}px`,
@@ -116,11 +116,11 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
               />
             ))}
           </nav>
-          <nav className="flex items-center ml-auto">
+          <nav className="ml-auto flex items-center">
             {!session && !/^\/auth\/sign-in/i.test(router.pathname)
               ? <>
                   <TelemetryLink className="mr-2" href="/auth/sign-in" name="SignInButton">
-                    <div className="flex justify-center items-center px-2 h-8 text-sm hfa:text-black text-gray-700">
+                    <div className="flex h-8 items-center justify-center px-2 text-sm text-gray-700 hfa:text-black">
                       Login
                     </div>
                   </TelemetryLink>

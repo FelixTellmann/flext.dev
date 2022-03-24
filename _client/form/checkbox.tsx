@@ -8,10 +8,10 @@ type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
 export const Checkbox: FC<CheckboxProps> = ({ label, forwardRef, ...htmlInputElementProps }) => {
   return (
     <>
-      <label className="flex items-center text-sm text-gray-900 cursor-pointer select-none">
+      <label className="flex cursor-pointer select-none items-center text-sm text-gray-900">
         <input
           ref={forwardRef}
-          className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 cursor-pointer"
+          className="h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
           type="checkbox"
           {...htmlInputElementProps}
         />

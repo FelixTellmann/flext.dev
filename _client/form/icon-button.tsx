@@ -9,7 +9,7 @@ type IconButtonProps = {
 export const IconButton: FC<IconButtonProps> = ({ content, icon, onClick }) => {
   return (
     <button
-      className="inline-flex justify-center py-2 px-4 w-full text-sm text-xl font-medium text-gray-500 hfa:text-gray-800 bg-white hfa:bg-slate-100 rounded-md border border-gray-300 shadow-sm transition-colors"
+      className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm text-xl font-medium text-gray-500 shadow-sm transition-colors hfa:bg-slate-100 hfa:text-gray-800"
       type="button"
       onClick={onClick}
     >

@@ -17,11 +17,11 @@ export const CheckboxItem: FC<CheckboxItemProps> = ({
 }) => {
   return (
     <>
-      <label className="flex items-start cursor-pointer select-none">
-        <div className="flex items-center h-5">
+      <label className="flex cursor-pointer select-none items-start">
+        <div className="flex h-5 items-center">
           <input
             checked={!!value}
-            className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
             type="checkbox"
             onChange={(e) => setValue(e.target.checked)}
             {...htmlInputElementProps}
