@@ -11,6 +11,7 @@ import { ProgressSteps } from "_client/progress-steps/progress-steps";
 import { useProgressSteps } from "_client/progress-steps/useProgressSteps";
 import { useDebouncedEffect } from "_client/utils/debounce";
 import { HABITS, HabitStep, HabitStepState } from "content/habits";
+import superjson from "superjson";
 
 import { Dispatch, FC, useCallback, useEffect, useState } from "react";
 
@@ -23,9 +24,13 @@ const Index: FC<indexProps> = ({}) => {
     dispatch: stepDispatch,
     selectedIndex,
   } = useProgressSteps<HabitStep, HabitReducerActions>(habitInitializer(HABITS), habitReducer);
+
   const dispatch = stepDispatch as Dispatch<HabitReducerActions>;
   const [currentDate, setCurrentDate] = useState<string>("");
   const saveData = API.useMutation(["habits.save"]);
+  const { data } = API.useQuery(["habits.findUnique", { id: currentDate }], {
+    enabled: !!currentDate,
+  });
 
   const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
 
@@ -40,7 +45,7 @@ const Index: FC<indexProps> = ({}) => {
       console.log("habits have changed");
       saveData.mutate({
         id: currentDate,
-        data: JSON.stringify(habits),
+        data: superjson.stringify(habits),
         level: habits.reduce(
           (acc, { completed }) => {
             if (!completed) return acc;
@@ -53,6 +58,13 @@ const Index: FC<indexProps> = ({}) => {
     2000,
     [currentDate, habits]
   );
+
+  useEffect(() => {
+    dispatch({
+      type: "LOAD_HABITS",
+      payload: { habits: data?.data ?? superjson.stringify(habitInitializer(HABITS)) },
+    });
+  }, [data, dispatch]);
 
   return (
     <HabitPage

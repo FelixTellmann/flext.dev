@@ -1,5 +1,6 @@
 import { ProcessStep } from "_client/progress-steps/useProgressSteps";
 import { HabitBlock, HabitSection, HabitStep, HabitStepState } from "content/habits";
+import superjson from "superjson";
 
 export type HabitReducerActions =
   | {
@@ -46,6 +47,12 @@ export type HabitReducerActions =
         habitIndex: number;
       };
       type: "COMPLETE_HABIT";
+    }
+  | {
+      payload: {
+        habits: string;
+      };
+      type: "LOAD_HABITS";
     };
 
 export const habitReducer = (
@@ -63,6 +70,22 @@ export const habitReducer = (
   })[];
   const { type, payload } = action;
   switch (type) {
+    case "LOAD_HABITS": {
+      if (!payload.habits || payload.habits === "{}") return habits;
+      const loadedHabits = superjson.parse(payload.habits) as (ProcessStep & {
+        blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+        sections: (Omit<HabitSection, "blocks"> & {
+          blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+        })[];
+        sectionsAdded?: (Omit<HabitSection, "blocks"> & {
+          blocks: (HabitBlock & Required<Pick<HabitBlock, "value">>)[];
+        })[];
+      })[];
+      return loadedHabits.map(({ selected, ...rest }, i) => ({
+        ...rest,
+        selected: i === 0,
+      }));
+    }
     case "SET_VALUE": {
       const { blockIndex, habitIndex, value } = payload;
       return habits.map((habit, i) => {

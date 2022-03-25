@@ -161,7 +161,10 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
                         hide={hide}
                         level={userData.find(({ id }) => id === date)?.level ?? 0}
                         selected={selected === date}
-                        onClick={() => handleSelectDay(date)}
+                        onClick={() => {
+                          refetch();
+                          handleSelectDay(date);
+                        }}
                       />
                     ))}
                   </div>
