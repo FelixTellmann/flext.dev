@@ -22,9 +22,7 @@ import superjson from "superjson";
 
 const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
-  console.log({ session: pageProps.session });
 
-  console.log(router);
   return (
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
       <ContextProviders>

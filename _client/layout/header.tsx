@@ -80,7 +80,6 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
     }
   }, []);
 
-  console.log(router);
   return (
     <>
       <header className="sticky top-0 z-10 h-header border-b border-solid border-gray-200 bg-white dark:border-gray-700">

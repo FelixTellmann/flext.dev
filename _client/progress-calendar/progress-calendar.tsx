@@ -1,8 +1,11 @@
+import { API } from "_client/hooks/trpcAPI";
+import { createDateRange } from "_client/progress-calendar/_create-date-range";
 import { ProgressDay } from "_client/progress-day";
 import clsx from "clsx";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { IoCaretUp } from "react-icons/io5";
 import ReactTooltip from "react-tooltip";
+import deepEqual from "fast-deep-equal";
 
 type ProgressCalendarProps = {
   handleSelectDay: (date: string) => void;
@@ -15,7 +18,13 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
   const [toolTipRendered, setToolTipRendered] = useState(false);
   const [showProgress, setShowProgress] = useState(true);
   const [yearSelection, setYearSelection] = useState(new Date().toISOString().split("T")[0]);
+  const [userData, setUserData] = useState<{ id: string; level: number }[]>([]);
   const [weeks, setWeeks] = useState<Day[][]>(createDateRange(yearSelection));
+
+  const { data, refetch } = API.useQuery(
+    ["habits.findMany", { startsWith: yearSelection.split("-")[0] ?? "9999" }],
+    { refetchOnWindowFocus: false, initialData: [] }
+  );
 
   const toggleProgress = useCallback(() => {
     setShowProgress((current) => !current);
@@ -33,6 +42,25 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
       progressContainer.current.scrollLeft = progressContainer.current.scrollWidth;
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      !deepEqual(
+        userData,
+        [...userData, ...(data ?? [])].filter(
+          ({ id }, i, arr) => arr.findIndex((b) => b.id === id) === i
+        )
+      )
+    ) {
+      setUserData(
+        [...userData, ...(data ?? [])].filter(
+          ({ id }, i, arr) => arr.findIndex((b) => b.id === id) === i
+        )
+      );
+
+      // setUserData([...userData, ...(data ?? [])]);
+    }
+  }, [data, userData]);
 
   return (
     <>
@@ -126,12 +154,12 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
 
                 {weeks.map((week, i) => (
                   <div key={`${week[0].date}_${i}`} className="flex flex-col gap-1">
-                    {week.map(({ date, level, hide }) => (
+                    {week.map(({ date, hide }) => (
                       <ProgressDay
                         key={date}
                         date={date}
                         hide={hide}
-                        level={level}
+                        level={userData.find(({ id }) => id === date)?.level ?? 0}
                         selected={selected === date}
                         onClick={() => handleSelectDay(date)}
                       />
@@ -209,52 +237,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
     </>
   );
 };
-
 export type Day = {
   date: string;
   hide: boolean;
-  level: number;
-};
-
-export const createDateRange = (
-  originalDate: string = new Date().toISOString().split("T")[0],
-  year = false
-): Day[][] => {
-  let date = new Date(originalDate);
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  date = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
-  if (date.getDay() !== 0) {
-    date.setDate(date.getDate() + (7 - date.getDay()));
-  }
-
-  date.setDate(date.getDate() - 7 * 53 + 1);
-
-  const weeks: Day[][] = [];
-  for (let i = 0; i < 53; i++) {
-    weeks[i] = [];
-    for (let j = 0; j < 7; j++) {
-      if (year) {
-        if (date.getFullYear() !== new Date(originalDate).getFullYear()) {
-          weeks[i][j] = {
-            date: `${date.toISOString().split("T")[0]}`,
-            level: 0,
-            hide: true,
-          };
-          date.setDate(date.getDate() + 1);
-          continue;
-        }
-      }
-      weeks[i][j] = {
-        date: `${date.toISOString().split("T")[0]}`,
-        level: 0,
-        hide: false,
-      };
-      date.setDate(date.getDate() + 1);
-    }
-  }
-
-  return weeks;
 };

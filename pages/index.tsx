@@ -5,7 +5,7 @@ import { HabitBlocks } from "_client/habits/habit-blocks";
 import { HabitPage } from "_client/habits/habit-page";
 import { HabitSections } from "_client/habits/habit-sections";
 import { API } from "_client/hooks/trpcAPI";
-import { ProgressCalendar } from "_client/progress-calendar";
+import { ProgressCalendar } from "_client/progress-calendar/progress-calendar";
 import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressSteps } from "_client/progress-steps/progress-steps";
 import { useProgressSteps } from "_client/progress-steps/useProgressSteps";
@@ -26,8 +26,6 @@ const Index: FC<indexProps> = ({}) => {
   const dispatch = stepDispatch as Dispatch<HabitReducerActions>;
   const [currentDate, setCurrentDate] = useState<string>("");
   const saveData = API.useMutation(["habits.save"]);
-  const initialQuery = API.useQuery(["habits.findMany", { startsWith: "2022" }]);
-  console.log(initialQuery);
 
   const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
 
