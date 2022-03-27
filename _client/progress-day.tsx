@@ -19,10 +19,10 @@ export const ProgressDay: FC<ProgressDayProps> = ({ date, level, onClick, hide, 
             className={clsx(
               "h-[11px] w-[11px] rounded-[2px] border ",
               date === new Date().toISOString().split("T")[0] &&
-                "border-dark-success bg-green-200/50",
+                "!border-dark-success !bg-green-200/50",
               selected &&
                 date !== new Date().toISOString().split("T")[0] &&
-                "border-cyan-400 bg-cyan-200/50",
+                "!border-cyan-400 !bg-cyan-200/50",
               disabled && "cursor-default opacity-50",
               [
                 "border-gray-300 bg-zinc-200",
