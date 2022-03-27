@@ -11,6 +11,7 @@ export const LAYOUT = {
         href: "/",
       },
       {
+        requireAuth: true,
         name: "Daily",
         href: "/daily",
       },

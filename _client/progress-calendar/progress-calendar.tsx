@@ -2,6 +2,7 @@ import { API } from "_client/hooks/trpcAPI";
 import { createDateRange } from "_client/progress-calendar/_create-date-range";
 import { ProgressDay } from "_client/progress-day";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { IoCaretUp } from "react-icons/io5";
 import ReactTooltip from "react-tooltip";
@@ -44,23 +45,24 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
   }, []);
 
   useEffect(() => {
+    console.log("rerender");
     if (
       !deepEqual(
         userData,
-        [...userData, ...(data ?? [])].filter(
+        [...(data ?? []), ...userData].filter(
           ({ id }, i, arr) => arr.findIndex((b) => b.id === id) === i
         )
       )
     ) {
       setUserData(
-        [...userData, ...(data ?? [])].filter(
+        [...(data ?? []), ...userData].filter(
           ({ id }, i, arr) => arr.findIndex((b) => b.id === id) === i
         )
       );
 
       // setUserData([...userData, ...(data ?? [])]);
     }
-  }, [data, userData]);
+  }, [data, userData, data?.length]);
 
   return (
     <>

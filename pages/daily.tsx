@@ -1,48 +1,78 @@
-import { FC } from "react";
-
-type DailyProps = {};
-
-export const Daily: FC<DailyProps> = (props) => {
-  return <>Daily</>;
-};
-
-export default Daily;
-/*
-
-
-import { AnnotatedLayout } from "_client/form/annotatedLayout";
-import { HabitCheckbox } from "_client/form/habit-checkbox";
-import { HabitTimePicker } from "_client/form/habit-time-picker";
-import { useApi } from "_client/hooks/useApi";
-import { HrBreak } from "_client/hrBreak";
-import { Page } from "_client/page";
-import { HabitsOld, HabitsType } from "content/habits";
+import { habitReducer, HabitReducerActions } from "_client/habits/_habit-reducer";
+import { habitInitializer } from "_client/habits/_helpers";
+import { HabitAddSections } from "_client/habits/habit-add-sections";
+import { HabitBlocks } from "_client/habits/habit-blocks";
+import { HabitPage } from "_client/habits/habit-page";
+import { HabitSections } from "_client/habits/habit-sections";
+import { API } from "_client/hooks/trpcAPI";
+import { ProgressCalendar } from "_client/progress-calendar/progress-calendar";
+import { ProgressButton } from "_client/progress-steps/progress-button";
+import { ProgressSteps } from "_client/progress-steps/progress-steps";
+import { useProgressSteps } from "_client/progress-steps/useProgressSteps";
+import { useDebouncedEffect } from "_client/utils/debounce";
+import { HABITS, HabitStep, HabitStepState } from "content/habits";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import superjson from "superjson";
 
-export const Daily = () => {
+import { Dispatch, FC, useCallback, useEffect, useState } from "react";
+
+type indexProps = {};
+
+const Daily: FC<indexProps> = ({}) => {
   const router = useRouter();
-  const { api } = useApi();
   const { data: session, status } = useSession();
 
-  const [loading, setLoading] = useState();
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [habits, setHabits] = useState<HabitsType>(HabitsOld);
+  const {
+    steps: habits,
+    selectStep,
+    dispatch: stepDispatch,
+    selectedIndex,
+  } = useProgressSteps<HabitStep, HabitReducerActions>(habitInitializer(HABITS), habitReducer);
 
-  const handleSave = useCallback(async () => {
-    await api("saveDaily", { habits, date });
-  }, [api, date, habits]);
+  const dispatch = stepDispatch as Dispatch<HabitReducerActions>;
+  const [currentDate, setCurrentDate] = useState<string>("");
+  const saveData = API.useMutation(["habits.save"]);
+  const { data } = API.useQuery(["habits.findUnique", { id: currentDate }], {
+    enabled: !!currentDate,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
+  });
 
-  const updateHabits = useCallback((groupTitle, habitTitle, value) => {
-    setHabits((data) => {
-      // @ts-ignore
-      const group = (data
-        .find(({ title }) => title === groupTitle)
-        .steps.find(({ title }) => title === habitTitle).value = value);
-      return [...data];
-    });
+  const handleSelectDay = useCallback((date) => setCurrentDate(date), []);
+
+  useEffect(() => {
+    if (window) {
+      setCurrentDate(new Date().toISOString().split("T")[0]);
+    }
   }, []);
+
+  useDebouncedEffect(
+    () => {
+      console.log("habits have changed");
+      saveData.mutate({
+        id: currentDate,
+        data: superjson.stringify(habits),
+        level: habits.reduce(
+          (acc, { completed }) => {
+            if (!completed) return acc;
+            return (acc += 1);
+          },
+          0
+        ),
+      });
+    },
+    2000,
+    [currentDate, habits]
+  );
+
+  useEffect(() => {
+    dispatch({
+      type: "LOAD_HABITS",
+      payload: { habits: data?.data ?? superjson.stringify(habitInitializer(HABITS)) },
+    });
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (!session && status !== "loading" && router.isReady) {
@@ -51,379 +81,100 @@ export const Daily = () => {
   }, [router, session, status]);
 
   return (
-    <>
-      <Page
-        subtitle="Tracking Habits daily to analyze different correlations and measure success."
-        title={`${date} - Habit Tracking`}
-      >
-        {habits.map((group) => (
-          <>
-            <AnnotatedLayout key={group.title} title={group.title}>
-              {group.steps.map((habit) => {
-                switch (habit.type) {
-                  case "TIME": {
-                    return (
-                      <HabitTimePicker
-                        key={habit.title}
-                        setValue={(value) => updateHabits(group.title, habit.title, value)}
-                        title={habit.title}
-                        value={habit.value}
-                      />
-                    );
-                  }
-                  case "BOOLEAN": {
-                    return (
-                      <HabitCheckbox
-                        key={habit.title}
-                        setValue={(value) => updateHabits(group.title, habit.title, value)}
-                        title={habit.title}
-                        value={habit.value}
-                      />
-                    );
-                  }
-                }
-                return "";
-              })}
-            </AnnotatedLayout>
-            <HrBreak />
-          </>
-        ))}
-        {/!* <AnnotatedLayout title="Track your Habits today!">
-          <CheckboxGroup
-            items={[
-              {
-                title: "Teeth Care",
-                subtitle: "Brushing & Flossing in the morning & evening.",
-                value: habits.teeth,
-                setValue: (val) => setHabits((data) => ({ ...data, teeth: val })),
-              },
-            ]}
-            subtitle="Daily habits that relate to a healthier lifestyle."
-            title="Health Habits"
-          />
-        </AnnotatedLayout>*!/}
-
-        {/!*       <HrBreak />
-
-        <div className="mt-10 sm:mt-0">
-          <div className="md:grid md:grid-cols-3 md:gap-6">
-            <div className="md:col-span-1">
-              <div className="px-4 sm:px-0">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
-                  Personal Information
-                </h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  Use a permanent address where you can receive mail.
-                </p>
-              </div>
+    <HabitPage
+      subtitle="Tracking Habits daily to analyze different correlations and measure success."
+      title={
+        currentDate
+          ? new Date(currentDate).toLocaleDateString(undefined, {
+              weekday: "long",
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : ""
+      }
+    >
+      <ProgressCalendar handleSelectDay={handleSelectDay} selected={currentDate} />
+      <div className="mt-12 flex gap-10 pb-36">
+        <div className="left sticky flex flex-1 justify-center pt-12">
+          <ProgressSteps>
+            {habits.map((step, index) => (
+              <ProgressButton
+                key={step.title}
+                completed={step.completed}
+                description={step.description}
+                isLast={habits.length - 1 === index}
+                name={step.title}
+                nextCompleted={habits[index + 1]?.completed}
+                nextSelected={habits[index + 1]?.selected}
+                selected={step.selected}
+                onClick={() => selectStep(index, true)}
+              />
+            ))}
+          </ProgressSteps>
+        </div>
+        <div className="right flex-1 ">
+          <div className="relative shadow sm:rounded-md">
+            <div className="relative flex min-h-[400px] flex-col gap-2 space-y-6 bg-white py-5 px-4 sm:p-6">
+              <HabitBlocks
+                dispatch={dispatch}
+                habit={habits.find(({ selected }) => selected) as HabitStepState}
+                index={habits.findIndex(({ selected }) => selected)}
+              />
+              <HabitSections
+                dispatch={dispatch}
+                habit={habits.find(({ selected }) => selected) as HabitStepState}
+                index={habits.findIndex(({ selected }) => selected)}
+              />
             </div>
-            <div className="mt-5 md:col-span-2 md:mt-0">
-              <form action="#" method="POST">
-                <div className="overflow-hidden shadow sm:rounded-md">
-                  <div className="py-5 px-4 bg-white sm:p-6">
-                    <div className="grid grid-cols-6 gap-6">
-                      <div className="col-span-6 sm:col-span-3">
-                        <label
-                          className="block text-sm font-medium text-gray-700"
-                          htmlFor="first-name"
-                        >
-                          First name
-                        </label>
-                        <input
-                          autoComplete="given-name"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="first-name"
-                          name="first-name"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-3">
-                        <label
-                          className="block text-sm font-medium text-gray-700"
-                          htmlFor="last-name"
-                        >
-                          Last name
-                        </label>
-                        <input
-                          autoComplete="family-name"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="last-name"
-                          name="last-name"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-4">
-                        <label
-                          className="block text-sm font-medium text-gray-700"
-                          htmlFor="email-address"
-                        >
-                          Email address
-                        </label>
-                        <input
-                          autoComplete="email"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="email-address"
-                          name="email-address"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-3">
-                        <label
-                          className="block text-sm font-medium text-gray-700"
-                          htmlFor="country"
-                        >
-                          Country
-                        </label>
-                        <select
-                          autoComplete="country-name"
-                          className="block py-2 px-3 mt-1 w-full bg-white rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm focus:outline-none sm:text-sm"
-                          id="country"
-                          name="country"
-                        >
-                          <option>United States</option>
-                          <option>Canada</option>
-                          <option>Mexico</option>
-                        </select>
-                      </div>
-
-                      <div className="col-span-6">
-                        <label
-                          className="block text-sm font-medium text-gray-700"
-                          htmlFor="street-address"
-                        >
-                          Street address
-                        </label>
-                        <input
-                          autoComplete="street-address"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="street-address"
-                          name="street-address"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700" htmlFor="city">
-                          City
-                        </label>
-                        <input
-                          autoComplete="address-level2"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="city"
-                          name="city"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700" htmlFor="region">
-                          State / Province
-                        </label>
-                        <input
-                          autoComplete="address-level1"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="region"
-                          name="region"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                        <label
-                          className="block text-sm font-medium text-gray-700"
-                          htmlFor="postal-code"
-                        >
-                          ZIP / Postal code
-                        </label>
-                        <input
-                          autoComplete="postal-code"
-                          className="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm sm:text-sm"
-                          id="postal-code"
-                          name="postal-code"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="py-3 px-4 text-right bg-gray-50 sm:px-6">
-                    <button
-                      className="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md border border-transparent focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
-                      type="submit"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </form>
+            <div className="relative z-20 mt-auto bg-white px-4 pb-5">
+              <HabitAddSections
+                dispatch={dispatch}
+                habit={habits.find(({ selected }) => selected) as HabitStepState}
+                index={habits.findIndex(({ selected }) => selected)}
+              />
             </div>
           </div>
-        </div>
-
-        <HrBreak />
-
-        <div className="mt-10 sm:mt-0">
-          <div className="md:grid md:grid-cols-3 md:gap-6">
-            <div className="md:col-span-1">
-              <div className="px-4 sm:px-0">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">Notifications</h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  Decide which communications you'd like to receive and how.
-                </p>
-              </div>
-            </div>
-            <div className="mt-5 md:col-span-2 md:mt-0">
-              <form action="#" method="POST">
-                <div className="overflow-hidden shadow sm:rounded-md">
-                  <div className="py-5 px-4 space-y-6 bg-white sm:p-6">
-                    <fieldset>
-                      <legend className="text-base font-medium text-gray-900">By Email</legend>
-                      <div className="mt-4 space-y-4">
-                        <div className="flex items-start">
-                          <div className="flex items-center h-5">
-                            <input
-                              className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
-                              id="comments"
-                              name="comments"
-                              type="checkbox"
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label className="font-medium text-gray-700" htmlFor="comments">
-                              Comments
-                            </label>
-                            <p className="text-gray-500">
-                              Get notified when someones posts a comment on a posting.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start">
-                          <div className="flex items-center h-5">
-                            <input
-                              className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
-                              id="candidates"
-                              name="candidates"
-                              type="checkbox"
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label className="font-medium text-gray-700" htmlFor="candidates">
-                              Candidates
-                            </label>
-                            <p className="text-gray-500">
-                              Get notified when a candidate applies for a job.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start">
-                          <div className="flex items-center h-5">
-                            <input
-                              className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
-                              id="offers"
-                              name="offers"
-                              type="checkbox"
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label className="font-medium text-gray-700" htmlFor="offers">
-                              Offers
-                            </label>
-                            <p className="text-gray-500">
-                              Get notified when a candidate accepts or rejects an offer.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                    <fieldset>
-                      <div>
-                        <legend className="text-base font-medium text-gray-900">
-                          Push Notifications
-                        </legend>
-                        <p className="text-sm text-gray-500">
-                          These are delivered via SMS to your mobile phone.
-                        </p>
-                      </div>
-                      <div className="mt-4 space-y-4">
-                        <div className="flex items-center">
-                          <input
-                            className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                            id="push-everything"
-                            name="push-notifications"
-                            type="radio"
-                          />
-                          <label
-                            className="block ml-3 text-sm font-medium text-gray-700"
-                            htmlFor="push-everything"
-                          >
-                            Everything
-                          </label>
-                        </div>
-                        <div className="flex items-center">
-                          <input
-                            className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                            id="push-email"
-                            name="push-notifications"
-                            type="radio"
-                          />
-                          <label
-                            className="block ml-3 text-sm font-medium text-gray-700"
-                            htmlFor="push-email"
-                          >
-                            Same as email
-                          </label>
-                        </div>
-                        <div className="flex items-center">
-                          <input
-                            className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                            id="push-nothing"
-                            name="push-notifications"
-                            type="radio"
-                          />
-                          <label
-                            className="block ml-3 text-sm font-medium text-gray-700"
-                            htmlFor="push-nothing"
-                          >
-                            No push notifications
-                          </label>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div className="py-3 px-4 text-right bg-gray-50 sm:px-6">
-                    <button
-                      className="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md border border-transparent focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
-                      type="submit"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
+          <div className="mt-6 mb-4 flex justify-end gap-6">
+            {selectedIndex > 0
+              ? <button
+                  className="rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
+                  type="button"
+                  onClick={() => {
+                    selectStep(Math.max(selectedIndex - 1, 0), true);
+                  }}
+                >
+                  Previous
+                </button>
+              : null}
+            {selectedIndex < habits.length - 1
+              ? <button
+                  className="rounded-lg border border-gray-200 bg-white py-2 px-4 text-sm shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
+                  type="button"
+                  onClick={() => {
+                    dispatch({ type: "COMPLETE_HABIT", payload: { habitIndex: selectedIndex } });
+                    selectStep(Math.min(selectedIndex + 1, habits.length), true);
+                  }}
+                >
+                  Next
+                </button>
+              : null}
+            {selectedIndex === habits.length - 1
+              ? <button
+                  className="rounded-lg border border-gray-200 bg-cyan-400 py-2 px-4 text-sm shadow-sm h:drop-shadow-xl a:drop-shadow-sm"
+                  type="button"
+                  onClick={() => {
+                    dispatch({ type: "COMPLETE_HABIT", payload: { habitIndex: selectedIndex } });
+                  }}
+                >
+                  Done
+                </button>
+              : null}
           </div>
-        </div>*!/}
-        <div className="flex justify-end mt-6">
-          <button
-            className="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
-            type="button"
-          >
-            Reset
-          </button>
-          <button
-            className="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md border border-transparent focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm focus:outline-none"
-            type="button"
-            onClick={handleSave}
-          >
-            Save
-          </button>
         </div>
-      </Page>
-    </>
+      </div>
+    </HabitPage>
   );
 };
 
 export default Daily;
-*/

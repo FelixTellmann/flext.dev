@@ -8,6 +8,7 @@ export type NavItemProps = {
   name: string;
   onBlur?: FocusEventHandler<HTMLButtonElement>;
   onFocus?: FocusEventHandler<HTMLButtonElement>;
+  requireAuth?: boolean;
 };
 
 export const NavItem: FC<NavItemProps> = ({ name, href, active, onFocus, onBlur }) => {

@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+  // url                  = "mysql://root@127.0.0.1:3309/flext?connection_limit=10000&pool_timeout=0"
+
+
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
@@ -23,14 +26,6 @@ model Telemetry {
 model Test {
   id   Int     @id @default(autoincrement())
   name String?
-}
-
-model Habits {
-  id        String   @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  data      String   @db.Text
-  level     Int      @default(0)
 }
 
 model HabitTracking {
@@ -164,6 +159,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  habits        Habits[]
 }
 
 model VerificationToken {
@@ -172,4 +168,14 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Habits {
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  data      String   @db.Text
+  level     Int      @default(0)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

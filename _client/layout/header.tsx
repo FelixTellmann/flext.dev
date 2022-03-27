@@ -105,15 +105,17 @@ export const Header: FC<HeaderProps> = ({ nav, logo }) => {
                 opacity: navHover.opacity,
               }}
             />
-            {nav.map((navItem, i) => (
-              <NavItem
-                key={navItem.href + navItem.name + i}
-                active={router.asPath.split("#")[0] === navItem.href}
-                href={navItem.href}
-                name={navItem.name}
-                onFocus={handleNavFocus}
-              />
-            ))}
+            {nav
+              .filter(({ requireAuth }) => session || !requireAuth)
+              .map((navItem, i) => (
+                <NavItem
+                  key={navItem.href + navItem.name + i}
+                  active={router.asPath.split("#")[0] === navItem.href}
+                  href={navItem.href}
+                  name={navItem.name}
+                  onFocus={handleNavFocus}
+                />
+              ))}
           </nav>
           <nav className="ml-auto flex items-center">
             {!session && !/^\/auth\/sign-in/i.test(router.pathname)

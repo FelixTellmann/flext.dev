@@ -1,8 +1,12 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
+import { NodeHTTPCreateContextFnOptions } from "@trpc/server/src/adapters/node-http/types";
 import { DB } from "_server/prisma";
+import { IncomingMessage } from "http";
+import { getSession } from "next-auth/react";
 import superjson from "superjson";
 import { z } from "zod";
+import { Session } from "next-auth";
 
 /**
  * Create your application's root router
@@ -32,31 +36,33 @@ export const appRouter = trpc
   })
   .query("habits.findMany", {
     input: z.object({ startsWith: z.string() }),
-    resolve: async ({ input: { startsWith } }) => {
-      return await DB.habits.findMany({
-        where: { id: { startsWith } },
+    resolve: async ({ ctx: { session }, input: { startsWith } }) => {
+      if (!session?.user?.email) return null;
+      return DB.habits.findMany({
+        where: { AND: [{ id: { startsWith } }, { userId: session.user.email }] },
         select: { level: true, id: true },
       });
     },
   })
   .query("habits.findUnique", {
     input: z.object({ id: z.string() }),
-    resolve: async ({ input: { id } }) => {
-      return await DB.habits.findUnique({
+    resolve: async ({ ctx: { session }, input: { id } }) => {
+      if (!session?.user?.email) return null;
+
+      return DB.habits.findUnique({
         where: { id },
       });
     },
   })
   .mutation("habits.save", {
     input: z.object({ id: z.string(), data: z.string(), level: z.number() }),
-    resolve: async ({ input: { id, data, level } }) => {
-      console.log({ id });
-      await DB.habits.upsert({
+    resolve: async ({ ctx: { session }, input: { id, data, level } }) => {
+      if (!session?.user?.email) return null;
+      return DB.habits.upsert({
         where: { id },
-        update: { id, data, level },
-        create: { id, data, level },
+        update: { id, data, level, userId: session.user.email },
+        create: { id, data, level, userId: session.user.email },
       });
-      return "complete";
     },
   });
 
@@ -67,25 +73,31 @@ export type AppRouter = typeof appRouter;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface CreateContextOptions {
-  // session: Session | null
+  session: Session | null;
 }
 
 /**
  * Inner function for `createContext` where we create the context.
  * This is useful for testing when we don't want to mock Next.js' request/response
  */
-export async function createContextInner(_opts: CreateContextOptions) {
-  return {};
-}
 
-export type Context = trpc.inferAsyncReturnType<typeof createContextInner>;
-
-export const createContext = async (opts: trpcNext.CreateNextContextOptions): Promise<Context> => {
-  // for API-response caching see https://trpc.io/docs/caching
-
-  const ctx = await createContextInner({});
-  return ctx;
+export const createContext = async ({ req, res }: trpcNext.CreateNextContextOptions) => {
+  const session = await getSession({ req });
+  console.log("createContext for", session?.user?.name ?? "unknown user");
+  return {
+    req,
+    res,
+    DB,
+    session,
+  };
 };
+
+type Context = trpc.inferAsyncReturnType<typeof createContext>;
+
+// Helper function to create a router with your app's context
+export function createRouter() {
+  return trpc.router<Context>();
+}
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,
