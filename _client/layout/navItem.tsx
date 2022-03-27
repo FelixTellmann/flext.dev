@@ -26,7 +26,7 @@ export const NavItem: FC<NavItemProps> = ({ name, href, active, onFocus, onBlur 
         onBlur={onBlur}
         onFocus={onFocus}
       >
-        <span className="flex items-center justify-center overflow-hidden rounded-lg py-1 px-3">
+        <span className="flex items-center justify-center overflow-hidden rounded-lg py-1 px-3 text-sm font-medium text-gray-600 h:text-gray-900">
           {name}
         </span>
       </TelemetryLink>

@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { FC, useRef } from "react";
 import { IoLogoGithub, IoLogoGoogle, IoLogoTwitter } from "react-icons/io5";
 import NextLink from "next/link";
+import Logo from "public/logo.svg";
 
 type indexProps = {};
 
@@ -18,11 +19,9 @@ const SignIn: FC<indexProps> = ({}) => {
     <>
       <div className="flex h-[calc(100vh-66px)] min-h-full flex-col justify-center bg-gray-100 pt-12 sm:px-6 sm:pb-28 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            alt="Workflow"
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-          />
+          <div className="mx-auto h-12 w-auto">
+            <Logo />
+          </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your Account
           </h2>

@@ -4,9 +4,9 @@ import { IconButton } from "_client/form/icon-button";
 import { TextInput } from "_client/form/text-input";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Logo from "public/logo-auth.svg";
 import { FC, useEffect, useRef } from "react";
 import { IoLogoGithub, IoLogoGoogle, IoLogoTwitter } from "react-icons/io5";
-import NextLink from "next/link";
 
 type indexProps = {};
 
@@ -25,13 +25,11 @@ const SignIn: FC<indexProps> = ({}) => {
 
   return (
     <>
-      <div className="flex h-[calc(100vh-66px)] min-h-full flex-col justify-center bg-gray-100 pt-12 sm:px-6 sm:pb-28 lg:px-8">
+      <div className="flex h-[calc(100vh-66px)] min-h-full flex-col justify-center bg-gray-100  sm:px-6 sm:pb-28 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            alt="Workflow"
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-          />
+          <div className="mx-auto flex  w-auto items-center justify-center">
+            <Logo className="h-[90px] w-[90px]" />
+          </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>

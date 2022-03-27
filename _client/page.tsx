@@ -8,7 +8,7 @@ export const Page: FC<PageProps> = ({ children, subtitle, title }) => {
   console.log("asd");
   return (
     <div className="bg-gray-100 dark:bg-dark-bg">
-      <div className="mx-auto w-full max-w-[1024px] py-16 px-4">
+      <div className="mx-auto w-full max-w-[1440px] py-16 px-4">
         <div className="mb-8 border-b border-gray-200 pb-5">
           <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-headings">
             {title}
