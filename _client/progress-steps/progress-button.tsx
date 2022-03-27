@@ -23,7 +23,7 @@ export const ProgressButton: FC<ProgressButtonProps> = ({
   selected,
   isLast,
 }) => (
-  <li className={clsx(isLast ? "" : "pb-10", "relative")}>
+  <li className={clsx(isLast ? "" : "pb-10", "md:flex-0 relative flex-1")}>
     {isLast
       ? null
       : <div
@@ -64,7 +64,7 @@ export const ProgressButton: FC<ProgressButtonProps> = ({
       <span className="mt-2 flex min-w-0 flex-col items-center md:mt-0 md:ml-4 md:items-start">
         <span
           className={clsx(
-            "text-[11px] font-semibold uppercase sm:text-xs sm:tracking-wide",
+            "text-center text-[11px] font-semibold uppercase sm:text-xs sm:tracking-wide md:text-left",
             selected && "!dark:text-primary-500 !text-primary-600",
             !completed && "text-gray-500 dark:text-gray-300"
           )}

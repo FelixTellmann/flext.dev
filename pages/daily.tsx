@@ -95,8 +95,8 @@ const Daily: FC<indexProps> = ({}) => {
       }
     >
       <ProgressCalendar handleSelectDay={handleSelectDay} selected={currentDate} />
-      <div className="mt-12 flex gap-10 pb-36">
-        <div className="left sticky flex flex-1 justify-center pt-12">
+      <div className="mt-12 flex flex-col gap-10 pb-36 md:flex-row">
+        <div className="left sticky order-2 flex flex-1 justify-center pt-12 md:order-1">
           <ProgressSteps>
             {habits.map((step, index) => (
               <ProgressButton
@@ -113,7 +113,7 @@ const Daily: FC<indexProps> = ({}) => {
             ))}
           </ProgressSteps>
         </div>
-        <div className="right flex-1 ">
+        <div className="right order-1 flex-1 md:order-2">
           <div className="relative shadow sm:rounded-md">
             <div className="relative flex min-h-[400px] flex-col gap-2 space-y-6 bg-white py-5 px-4 sm:p-6">
               <HabitBlocks
