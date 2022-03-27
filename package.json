@@ -45,6 +45,7 @@
     "react-icons": "^4.3.1",
     "react-query": "^3.34.16",
     "react-tooltip": "^4.2.21",
+    "relative-indexing-method-polyfill": "^1.0.1",
     "slate": "^0.75.0",
     "slate-history": "^0.66.0",
     "slate-react": "^0.75.0",

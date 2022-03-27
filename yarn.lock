@@ -4840,6 +4840,11 @@ regjsparser@^0.8.2:
   dependencies:
     jsesc "~0.5.0"
 
+relative-indexing-method-polyfill@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/relative-indexing-method-polyfill/-/relative-indexing-method-polyfill-1.0.1.tgz#d6309d8fab298a0c408a4535d4db22fbe0a24359"
+  integrity sha512-RGjNCCnEjkwEJc+gjd/sV9M3QWbSLVH/+oE1wvNRwsBxaS7uJAEmWp3esWo3iQB3lq9bz+0/gvVYUur3MGPknw==
+
 remove-accents@0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
