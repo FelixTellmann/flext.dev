@@ -94,7 +94,7 @@ const Index: FC<indexProps> = ({}) => {
                 nextCompleted={habits[index + 1]?.completed}
                 nextSelected={habits[index + 1]?.selected}
                 selected={step.selected}
-                onClick={() => selectStep(index)}
+                onClick={() => selectStep(index, true)}
               />
             ))}
           </ProgressSteps>

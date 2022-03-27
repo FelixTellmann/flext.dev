@@ -4,8 +4,6 @@ import { DB } from "_server/prisma";
 import superjson from "superjson";
 import { z } from "zod";
 
-
-
 /**
  * Create your application's root router
  * If you want to use SSG, you need export this
