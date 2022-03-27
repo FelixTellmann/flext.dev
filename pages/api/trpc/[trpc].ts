@@ -51,7 +51,7 @@ export const appRouter = trpc
   .mutation("habits.save", {
     input: z.object({ id: z.string(), data: z.string(), level: z.number() }),
     resolve: async ({ input: { id, data, level } }) => {
-      console.log({ id });
+      console.log({ id, data, level });
       await DB.habits.upsert({
         where: { id },
         update: { id, data, level },

@@ -1,6 +1,6 @@
 import { HabitBlock, HabitStep, HabitStepState } from "content/habits";
 
-function getBlockDefault(block: HabitBlock): HabitBlock["value"] {
+export const getBlockDefault = (block: HabitBlock): HabitBlock["value"] => {
   switch (block.type) {
     case "header":
       return block.default ?? "";
@@ -43,7 +43,7 @@ function getBlockDefault(block: HabitBlock): HabitBlock["value"] {
     case "paragraph":
       return block.default ?? "";
   }
-}
+};
 
 export function habitInitializer(HABITS: HabitStep[]): HabitStepState[] {
   /* @ts-ignore */
