@@ -1,6 +1,6 @@
 {
   "name": "flex",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "license": "MIT",
   "scripts": {
     "dev": "SET NEXT_PUBLIC_PORT=3001&& rimraf .next && next --port 3001",
