@@ -9,13 +9,13 @@ export const getBlockDefault = (block: HabitBlock): HabitBlock["value"] => {
     case "switch":
       return block.default ?? false;
     case "radio":
-      return block.default ?? block.options.at(0)?.value;
+      return block.default ?? block.options[0]?.value;
     case "number":
       return block.default ?? "0";
     case "range":
       return block.default;
     case "select":
-      return block.default ?? block.options.at(0)?.value;
+      return block.default ?? block.options[0]?.value;
     case "text":
       return block.default ?? "";
     case "textarea":
