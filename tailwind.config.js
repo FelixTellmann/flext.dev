@@ -30,7 +30,7 @@ module.exports = {
           border: "#3f3f46",
           bg: "#1b1c1c",
           card: "#282727",
-          headings: "#f9fafa",
+          headings: "#dfdfe2",
           text: "#aaabb7",
           success: "#06b6d4",
         },

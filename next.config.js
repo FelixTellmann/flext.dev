@@ -1,7 +1,11 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["assets.vercel.com", "avatars1.githubusercontent.com"],
+    domains: [
+      "assets.vercel.com",
+      "avatars1.githubusercontent.com",
+      "avatars.githubusercontent.com",
+    ],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {

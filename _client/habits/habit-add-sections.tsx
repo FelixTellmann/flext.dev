@@ -47,7 +47,6 @@ export const HabitAddSections: FC<HabitSectionProps> = ({ habit, index, dispatch
                               className="box-shadow-4xl relative z-10 flex rounded bg-white py-2 px-4 text-xs shadow-md ring-1 ring-black ring-opacity-5 h:bg-cyan-300"
                               type="button"
                               onClick={(e) => {
-                                console.log(e);
                                 e.preventDefault();
                                 e.stopPropagation();
                                 close();

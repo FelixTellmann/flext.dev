@@ -51,7 +51,6 @@ export const HabitNumber: FC<HabitNumberProps> = ({
             value={value}
             onBlur={() => setValue((+value).toFixed(2))}
             onChange={(e) => {
-              console.log();
               setValue(e.target.value.replace(/[^\d.,]/gi, ""));
             }}
           />

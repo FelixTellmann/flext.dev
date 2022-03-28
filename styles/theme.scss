@@ -20,6 +20,10 @@ html {
   "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+body {
+  @apply text-gray-600;
+}
+
 button, input, textarea {
   font: inherit;
 }
@@ -28,8 +32,12 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-*:focus {
-  outline: none;
+
+* {
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
 }
 
 input::-webkit-outer-spin-button,
@@ -38,7 +46,7 @@ input::-webkit-inner-spin-button {
 }
 
 button {
-  &:hover, &:focus, &:active {
+  &:hover:not(:focus-visible), &:focus:not(:focus-visible), &:active:not(:focus-visible) {
     outline: none;
   }
 }

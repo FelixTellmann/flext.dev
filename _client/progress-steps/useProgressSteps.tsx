@@ -67,7 +67,6 @@ const baseReducer = <T extends any, A extends any>(
 
         for (let i = 0; i < state.length; i++) {
           if (i === index) {
-            console.log(i);
             return [
               ...state.map((step, j) => {
                 return { ...step, selected: i === j };

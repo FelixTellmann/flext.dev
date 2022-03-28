@@ -45,7 +45,6 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
   }, []);
 
   useEffect(() => {
-    console.log("rerender");
     if (
       !deepEqual(
         userData,
@@ -123,6 +122,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
                         html
                         backgroundColor="#24292f"
                         className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
+                        id="progress-calendar"
                         overridePosition={(position, currentEvent, currentTarget, ref, place) => {
                           const block = (currentTarget as HTMLElement).getBoundingClientRect();
                           const { width, height } = (ref as HTMLElement).getBoundingClientRect();

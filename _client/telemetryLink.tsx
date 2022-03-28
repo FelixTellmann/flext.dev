@@ -3,14 +3,17 @@ import { useMutation } from "_client/hooks/_useTRPC";
 import { useTelemetryStore } from "_client/stores/telemetryStore";
 import clsx from "clsx";
 import NextLink, { LinkProps } from "next/link";
-import { FC, FocusEventHandler, useCallback } from "react";
+import { FC, FocusEventHandler, HTMLAttributeAnchorTarget, HTMLAttributeReferrerPolicy, HTMLAttributes, useCallback } from "react";
+import ReactTooltip from "react-tooltip";
 import { useThemeStore } from "./stores/themeStore";
 
 type TelemetryLinkProps = LinkProps & {
   name: string;
   className?: string;
-  onBlur?: FocusEventHandler<HTMLButtonElement>;
-  onFocus?: FocusEventHandler<HTMLButtonElement>;
+  onBlur?: FocusEventHandler<HTMLAnchorElement>;
+  onFocus?: FocusEventHandler<HTMLAnchorElement>;
+  referrerPolicy?: HTMLAttributeReferrerPolicy;
+  target?: HTMLAttributeAnchorTarget;
   tooltip?: {
     side: "top" | "right" | "bottom" | "left";
   };
@@ -23,6 +26,8 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
   onFocus,
   onBlur,
   tooltip = { side: "left" },
+  target,
+  referrerPolicy,
   ...linkProps
 }) => {
   const { mutate } = useMutation(["telemetry.create"]);
@@ -39,22 +44,18 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
   return (
     <>
       <NextLink {...linkProps}>
-        <a className={clsx(className)} tabIndex={-1} onClick={updateTelemetry}>
-          <ToolTip.Root delayDuration={1200}>
-            <ToolTip.Trigger onBlur={onBlur} onFocus={onFocus}>
-              {children}
-            </ToolTip.Trigger>
-            <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
-              {showStats
-                ? <div className="rounded-sm bg-white p-3 text-sm shadow-2xl drop-shadow-lg dark:bg-dark-card">
-                    {telemetry[name] ?? 0} clicks
-                    <div className="fill-current text-white shadow-2xl dark:text-dark-text">
-                      <ToolTip.Arrow height={8} offset={8} width={12} />
-                    </div>
-                  </div>
-                : null}
-            </ToolTip.Content>
-          </ToolTip.Root>
+        <a
+          className={clsx(className)}
+          data-for="global"
+          data-tip={`${telemetry[name] ?? 0} clicks`}
+          data-tip-disable={!showStats}
+          referrerPolicy={referrerPolicy}
+          target={target}
+          onBlur={onBlur}
+          onClick={updateTelemetry}
+          onFocus={onFocus}
+        >
+          {children}
         </a>
       </NextLink>
     </>

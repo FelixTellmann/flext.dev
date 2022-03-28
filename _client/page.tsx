@@ -5,7 +5,6 @@ export type PageProps = {
   title: string;
 };
 export const Page: FC<PageProps> = ({ children, subtitle, title }) => {
-  console.log("asd");
   return (
     <div className="bg-gray-100 dark:bg-dark-bg">
       <div className="mx-auto w-full max-w-[1440px] py-16 px-4">

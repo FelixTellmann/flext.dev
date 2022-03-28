@@ -1,27 +1,38 @@
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
+import { Badge } from "_client/_components/badge";
+import NavDesktop from "_client/_layout/nav-desktop";
+import NavDesktopSettings from "_client/_layout/nav-desktop-Settings";
+import { NavDesktopUserMenu } from "_client/_layout/nav-desktop-user-menu";
+import NavMobile from "_client/_layout/nav-mobile";
 import { Footer } from "_client/footer";
-import { Header } from "_client/layout/header";
-import { LearnMenu } from "_client/layout/learn-menu";
+import { useIsMount } from "_client/hooks/useIsMount";
+import { ToggleColorThemeButton } from "_client/layout/toggle-color-theme-button";
+import { TopBar } from "_client/layout/top-bar";
 import { ContextProviders } from "_client/stores/_contextProviders";
 import { LoadInitialData } from "_client/stores/_loadInitialData";
+import { TelemetryLink } from "_client/telemetryLink";
+import { AppRouter } from "_server/settings/app-router";
 import { LAYOUT } from "content/layout";
 import { SEO } from "content/seo";
 import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { AppRouter } from "pages/api/trpc/[trpc]";
+import Logo from "public/logo.svg";
 import { FC } from "react";
 import "styles/animations.scss";
 import "styles/tailwind.css";
 import "styles/theme.scss";
 import "styles/utils.scss";
+import { BsGithub } from "react-icons/bs";
+import ReactTooltip from "react-tooltip";
 import superjson from "superjson";
 
 const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
+  const isMount = useIsMount();
 
   return (
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
@@ -34,18 +45,33 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
             title={SEO.title}
             twitter={SEO.twitter}
           />
-          {!/^\/examples/gi.test(router.asPath)
-            ? <Header logo={LAYOUT.logo} nav={LAYOUT.header.nav} />
-            : null}
 
-          {/^\/examples/gi.test(router.asPath) ? <LearnMenu /> : null}
+          <TopBar
+            logo={
+              <TelemetryLink href="/" name="headerLogo">
+                <Logo />
+              </TelemetryLink>
+            }
+            navDesktop={<NavDesktop nav={LAYOUT.header.nav} />}
+            navMobile={<NavMobile nav={LAYOUT.header.nav} settings={LAYOUT.header.profile.nav} />}
+            settingsDesktop={
+              <NavDesktopSettings github={SEO.github} settings={LAYOUT.header.profile.nav} />
+            }
+            version={<Badge>v{process.env.NEXT_PUBLIC_APP_VERSION}</Badge>}
+          />
 
           <main>
             <Component {...pageProps} />
           </main>
 
-          {!/^\/examples/gi.test(router.asPath)
-            ? <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+          <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+          {!isMount
+            ? <ReactTooltip
+                html
+                backgroundColor="#24292f"
+                className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
+                id="global"
+              />
             : null}
         </LoadInitialData>
       </ContextProviders>
@@ -54,18 +80,9 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
 };
 
 export default withTRPC<AppRouter>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   config() {
-    /**
-     * If you want to use SSR, you need to use the server's full URL
-     * @link https://trpc.io/docs/ssr
-     */
     return {
-      /**
-       * @link https://trpc.io/docs/links
-       */
       links: [
-        // adds pretty logs to your console in development and logs errors in production
         loggerLink({
           enabled: (opts) =>
             process.env.NODE_ENV === "development" ||
@@ -77,23 +94,10 @@ export default withTRPC<AppRouter>({
             : `http://localhost:${process.env.NEXT_PUBLIC_PORT ?? 3000}/api/trpc`,
         }),
       ],
-      /**
-       * @link https://trpc.io/docs/data-transformers
-       */
       transformer: superjson,
-      /**
-       * @link https://react-query.tanstack.com/reference/QueryClient
-       */
-      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
     };
   },
-  /**
-   * @link https://trpc.io/docs/ssr
-   */
   ssr: true,
-  /**
-   * Set headers or status code when doing SSR
-   */
   responseMeta({ clientErrors }) {
     if (clientErrors.length) {
       // propagate http first error from API calls
@@ -101,9 +105,6 @@ export default withTRPC<AppRouter>({
         status: clientErrors[0].data?.httpStatus ?? 500,
       };
     }
-
-    // for app caching with SSR see https://trpc.io/docs/caching
-
     return {};
   },
 })(App);

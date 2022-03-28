@@ -2,10 +2,10 @@ import { makeStore } from "_client/stores/_makeStore";
 
 const { Provider, useStore } = makeStore<{
   showStats: boolean;
-  theme: "light" | "dark";
+  theme: "light" | "dark" | "system";
 }>(
   {
-    theme: "light",
+    theme: "system",
     showStats: false,
   },
   "ThemeStore"

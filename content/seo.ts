@@ -3,6 +3,7 @@ export const SEO = {
   url: "https://flext.dev",
   description: "my dev site",
   siteName: "Flext.dev",
+  github: "https://github.com/FelixTellmann/flext.dev",
   twitter: {
     handle: "@Tellmann",
     site: "@FelixTellmann",

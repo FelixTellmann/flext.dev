@@ -6,7 +6,6 @@ type AnnotatedLayoutProps = {
 };
 
 export const AnnotatedLayout: FC<AnnotatedLayoutProps> = ({ description, title, children }) => {
-  console.log("asd");
   return (
     <div>
       <div className="md:grid md:grid-cols-3 md:gap-6">

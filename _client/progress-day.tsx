@@ -34,6 +34,7 @@ export const ProgressDay: FC<ProgressDayProps> = ({ date, level, onClick, hide, 
               ][level]
             )}
             data-delay-hide="100"
+            data-for="progress-calendar"
             data-tip={`<span class="text-xs">${date}</span>`}
             tabIndex={-1}
             onClick={disabled ? () => {} : onClick}

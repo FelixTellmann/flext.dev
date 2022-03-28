@@ -3,6 +3,7 @@ import { useMutation } from "_client/hooks/_useTRPC";
 import { useTelemetryStore } from "_client/stores/telemetryStore";
 import clsx from "clsx";
 import { FC, FocusEventHandler, MouseEventHandler, useCallback } from "react";
+import ReactTooltip from "react-tooltip";
 import { useThemeStore } from "./stores/themeStore";
 
 type TelemetryButtonProps = {
@@ -39,25 +40,18 @@ export const TelemetryButton: FC<TelemetryButtonProps> = ({
   }, [mutate, name, onClick, setTelemetry]);
 
   return (
-    <ToolTip.Root delayDuration={1200}>
-      <ToolTip.Trigger
+    <>
+      <button
         className={clsx(className)}
+        data-for="global"
+        data-tip={`${telemetry[name] ?? 0} clicks`}
+        data-tip-disable={!showStats}
         onBlur={onBlur}
         onClick={updateTelemetry}
         onFocus={onFocus}
       >
         {children}
-      </ToolTip.Trigger>
-      <ToolTip.Content asChild side={tooltip.side} sideOffset={12}>
-        {showStats
-          ? <div className="rounded-sm bg-white p-3 text-sm shadow-2xl drop-shadow-lg dark:bg-dark-card">
-              {telemetry[name] ?? 0} clicks
-              <div className="fill-current text-white shadow-2xl dark:text-dark-text">
-                <ToolTip.Arrow height={8} offset={8} width={12} />
-              </div>
-            </div>
-          : null}
-      </ToolTip.Content>
-    </ToolTip.Root>
+      </button>
+    </>
   );
 };

@@ -50,7 +50,6 @@ const Daily: FC<indexProps> = ({}) => {
 
   useDebouncedEffect(
     () => {
-      console.log("habits have changed");
       saveData.mutate({
         id: currentDate,
         data: superjson.stringify(habits),
