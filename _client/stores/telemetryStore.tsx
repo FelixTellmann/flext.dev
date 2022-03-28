@@ -1,6 +1,6 @@
-import { useApi } from "_client/hooks/useApi";
+import { fetchOnce, useQuery } from "_client/hooks/_useTRPC";
 import { makeStore } from "_client/stores/_makeStore";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 const { Provider, useStore } = makeStore<{
   [T: string]: any;
@@ -13,24 +13,20 @@ const { Provider, useStore } = makeStore<{
 );
 
 export const useLoadInitialTelemetry = () => {
-  const { api } = useApi();
-
   const [telemetry, setTelemetry] = useStore();
-
-  const loadTelemetry = useCallback(async () => {
-    const data: { count: number; name: string }[] = await api("load-telemetry");
-    console.log(data);
-    setTelemetry(() => ({
-      initialDataLoaded: true,
-      ...data.reduce((acc, { name, count }) => ({ ...acc, [name]: count }), {}),
-    }));
-  }, [api, setTelemetry]);
+  const { data, isSuccess } = useQuery(["telemetry.countAll"], fetchOnce);
 
   useEffect(() => {
-    if (!telemetry.initialDataLoaded) {
-      loadTelemetry();
+    if (isSuccess) {
+      setTelemetry((current) => {
+        if (current.initialDataLoaded) return current;
+        return {
+          initialDataLoaded: true,
+          ...data.reduce((acc, { name, count }) => ({ ...acc, [name]: count }), {}),
+        };
+      });
     }
-  }, [loadTelemetry, telemetry.initialDataLoaded]);
+  }, [data, isSuccess, setTelemetry]);
 
   return useStore();
 };

@@ -4,7 +4,7 @@ import { HabitAddSections } from "_client/habits/habit-add-sections";
 import { HabitBlocks } from "_client/habits/habit-blocks";
 import { HabitPage } from "_client/habits/habit-page";
 import { HabitSections } from "_client/habits/habit-sections";
-import { API } from "_client/hooks/trpcAPI";
+import { API, useMutation, useQuery } from "_client/hooks/_useTRPC";
 import { ProgressCalendar } from "_client/progress-calendar/progress-calendar";
 import { ProgressButton } from "_client/progress-steps/progress-button";
 import { ProgressSteps } from "_client/progress-steps/progress-steps";
@@ -32,8 +32,8 @@ const Daily: FC<indexProps> = ({}) => {
 
   const dispatch = stepDispatch as Dispatch<HabitReducerActions>;
   const [currentDate, setCurrentDate] = useState<string>("");
-  const saveData = API.useMutation(["habits.save"]);
-  const { data } = API.useQuery(["habits.findUnique", { id: currentDate }], {
+  const saveData = useMutation(["habits.save"]);
+  const { data } = useQuery(["habits.findUnique", { id: currentDate }], {
     enabled: !!currentDate,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

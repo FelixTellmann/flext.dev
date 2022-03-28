@@ -1,10 +1,8 @@
 import * as ToolTip from "@radix-ui/react-tooltip";
-import { PrimitiveButtonProps } from "@radix-ui/react-tooltip";
-import { useApi } from "_client/hooks/useApi";
+import { useMutation } from "_client/hooks/_useTRPC";
 import { useTelemetryStore } from "_client/stores/telemetryStore";
 import clsx from "clsx";
-import { LinkProps } from "next/link";
-import { FC, FocusEventHandler, MouseEventHandler, RefAttributes, useCallback } from "react";
+import { FC, FocusEventHandler, MouseEventHandler, useCallback } from "react";
 import { useThemeStore } from "./stores/themeStore";
 
 type TelemetryButtonProps = {
@@ -27,18 +25,18 @@ export const TelemetryButton: FC<TelemetryButtonProps> = ({
   onBlur,
   tooltip = { side: "left" },
 }) => {
-  const { api } = useApi();
+  const { mutate } = useMutation(["telemetry.create"]);
   const [telemetry, setTelemetry] = useTelemetryStore();
   const [{ showStats }, setThemeStore] = useThemeStore();
 
   const updateTelemetry = useCallback((e) => {
-    api("telemetry", { name });
+    mutate({ name });
 
     setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
     if (onClick && typeof onClick === "function") {
       onClick(e);
     }
-  }, [api, name, onClick, setTelemetry]);
+  }, [mutate, name, onClick, setTelemetry]);
 
   return (
     <ToolTip.Root delayDuration={1200}>

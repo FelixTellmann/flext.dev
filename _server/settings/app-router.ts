@@ -1,7 +1,8 @@
 import * as trpc from "@trpc/server";
-import { habitRouter } from "_server/habit";
 import { Context } from "_server/settings/context";
 import superjson from "superjson";
+import { habitRouter } from "_server/habit";
+import { telemetryRouter } from "_server/telemetry";
 
 export const appRouter = trpc
   .router<Context>()
@@ -15,7 +16,8 @@ export const appRouter = trpc
    * @link https://trpc.io/docs/error-formatting
    */
   // .formatError(({ shape, error }) => { })
-  .merge("habits.", habitRouter);
+  .merge("habits.", habitRouter)
+  .merge("telemetry.", telemetryRouter);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

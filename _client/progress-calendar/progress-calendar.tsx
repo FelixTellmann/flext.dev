@@ -1,4 +1,4 @@
-import { API } from "_client/hooks/trpcAPI";
+import { API, useQuery } from "_client/hooks/_useTRPC";
 import { createDateRange } from "_client/progress-calendar/_create-date-range";
 import { ProgressDay } from "_client/progress-day";
 import clsx from "clsx";
@@ -22,7 +22,7 @@ export const ProgressCalendar: FC<ProgressCalendarProps> = ({ handleSelectDay, s
   const [userData, setUserData] = useState<{ id: string; level: number }[]>([]);
   const [weeks, setWeeks] = useState<Day[][]>(createDateRange(yearSelection));
 
-  const { data, refetch } = API.useQuery(
+  const { data, refetch } = useQuery(
     ["habits.findMany", { startsWith: yearSelection.split("-")[0] ?? "9999" }],
     { refetchOnWindowFocus: false, initialData: [] }
   );

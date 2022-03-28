@@ -1,9 +1,9 @@
 import * as ToolTip from "@radix-ui/react-tooltip";
+import { useMutation } from "_client/hooks/_useTRPC";
 import clsx from "clsx";
 import { FC, FocusEventHandler, MouseEventHandler, useCallback } from "react";
 import { IoIosAnalytics } from "react-icons/io";
 import { BiAnalyse } from "react-icons/bi";
-import { useApi } from "../hooks/useApi";
 import { useTelemetryStore } from "../stores/telemetryStore";
 import { useThemeStore } from "../stores/themeStore";
 import { TelemetryButton } from "../telemetryButton";
@@ -23,6 +23,7 @@ export const ToggleStatsButton: FC<ToggleStatsButtonProps> = ({
   onFocus,
   tooltip = { side: "left" },
 }) => {
+  const { mutate } = useMutation(["telemetry.create"]);
   const [{ showStats }, setThemeStore] = useThemeStore();
   const name = "ToggleTelemetryButton";
 
@@ -33,15 +34,14 @@ export const ToggleStatsButton: FC<ToggleStatsButtonProps> = ({
     }));
   }, [setThemeStore]);
 
-  const { api } = useApi();
   const [telemetry, setTelemetry] = useTelemetryStore();
 
   const updateTelemetry = useCallback((e) => {
-    api("telemetry", { name });
+    mutate({ name });
 
     setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
     handleClick();
-  }, [api, handleClick, setTelemetry]);
+  }, [handleClick, mutate, setTelemetry]);
 
   return (
     <ToolTip.Root delayDuration={1200}>

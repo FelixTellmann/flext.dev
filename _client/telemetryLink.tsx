@@ -1,11 +1,10 @@
-import { useApi } from "_client/hooks/useApi";
+import * as ToolTip from "@radix-ui/react-tooltip";
+import { useMutation } from "_client/hooks/_useTRPC";
 import { useTelemetryStore } from "_client/stores/telemetryStore";
 import clsx from "clsx";
-import { FC, FocusEventHandler, useCallback } from "react";
 import NextLink, { LinkProps } from "next/link";
-import * as ToolTip from "@radix-ui/react-tooltip";
+import { FC, FocusEventHandler, useCallback } from "react";
 import { useThemeStore } from "./stores/themeStore";
-import BlurEvent = chrome.input.ime.BlurEvent;
 
 type TelemetryLinkProps = LinkProps & {
   name: string;
@@ -26,15 +25,16 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
   tooltip = { side: "left" },
   ...linkProps
 }) => {
-  const { api } = useApi();
+  const { mutate } = useMutation(["telemetry.create"]);
+
   const [telemetry, setTelemetry] = useTelemetryStore();
   const [{ showStats }, setThemeStore] = useThemeStore();
 
   const updateTelemetry = useCallback((e) => {
-    api("telemetry", { name });
+    mutate({ name });
 
     setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
-  }, [api, name, setTelemetry]);
+  }, [mutate, name, setTelemetry]);
 
   return (
     <>
