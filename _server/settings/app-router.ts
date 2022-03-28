@@ -1,4 +1,5 @@
 import * as trpc from "@trpc/server";
+import { fetchRouter } from "_server/fetch";
 import { Context } from "_server/settings/context";
 import superjson from "superjson";
 import { habitRouter } from "_server/habit";
@@ -17,7 +18,8 @@ export const appRouter = trpc
    */
   // .formatError(({ shape, error }) => { })
   .merge("habits.", habitRouter)
-  .merge("telemetry.", telemetryRouter);
+  .merge("telemetry.", telemetryRouter)
+  .merge("fetch.", fetchRouter);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

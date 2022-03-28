@@ -3,7 +3,7 @@ import { useMutation } from "_client/hooks/_useTRPC";
 import { useTelemetryStore } from "_client/stores/telemetryStore";
 import clsx from "clsx";
 import NextLink, { LinkProps } from "next/link";
-import { FC, FocusEventHandler, HTMLAttributeAnchorTarget, HTMLAttributeReferrerPolicy, HTMLAttributes, useCallback } from "react";
+import { FC, FocusEventHandler, HTMLAttributeAnchorTarget, HTMLAttributeReferrerPolicy, HTMLAttributes, ReactNode, useCallback } from "react";
 import ReactTooltip from "react-tooltip";
 import { useThemeStore } from "./stores/themeStore";
 
@@ -11,12 +11,11 @@ type TelemetryLinkProps = LinkProps & {
   name: string;
   className?: string;
   onBlur?: FocusEventHandler<HTMLAnchorElement>;
+  onClick?: () => void;
   onFocus?: FocusEventHandler<HTMLAnchorElement>;
   referrerPolicy?: HTMLAttributeReferrerPolicy;
   target?: HTMLAttributeAnchorTarget;
-  tooltip?: {
-    side: "top" | "right" | "bottom" | "left";
-  };
+  tooltip?: string;
 };
 
 export const TelemetryLink: FC<TelemetryLinkProps> = ({
@@ -25,9 +24,10 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
   className,
   onFocus,
   onBlur,
-  tooltip = { side: "left" },
   target,
+  tooltip,
   referrerPolicy,
+  onClick,
   ...linkProps
 }) => {
   const { mutate } = useMutation(["telemetry.create"]);
@@ -39,7 +39,10 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
     mutate({ name });
 
     setTelemetry((current) => ({ ...current, [name]: (current[name] ?? 0) + 1 }));
-  }, [mutate, name, setTelemetry]);
+    if (onClick) {
+      onClick();
+    }
+  }, [mutate, name, onClick, setTelemetry]);
 
   return (
     <>
@@ -47,8 +50,8 @@ export const TelemetryLink: FC<TelemetryLinkProps> = ({
         <a
           className={clsx(className)}
           data-for="global"
-          data-tip={`${telemetry[name] ?? 0} clicks`}
-          data-tip-disable={!showStats}
+          data-tip={tooltip ? tooltip : `${telemetry[name] ?? 0} clicks`}
+          data-tip-disable={!showStats && !tooltip}
           referrerPolicy={referrerPolicy}
           target={target}
           onBlur={onBlur}

@@ -7,6 +7,7 @@ import NavDesktopSettings from "_client/_layout/nav-desktop-Settings";
 import { NavDesktopUserMenu } from "_client/_layout/nav-desktop-user-menu";
 import NavMobile from "_client/_layout/nav-mobile";
 import { Footer } from "_client/footer";
+import { fetchOnce, useQuery } from "_client/hooks/_useTRPC";
 import { useIsMount } from "_client/hooks/useIsMount";
 import { ToggleColorThemeButton } from "_client/layout/toggle-color-theme-button";
 import { TopBar } from "_client/layout/top-bar";
@@ -21,18 +22,23 @@ import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import Logo from "public/logo.svg";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import "styles/animations.scss";
 import "styles/tailwind.css";
 import "styles/theme.scss";
 import "styles/utils.scss";
-import { BsGithub } from "react-icons/bs";
 import ReactTooltip from "react-tooltip";
 import superjson from "superjson";
 
 const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
   const isMount = useIsMount();
+
+  const { data: githubData, isSuccess } = useQuery(["fetch.github"], fetchOnce);
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  }, [isSuccess]);
 
   return (
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
@@ -53,9 +59,20 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
               </TelemetryLink>
             }
             navDesktop={<NavDesktop nav={LAYOUT.header.nav} />}
-            navMobile={<NavMobile nav={LAYOUT.header.nav} settings={LAYOUT.header.profile.nav} />}
+            navMobile={
+              <NavMobile
+                github={SEO.github}
+                githubStars={githubData?.stargazers_count}
+                nav={LAYOUT.header.nav}
+                settings={LAYOUT.header.profile.nav}
+              />
+            }
             settingsDesktop={
-              <NavDesktopSettings github={SEO.github} settings={LAYOUT.header.profile.nav} />
+              <NavDesktopSettings
+                github={SEO.github}
+                githubStars={githubData?.stargazers_count}
+                settings={LAYOUT.header.profile.nav}
+              />
             }
             version={<Badge>v{process.env.NEXT_PUBLIC_APP_VERSION}</Badge>}
           />

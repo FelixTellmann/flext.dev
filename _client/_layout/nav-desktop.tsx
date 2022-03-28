@@ -48,7 +48,7 @@ export const NavDesktop: FC<NavDesktopProps> = ({ nav }) => {
               className={clsx(
                 "nav-item relative flex py-4 text-sm",
                 router.asPath.split("#")[0] === navItem.href &&
-                  "before:absolute b:bottom-0 b:left-3 b:h-[2px] b:w-[calc(100%-24px)] b:bg-slate-900 "
+                  "before:absolute b:bottom-0 b:left-3 b:h-[2px] b:w-[calc(100%-24px)] b:bg-slate-900 dark:b:bg-slate-400 "
               )}
             >
               <TelemetryLink
@@ -56,7 +56,6 @@ export const NavDesktop: FC<NavDesktopProps> = ({ nav }) => {
                 className="flex items-center justify-center overflow-hidden rounded py-1 px-3 text-sm font-medium hfa:text-slate-900 dark:hfa:text-white"
                 href={navItem.href}
                 name={`header_nav_${navItem.name}`}
-                tooltip={{ side: "bottom" }}
                 onFocus={handleNavFocus}
               >
                 {navItem.name}
