@@ -1,12 +1,9 @@
-// eslint-disable-next-line @next/next/no-server-import-in-page
-import { NextFetchEvent, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
+export async function middleware(req: NextRequest) {
   const startTime = Date.now();
 
   console.log(`${Date.now() - startTime}ms`);
 
-  new Response("Hello, world!");
-};
-
-export default middleware;
+  return NextResponse.next();
+}
