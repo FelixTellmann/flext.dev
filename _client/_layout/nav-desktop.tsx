@@ -1,9 +1,10 @@
+import { getParentNodeByClass } from "_client/_utils/get-parent-node-by-class";
 import { TelemetryLink } from "_client/telemetryLink";
-import { useNavDesktop } from "_client/useNavDesktop";
+
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { FC, FocusEventHandler } from "react";
+import { FC, FocusEventHandler, useCallback, useState } from "react";
 
 export type NavItemProps = {
   active: boolean;
@@ -17,11 +18,56 @@ export type NavItemProps = {
 type NavDesktopProps = {
   nav: Omit<NavItemProps, "active">[];
 };
+const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
 
 export const NavDesktop: FC<NavDesktopProps> = ({ nav }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { navHover, handleNavFocus, handleNavHover, handleNavReset } = useNavDesktop();
+
+  const [navHover, setNavHover] = useState(initialNavPosition);
+
+  const handleNavHover = useCallback((e) => {
+    if (e.target === e.currentTarget) {
+      setNavHover(() => initialNavPosition);
+    }
+    if (e.target !== e.currentTarget) {
+      const navItemRef = getParentNodeByClass(e.target, "nav-item");
+      if (navItemRef) {
+        setNavHover(({ opacity }) => ({
+          width: navItemRef.offsetWidth,
+          left: navItemRef.offsetLeft,
+          opacity: 0.7,
+          transition: opacity ? "0.18s" : "0.1s opacity",
+        }));
+      }
+    }
+  }, []);
+
+  const handleNavFocus = useCallback((e) => {
+    if (!e.currentTarget.matches(":focus-within")) {
+      setNavHover(() => initialNavPosition);
+      return;
+    }
+    const navItemRef = getParentNodeByClass(e.target, "nav-item");
+    if (navItemRef) {
+      setNavHover((currentNavHover) => {
+        const { opacity, left, width } = currentNavHover;
+        if (left === navItemRef.offsetLeft && width === navItemRef.offsetWidth) {
+          return currentNavHover;
+        }
+        return {
+          width: navItemRef.offsetWidth,
+          left: navItemRef.offsetLeft,
+          opacity: 0.7,
+          transition: opacity ? "0.18s" : "0.1s opacity",
+        };
+      });
+    }
+  }, []);
+
+  const handleNavReset = useCallback((e) => {
+    setNavHover(() => initialNavPosition);
+  }, []);
 
   return (
     <>

@@ -33,4 +33,8 @@ module.exports = {
   experimental: {
     externalDir: true,
   },
+  env: {
+    ...this.env,
+    NEXT_PUBLIC_APP_VERSION: process.version,
+  },
 };

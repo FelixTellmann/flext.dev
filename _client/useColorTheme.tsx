@@ -1,5 +1,5 @@
 import { useThemeStore } from "_client/stores/themeStore";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback } from "react";
 
 export const useColorTheme = () => {
   const [{ theme }, setThemeStore] = useThemeStore();

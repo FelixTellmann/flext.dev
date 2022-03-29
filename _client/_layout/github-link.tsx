@@ -1,8 +1,6 @@
-import { fetchOnce, useQuery } from "_client/hooks/_useTRPC";
 import { TelemetryLink } from "_client/telemetryLink";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { BsGithub } from "react-icons/bs";
-import ReactTooltip from "react-tooltip";
 
 export const GithubLink: FC<{ href: string; githubStars?: number }> = ({ href, githubStars }) => {
   return (
@@ -12,7 +10,7 @@ export const GithubLink: FC<{ href: string; githubStars?: number }> = ({ href, g
       name="GitHubLink"
       referrerPolicy="no-referrer"
       target="_blank"
-      tooltip={`
+      tooltip={` 
         <div style="text:white; display:flex; gap: 0.5rem; align-items: center">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="14"
