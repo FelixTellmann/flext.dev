@@ -11,6 +11,7 @@ import { ProgressSteps } from "_client/progress-steps/progress-steps";
 import { useProgressSteps } from "_client/progress-steps/useProgressSteps";
 import { useDebouncedEffect } from "_client/utils/debounce";
 import { HABITS, HabitStep, HabitStepState } from "content/habits";
+import deepEqual from "fast-deep-equal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import superjson from "superjson";
@@ -50,17 +51,19 @@ const Daily: FC<indexProps> = ({}) => {
 
   useDebouncedEffect(
     () => {
-      saveData.mutate({
-        id: currentDate,
-        data: superjson.stringify(habits),
-        level: habits.reduce(
-          (acc, { completed }) => {
-            if (!completed) return acc;
-            return (acc += 1);
-          },
-          0
-        ),
-      });
+      if (!deepEqual(habitInitializer(HABITS), habits)) {
+        saveData.mutate({
+          id: currentDate,
+          data: superjson.stringify(habits),
+          level: habits.reduce(
+            (acc, { completed }) => {
+              if (!completed) return acc;
+              return (acc += 1);
+            },
+            0
+          ),
+        });
+      }
     },
     2000,
     [currentDate, habits]
