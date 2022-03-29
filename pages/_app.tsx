@@ -27,6 +27,7 @@ import "styles/animations.scss";
 import "styles/tailwind.css";
 import "styles/theme.scss";
 import "styles/utils.scss";
+import "styles/prism.scss";
 import ReactTooltip from "react-tooltip";
 import superjson from "superjson";
 

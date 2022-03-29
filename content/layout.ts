@@ -11,6 +11,22 @@ export const LAYOUT = {
         href: "/",
       },
       {
+        name: "UI",
+        href: "/ui",
+      },
+      {
+        name: "Blog",
+        href: "/blog",
+      },
+      {
+        name: "About",
+        href: "/about",
+      },
+      {
+        name: "Uses",
+        href: "/uses",
+      },
+      {
         requireAuth: true,
         name: "Daily",
         href: "/daily",

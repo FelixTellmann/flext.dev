@@ -15,10 +15,10 @@ export const Layout: FC<LayoutProps> = ({ MobileNav, PrimaryNav, Article, Articl
       </div>
       <div className="bg">
         <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8">
-          <aside className="fixed inset-0 top-[66px] left-[max(0px,calc(50%-45rem))] right-auto z-20 hidden w-[19.5rem] overflow-y-auto px-8 pb-10 lg:block">
+          <aside className="fixed bottom-0 top-[66px] left-[max(0px,calc(50%-45rem))] z-20 hidden w-[310px] overflow-y-auto px-8 pb-10 lg:block">
             {PrimaryNav}
           </aside>
-          <main className="lg:pl-[19.5rem]">
+          <main className="lg:pl-[310px]">
             <div className="mx-auto max-w-3xl pt-10 xl:ml-0 xl:mr-[15.5rem] xl:max-w-none xl:pr-16">
               {Article}
             </div>

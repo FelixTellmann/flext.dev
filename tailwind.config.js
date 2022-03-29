@@ -388,6 +388,7 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
     plugin(({ addVariant, addUtilities }) => {
       addVariant("hfa", ["&:hover", "&:focus", "&:active"]);
       addVariant("ha", ["&:hover", "&:active"]);

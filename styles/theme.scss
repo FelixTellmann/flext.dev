@@ -37,7 +37,7 @@ input[type="number"] {
   &:focus:not(:focus-visible) {
     outline: none;
   }
-
+  @apply outline-sky-500;
 }
 
 input::-webkit-outer-spin-button,
