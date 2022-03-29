@@ -74,7 +74,7 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
                 settings={LAYOUT.header.profile.nav}
               />
             }
-            version={<Badge>v{process.env.NEXT_PUBLIC_APP_VERSION}</Badge>}
+            version={<Badge>{process.env.NEXT_PUBLIC_APP_VERSION}</Badge>}
           />
 
           <main>
