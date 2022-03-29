@@ -35,6 +35,6 @@ module.exports = {
   },
   env: {
     ...this.env,
-    NEXT_PUBLIC_APP_VERSION: process.version,
+    NEXT_PUBLIC_APP_VERSION: process.env.package_version,
   },
 };
