@@ -30,6 +30,7 @@ export const UiNavigation: FC = ({}) => {
           ))}
         </nav>
       </aside>
+      <div className="fixed top-[66px] left-[max(302px,calc(50%-45rem+302px))] z-50 hidden h-36 w-2 bg-gradient-to-b from-white  via-white dark:from-slate-900  lg:block" />
     </>
   );
 };
