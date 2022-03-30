@@ -394,6 +394,8 @@ module.exports = {
       addVariant("ha", ["&:hover", "&:active"]);
       addVariant("hf", ["&:hover", "&:focus"]);
       addVariant("fa", ["&:focus", "&:active"]);
+      addVariant("f", ["&:focus"]);
+      addVariant("fw", ["&:focus-within"]);
       addVariant("h", ["&:hover"]);
       addVariant("a", ["&:active"]);
       addVariant("b", ["&::before"]);

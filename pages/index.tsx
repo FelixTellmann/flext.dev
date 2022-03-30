@@ -1,4 +1,4 @@
-import { BrowserIframe } from "_client_components/browser-iframe";
+import { BrowserIframe } from "_client/_components/browser-iframe";
 import { FC } from "react";
 
 type IndexProps = {};

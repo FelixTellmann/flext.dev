@@ -4,7 +4,7 @@ import { AtRule } from "csstype";
 import { motion, useIsomorphicLayoutEffect, useMotionValue, useTransform } from "framer-motion";
 import GridIcon from "public/icons/grid.svg";
 import FlextLogo from "public/logo-auth.svg";
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { BsChevronLeft, BsChevronRight, BsGithub } from "react-icons/bs";
 import { IoLogoVercel } from "react-icons/io5";
 import Height = AtRule.Height;
@@ -21,16 +21,15 @@ export const BrowserIframe: FC<{ height: Height<string>; url: string; showTabs?:
   const handleRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const iframePointerEvents = useMotionValue("auto");
+  const [showDesktopElements, setShowDesktopElements] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
-    console.log("asdasd");
     if (!constraintsRef?.current || !handleRef?.current) return;
 
     const observer = new window.ResizeObserver(() => {
       if (!constraintsRef?.current || !handleRef?.current) return;
 
       const width = constraintsRef.current?.offsetWidth - handleRef?.current?.offsetWidth;
-
       if (x.get() > width) {
         x.set(width);
       }
@@ -44,7 +43,15 @@ export const BrowserIframe: FC<{ height: Height<string>; url: string; showTabs?:
   useEffect(() => {
     if (!constraintsRef?.current || !handleRef?.current) return;
     handleRef.current.onselectstart = () => false;
-  }, []);
+    x.onChange(() => {
+      if (!showDesktopElements && x.get() >= 200) {
+        setShowDesktopElements(true);
+      }
+      if (showDesktopElements && x.get() < 200) {
+        setShowDesktopElements(false);
+      }
+    });
+  }, [showDesktopElements, x]);
 
   return (
     <div className="relative">
@@ -57,14 +64,14 @@ export const BrowserIframe: FC<{ height: Height<string>; url: string; showTabs?:
             <div
               className="grid justify-between gap-1 py-2.5 px-4"
               style={{
-                gridTemplateColumns: x.get() > 600 ? "100px 1fr 100px" : "50px 1fr 50px",
+                gridTemplateColumns: showDesktopElements ? "100px 1fr 100px" : "50px 1fr 50px",
               }}
             >
               <div className="flex items-center ">
                 <div className="h-2.5 w-2.5 rounded-full bg-red-400"></div>
                 <div className="ml-1.5 h-2.5 w-2.5 rounded-full bg-yellow-300"></div>
                 <div className="ml-1.5 h-2.5 w-2.5 rounded-full bg-green-500"></div>
-                {x.get() > 600
+                {showDesktopElements
                   ? <>
                       <BsChevronLeft className="ml-4 flex-none stroke-1 text-slate-400 dark:text-slate-500" />
                       <BsChevronRight className="ml-2 flex-none stroke-1 text-slate-400 dark:text-slate-500" />
@@ -78,7 +85,9 @@ export const BrowserIframe: FC<{ height: Height<string>; url: string; showTabs?:
               </div>
 
               <div className="flex justify-end">
-                {x.get() > 600 ? <GridIcon className="text-slate-400 dark:text-slate-500" /> : null}
+                {showDesktopElements
+                  ? <GridIcon className="text-slate-400 dark:text-slate-500" />
+                  : null}
               </div>
             </div>
             {showTabs
@@ -100,7 +109,7 @@ export const BrowserIframe: FC<{ height: Height<string>; url: string; showTabs?:
                 </div>
               : null}
           </div>
-          <div className="relative -mb-8 rounded-b-xl border-t border-slate-200 bg-white pb-8 dark:border-slate-900/50 dark:bg-slate-800">
+          <div className="relative overflow-hidden rounded-b-xl border-t border-slate-200  bg-white dark:border-slate-900/50 dark:bg-slate-800">
             <motion.iframe
               ref={iframeRef}
               src={url}

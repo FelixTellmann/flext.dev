@@ -112,8 +112,7 @@ function NavDesktop() {
             key={navItem.href + navItem.name + i}
             className={clsx(
               "nav-item relative flex py-4 text-sm",
-
-              "before:absolute b:bottom-0 b:left-3 b:h-[2px] b:w-[calc(100%-24px)] b:bg-slate-900 dark:b:bg-slate-400 "
+              "fw:before:absolute fw:b:bottom-0 fw:b:left-3 fw:b:h-[2px] fw:b:w-[calc(100%-24px)] fw:b:bg-slate-900 dark:fw:b:bg-slate-400 "
             )}
           >
             <a

@@ -19,9 +19,9 @@ import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
 import ReactTooltip from "react-tooltip";
-import "styles/tailwind.css";
 import "styles/animations.scss";
 import "styles/prism.scss";
+import "styles/tailwind.css";
 import "styles/theme.scss";
 import "styles/utils.scss";
 import superjson from "superjson";
@@ -37,41 +37,41 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
     }
   }, [github]);
 
-  if (/^\/examples\//i.test(router.pathname)) {
-    return <Component {...pageProps} />;
-  }
-
   return (
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
       <ContextProviders>
         <LoadInitialData>
-          <DefaultSeo
-            canonical={`${SEO.url}${router.asPath}`}
-            description={SEO.description}
-            openGraph={SEO.openGraph}
-            title={SEO.title}
-            twitter={SEO.twitter}
-          />
-          <Header />
-          {router.pathname === "/"
-            ? <>
-                <UiNavigation />
-                <ArticleContainer>
-                  <Component {...pageProps} />
-                </ArticleContainer>
-                <BreadcrumbNavigation />
-              </>
-            : <Component {...pageProps} />}
+          {/^\/examples\//i.test(router.pathname)
+            ? <Component {...pageProps} />
+            : <>
+                <DefaultSeo
+                  canonical={`${SEO.url}${router.asPath}`}
+                  description={SEO.description}
+                  openGraph={SEO.openGraph}
+                  title={SEO.title}
+                  twitter={SEO.twitter}
+                />
+                <Header />
+                {router.pathname === "/"
+                  ? <>
+                      <UiNavigation />
+                      <ArticleContainer>
+                        <Component {...pageProps} />
+                      </ArticleContainer>
+                      <BreadcrumbNavigation />
+                    </>
+                  : <Component {...pageProps} />}
 
-          <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
-          {!isMount
-            ? <ReactTooltip
-                html
-                backgroundColor="#24292f"
-                className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
-                id="global"
-              />
-            : null}
+                <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+                {!isMount
+                  ? <ReactTooltip
+                      html
+                      backgroundColor="#24292f"
+                      className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
+                      id="global"
+                    />
+                  : null}
+              </>}
         </LoadInitialData>
       </ContextProviders>
     </SessionProvider>
