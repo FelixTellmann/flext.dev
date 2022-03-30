@@ -1,11 +1,19 @@
 @font-face {
-  font-family: "Inter";
-  font-style: normal;
+  font-family: 'Inter var';
   font-weight: 100 900;
-  font-display: optional;
-  src: url(/fonts/inter-var-latin.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-  U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url('/fonts/Inter-roman-latin.var.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('/fonts/Inter-italic-latin.var.woff2') format('woff2');
 }
 
 .focus-border:focus {
@@ -15,9 +23,12 @@
 }
 
 html {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-  "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-  "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
 body {
@@ -32,11 +43,11 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
 * {
   &:focus:not(:focus-visible) {
     outline: none;
   }
+
   @apply outline-sky-500;
 }
 
@@ -63,6 +74,24 @@ button {
   }
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-200/25
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-200;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-200;
+}
+
 .range {
 
   @apply appearance-none flex  relative;
@@ -70,10 +99,11 @@ button {
     content: "";
     @apply w-full h-full left-0 right-0 bg-gray-100 absolute;
   }
+
   //=============== TRACK ================
   &::-webkit-slider-runnable-track {
     @apply cursor-pointer h-1 w-full rounded-sm relative;
-    background: linear-gradient(90deg, #EC4899 0%,#EC4899 var(--range-progress), transparent var(--range-progress), transparent 100%);
+    background: linear-gradient(90deg, #EC4899 0%, #EC4899 var(--range-progress), transparent var(--range-progress), transparent 100%);
 
   }
 
@@ -82,15 +112,17 @@ button {
     @apply text-pink-500 bg-pink-500 cursor-grab flex appearance-none w-4 h-4 transition-all rounded-full ;
     margin-top: calc((16px - 4px) * -1 / 2)
   }
+
   &:focus {
     &::-webkit-slider-thumb {
       @apply border-solid border-2 border-white;
       box-shadow: 0 0 0 1.5px rgb(236, 72, 153);
     }
   }
+
   &:active {
     &::-webkit-slider-thumb {
-    transform: scale(1.5)
+      transform: scale(1.5)
     }
   }
 }

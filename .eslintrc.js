@@ -9,5 +9,6 @@ module.exports = {
     "sort-keys-fix/sort-keys-fix": 0,
     "import/no-anonymous-default-export": 0,
     "react/no-unescaped-entities": 0,
+    "react/jsx-sort-props": 0,
   },
 };
