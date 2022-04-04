@@ -50,9 +50,11 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
                   twitter={SEO.twitter}
                 />
                 <Header />
-                <Component {...pageProps} />
+                <main className="min-h-[calc(100vh-300px)]">
+                  <Component {...pageProps} />
+                </main>
 
-                <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
+                <Footer />
                 {!isMount
                   ? <ReactTooltip
                       html
