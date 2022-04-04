@@ -1,22 +1,22 @@
-import { useThemeStore } from "_client/stores/themeStore";
+import { useUI } from "_client/stores/ui-store";
 import { useCallback } from "react";
 
 export const useColorTheme = () => {
-  const [{ theme }, setThemeStore] = useThemeStore();
+  const [{ theme }, setUI] = useUI();
 
   const toggleColorTheme = useCallback(() => {
-    setThemeStore((current) => ({
-      ...current,
-      theme: current.theme === "dark" ? "system" : current.theme === "light" ? "dark" : "light",
+    setUI((UI) => ({
+      ...UI,
+      theme: UI.theme === "dark" ? "light" : UI.theme === "light" ? "dark" : "light",
     }));
-  }, [setThemeStore]);
+  }, [setUI]);
 
   const setColorTheme = useCallback((colorTheme: "light" | "dark" | "system") => {
-    setThemeStore((current) => ({
+    setUI((current) => ({
       ...current,
       theme: colorTheme,
     }));
-  }, [setThemeStore]);
+  }, [setUI]);
 
   return { colorTheme: theme, toggleColorTheme, setColorTheme };
 };

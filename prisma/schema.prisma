@@ -23,11 +23,6 @@ model Telemetry {
   name      String   @db.VarChar(50)
 }
 
-model Test {
-  id   Int     @id @default(autoincrement())
-  name String?
-}
-
 model HabitTracking {
   id                   Int         @id @default(autoincrement())
   createdAt            DateTime    @default(now())

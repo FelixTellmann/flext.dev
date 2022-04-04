@@ -1,24 +1,34 @@
+import { BsGithub } from "react-icons/bs";
+
 export const LAYOUT = {
   logo: {
     src: "/logo.svg",
     href: "/",
     alt: "",
   },
+  copyright: `© ${new Date().getFullYear()} Felix Tellmann. All rights reserved.`,
+  social: [
+    {
+      name: "Github",
+      href: "",
+      icon: <BsGithub aria-hidden="true" />,
+    },
+  ],
   header: {
     nav: [
       {
         name: "Home",
         href: "/",
       },
-      {
+      /*      {
         name: "UI",
         href: "/ui",
-      },
+      },*/
       {
         name: "Blog",
         href: "/blog",
       },
-      {
+      /*      {
         name: "About",
         href: "/about",
       },
@@ -34,24 +44,22 @@ export const LAYOUT = {
       {
         name: "Snippets",
         href: "/snippets",
+      },*/
+    ],
+    profile: [
+      {
+        name: "Your Profile",
+        href: "/profile",
+      },
+      {
+        name: "Settings",
+        href: "/settings",
+      },
+      {
+        name: "Sign out",
+        href: "/auth/sign-out",
       },
     ],
-    profile: {
-      nav: [
-        {
-          name: "Your Profile",
-          href: "/profile",
-        },
-        {
-          name: "Settings",
-          href: "/settings",
-        },
-        {
-          name: "Sign out",
-          href: "/auth/sign-out",
-        },
-      ],
-    },
   },
   footer: {
     nav: [

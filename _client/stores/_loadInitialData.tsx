@@ -1,12 +1,10 @@
 import { fetchOnce, useQuery } from "_client/hooks/_useTRPC";
-import { useLoadInitialTelemetry } from "_client/stores/telemetryStore";
-import { useThemeStore } from "_client/stores/themeStore";
+import { useUI } from "_client/stores/ui-store";
 import { useSession } from "next-auth/react";
 import { FC, useEffect } from "react";
 
 export const LoadInitialData: FC = ({ children }) => {
-  const [{ theme }, setTheme] = useThemeStore();
-  useLoadInitialTelemetry();
+  const [{ theme }, setUI] = useUI();
   useSession();
 
   const { data: githubData } = useQuery(["fetch.github"], fetchOnce);
@@ -21,8 +19,8 @@ export const LoadInitialData: FC = ({ children }) => {
   }, [theme]);
 
   useEffect(() => {
-    setTheme((current) => ({ ...current, github: githubData }));
-  }, [githubData, setTheme]);
+    setUI((current) => ({ ...current, github: githubData }));
+  }, [githubData, setUI]);
 
   return <>{children}</>;
 };

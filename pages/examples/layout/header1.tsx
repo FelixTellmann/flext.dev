@@ -1,6 +1,5 @@
 import { Popover, Transition } from "@headlessui/react";
-import { getParentNodeByClass } from "_client/_utils/get-parent-node-by-class";
-import { ToggleColorThemeButton } from "_client/layout/toggle-color-theme-button";
+import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
 import useColorTheme from "_client/useColorTheme";
 import clsx from "clsx";
 import { LAYOUT } from "content/layout";
@@ -171,7 +170,7 @@ function NavSettingsDesktop() {
             >
               <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
                 <div className="pb-1">
-                  {LAYOUT.header.profile.nav.map(({ name, href }, index) => (
+                  {LAYOUT.header.profile.map(({ name, href }, index) => (
                     <a
                       key={name + index}
                       href="#"
@@ -192,10 +191,13 @@ function NavSettingsDesktop() {
 }
 
 function NavMobile() {
+  const { colorTheme, toggleColorTheme } = useColorTheme();
+
   return (
     <nav className="ml-auto flex h-full items-center gap-1 px-2 sm:hidden">
-      <ToggleColorThemeButton />
-
+      <button className="icon-button" name="ToggleThemeButton" onClick={toggleColorTheme}>
+        {{ dark: <FiMoon />, light: <FiSun />, system: <IoDesktopOutline /> }[colorTheme]}
+      </button>
       <Popover className="relative">
         {({ close }) => (
           <>
@@ -240,7 +242,7 @@ function NavMobile() {
                 </div>
 
                 <div className="pt-1">
-                  {LAYOUT.header.profile.nav.map(({ name, href }, index) => (
+                  {LAYOUT.header.profile.map(({ name, href }, index) => (
                     <a
                       key={name + index}
                       href="#"

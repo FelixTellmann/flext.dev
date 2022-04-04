@@ -12,6 +12,7 @@ export const habitRouter = createRouter()
       });
     },
   })
+
   .query("findUnique", {
     input: z.object({ id: z.string() }),
     resolve: async ({ ctx: { session, DB }, input: { id } }) => {
@@ -22,6 +23,7 @@ export const habitRouter = createRouter()
       });
     },
   })
+
   .mutation("save", {
     input: z.object({ id: z.string(), data: z.string(), level: z.number() }),
     resolve: async ({ ctx: { session, DB }, input: { id, data, level } }) => {

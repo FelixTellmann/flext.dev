@@ -1,8 +1,7 @@
 import { API, useQuery } from "_client/hooks/_useTRPC";
 import { createDateRange } from "_client/progress-calendar/_create-date-range";
-import { ProgressDay } from "_client/progress-day";
+import { ProgressDay } from "_client/progress-calendar/progress-day";
 import clsx from "clsx";
-import { useSession } from "next-auth/react";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { IoCaretUp } from "react-icons/io5";
 import ReactTooltip from "react-tooltip";

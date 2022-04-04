@@ -1,10 +1,9 @@
 import { Popover, Transition } from "@headlessui/react";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import { Badge } from "_client/_components/badge";
-import { getParentNodeByClass } from "_client/_utils/get-parent-node-by-class";
-import { ToggleColorThemeButton } from "_client/layout/toggle-color-theme-button";
-import { useThemeStore } from "_client/stores/themeStore";
-import { TelemetryLink } from "_client/telemetryLink";
+import { Link } from "_client/link";
+import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
+import { useUI } from "_client/stores/ui-store";
+import useColorTheme from "_client/useColorTheme";
 import clsx from "clsx";
 import { LAYOUT } from "content/layout";
 import { SEO } from "content/seo";
@@ -14,6 +13,9 @@ import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
 import { FC, Fragment, useCallback, useState } from "react";
 import { BsFillStarFill, BsGithub, BsThreeDotsVertical } from "react-icons/bs";
+import { FiMoon, FiSun } from "react-icons/fi";
+import { IoDesktopOutline } from "react-icons/io5";
+import { Badge } from "_client/badge";
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
 
@@ -37,9 +39,9 @@ export const Header: FC = () => {
 function Logo() {
   return (
     <div className="flex items-center">
-      <TelemetryLink href="/" name="headerLogo">
+      <Link href="/">
         <FlextLogo />
-      </TelemetryLink>
+      </Link>
     </div>
   );
 }
@@ -54,7 +56,6 @@ function VersionBadge() {
 
 function NavDesktop() {
   const router = useRouter();
-  const { data: session } = useSession();
 
   const [navHover, setNavHover] = useState(initialNavPosition);
 
@@ -118,28 +119,26 @@ function NavDesktop() {
             opacity: navHover.opacity,
           }}
         />
-        {LAYOUT.header.nav
-          .filter(({ requireAuth }) => session || !requireAuth)
-          .map((navItem, i) => (
-            <div
-              key={navItem.href + navItem.name + i}
-              className={clsx(
-                "nav-item relative flex py-4 text-sm",
-                router.asPath.split("#")[0] === navItem.href &&
-                  "before:absolute b:bottom-0 b:left-3 b:h-[2px] b:w-[calc(100%-24px)] b:bg-slate-900 dark:b:bg-slate-400 "
-              )}
-            >
-              <TelemetryLink
+        {LAYOUT.header.nav.map((navItem, i) => (
+          <div
+            key={navItem.href + navItem.name + i}
+            className={clsx(
+              "nav-item relative flex py-4 text-sm",
+              router.asPath.split("#")[0] === navItem.href &&
+                "before:absolute b:bottom-0 b:left-3 b:h-[2px] b:w-[calc(100%-24px)] b:bg-slate-900 dark:b:bg-slate-400 "
+            )}
+          >
+            <NextLink href={navItem.href}>
+              <a
                 key={navItem.href + navItem.name + i}
                 className="flex items-center justify-center overflow-hidden rounded py-1 px-3 text-sm font-medium hfa:text-slate-900 dark:hfa:text-white"
-                href={navItem.href}
-                name={`header_nav_${navItem.name}`}
                 onFocus={handleNavFocus}
               >
                 {navItem.name}
-              </TelemetryLink>
-            </div>
-          ))}
+              </a>
+            </NextLink>
+          </div>
+        ))}
       </nav>
     </>
   );
@@ -150,21 +149,24 @@ function NavDividerDesktop() {
 }
 
 function NavSettingsDesktop() {
-  const [{ github }] = useThemeStore();
-  const router = useRouter();
-  const { data: session } = useSession();
+  const [{ github }] = useUI();
+
+  const { colorTheme, toggleColorTheme } = useColorTheme();
 
   return (
     <nav className="hidden h-full items-center gap-1 px-2 sm:flex">
-      <ToggleColorThemeButton />
-      <TelemetryLink
+      <button className="icon-button" name="ToggleThemeButton" onClick={toggleColorTheme}>
+        {{ dark: <FiMoon />, light: <FiSun />, system: <IoDesktopOutline /> }[colorTheme]}
+      </button>
+
+      <a
         className="icon-button"
         href={SEO.github}
-        name="GitHubLink"
         referrerPolicy="no-referrer"
         target="_blank"
-        tooltip={` 
-        <div style="text:white; display:flex; gap: 0.5rem; align-items: center">
+        rel="noreferrer"
+        data-tooltip={`
+        <div style="color:white; display:flex; gap: 0.5rem; align-items: center">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="14"
                height="14"
@@ -185,62 +187,59 @@ function NavSettingsDesktop() {
       `}
       >
         <BsGithub />
-      </TelemetryLink>
-      {session
-        ? <Popover className="relative">
-            {({ close }) => (
-              <>
-                <Popover.Button className="flex h-8 w-8 items-center justify-center rounded text-xl hfa:text-slate-900 dark:hfa:text-white">
-                  <span className="sr-only">Open user menu</span>
-                  <BsThreeDotsVertical />
-                </Popover.Button>
-                <Popover.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-gray-900/20" />
+      </a>
+      {/*<Popover className="relative">
+        {({ close, open }) => (
+          <>
+            <Popover.Button className="flex h-8 w-8 items-center justify-center rounded text-xl hfa:text-slate-900 dark:hfa:text-white">
+              <span className="sr-only">Open user menu</span>
+              <BsThreeDotsVertical />
+            </Popover.Button>
+            <Popover.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-gray-900/20" />
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
-                    <div className="pb-1">
-                      {LAYOUT.header.profile.nav.map(({ name, href }, index) => (
-                        <NextLink key={name + index} href={href}>
-                          <a
-                            className="block py-2 px-4 pr-10 text-sm hfa:bg-slate-100 dark:hfa:bg-gray-700/40"
-                            onClick={() => close()}
-                          >
-                            {name}
-                          </a>
-                        </NextLink>
-                      ))}
-                    </div>
-                  </Popover.Panel>
-                </Transition>
-              </>
-            )}
-          </Popover>
-        : !/^\/auth\/sign-in/i.test(router.pathname)
-        ? <TelemetryLink className="mr-2" href="/auth/sign-in" name="SignInButton">
-            <div className="flex h-8 items-center justify-center px-2 text-sm text-sm font-medium h:text-sky-500 dark:h:text-sky-400">
-              Login <ArrowNarrowRightIcon className="ml-2 w-3 pt-px" />
-            </div>
-          </TelemetryLink>
-        : null}
+            <Transition
+              as={Fragment}
+              show={open}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
+                <div className="pb-1">
+                  {LAYOUT.header.profile.map(({ name, href }, index) => (
+                    <NextLink key={name + index} href={href}>
+                      <a
+                        className="block py-2 px-4 pr-10 text-sm hfa:bg-slate-100 dark:hfa:bg-gray-700/40"
+                        onClick={() => close()}
+                      >
+                        {name}
+                      </a>
+                    </NextLink>
+                  ))}
+                </div>
+              </Popover.Panel>
+            </Transition>
+          </>
+        )}
+      </Popover>*/}
     </nav>
   );
 }
 
 function NavMobile() {
   const { data: session } = useSession();
-  const [{ github }] = useThemeStore();
+  const [{ github }] = useUI();
+
+  const { colorTheme, toggleColorTheme } = useColorTheme();
 
   return (
     <nav className="ml-auto flex h-full items-center gap-1 px-2 sm:hidden">
-      <ToggleColorThemeButton />
+      <button className="icon-button" name="ToggleThemeButton" onClick={toggleColorTheme}>
+        {{ dark: <FiMoon />, light: <FiSun />, system: <IoDesktopOutline /> }[colorTheme]}
+      </button>
 
       <Popover className="relative">
         {({ close }) => (
@@ -262,40 +261,38 @@ function NavMobile() {
             >
               <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
                 <div className="pb-1">
-                  {LAYOUT.header.nav
-                    .filter(({ requireAuth }) => session || !requireAuth)
-                    .map(({ name, href }, index) => (
-                      <NextLink key={name + index} href={href}>
-                        <a
-                          className="/**/ block py-2 px-4 text-sm hfa:bg-slate-100"
-                          onClick={() => close()}
-                        >
-                          {name}
-                        </a>
-                      </NextLink>
-                    ))}
+                  {LAYOUT.header.nav.map(({ name, href }, index) => (
+                    <NextLink key={name + index} href={href}>
+                      <a
+                        className="/**/ block py-2 px-4 text-sm hfa:bg-slate-100"
+                        onClick={() => close()}
+                      >
+                        {name}
+                      </a>
+                    </NextLink>
+                  ))}
 
-                  <TelemetryLink
+                  <a
                     className="group flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100"
                     href={SEO.github}
-                    name="GitHubLink"
                     referrerPolicy="no-referrer"
                     target="_blank"
                     onClick={() => close()}
+                    rel="noreferrer"
                   >
                     GitHub{" "}
                     <div className="flex items-center gap-2 text-gray-400 group-hfa:text-gray-700 ">
                       <BsFillStarFill /> {github?.stargazers_count} Stars
                     </div>
-                  </TelemetryLink>
+                  </a>
                 </div>
 
                 <div className="pt-1">
                   {session
-                    ? LAYOUT.header.profile.nav.map(({ name, href }, index) => (
+                    ? LAYOUT.header.profile.map(({ name, href }, index) => (
                         <NextLink key={name + index} href={href}>
                           <a
-                            className="/**/ block py-2 px-4 text-sm hfa:bg-slate-100"
+                            className="block py-2 px-4 text-sm hfa:bg-slate-100"
                             onClick={() => close()}
                           >
                             {name}
@@ -304,7 +301,7 @@ function NavMobile() {
                       )) /**/
                     : <NextLink href="/auth/sign-in">
                         <a
-                          className="/**/ flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100"
+                          className="flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100"
                           onClick={() => close()}
                         >
                           Login <ArrowNarrowRightIcon className="ml-2 w-3 pt-px" />

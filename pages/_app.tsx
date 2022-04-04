@@ -1,15 +1,13 @@
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
-import { ArticleContainer } from "_client/_layout/article-container";
-import { BreadcrumbNavigation } from "_client/_layout/breadcrumb-navigation";
-import { Header } from "_client/_layout/header";
-import { UiNavigation } from "_client/_layout/ui-navigation";
-import { Footer } from "_client/footer";
+import { Footer } from "_client/layout/footer";
+import { Header } from "_client/layout/header";
+
 import { useIsMount } from "_client/hooks/useIsMount";
 import { ContextProviders } from "_client/stores/_contextProviders";
 import { LoadInitialData } from "_client/stores/_loadInitialData";
-import { useThemeStore } from "_client/stores/themeStore";
+import { useUI } from "_client/stores/ui-store";
 import { AppRouter } from "_server/settings/app-router";
 import { LAYOUT } from "content/layout";
 import { SEO } from "content/seo";
@@ -29,7 +27,7 @@ import superjson from "superjson";
 const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
   const isMount = useIsMount();
-  const [{ github }] = useThemeStore();
+  const [{ github }] = useUI();
 
   useEffect(() => {
     if (github) {
@@ -52,15 +50,7 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
                   twitter={SEO.twitter}
                 />
                 <Header />
-                {router.pathname === "/"
-                  ? <>
-                      <UiNavigation />
-                      <ArticleContainer>
-                        <Component {...pageProps} />
-                      </ArticleContainer>
-                      <BreadcrumbNavigation />
-                    </>
-                  : <Component {...pageProps} />}
+                <Component {...pageProps} />
 
                 <Footer logo={LAYOUT.logo} nav={LAYOUT.footer.nav} />
                 {!isMount
