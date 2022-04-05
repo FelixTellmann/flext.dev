@@ -4,6 +4,9 @@
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "paths": {
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ],
       "@graphql/*": [
         "./graphql/*"
       ]
@@ -33,7 +36,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.svg"
+    "**/*.svg",
+    ".contentlayer/generated"
   ],
   "exclude": [
     "node_modules"

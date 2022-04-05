@@ -11,7 +11,13 @@ export const Link: FC<LinkProps> = ({ children, href, ...AnchorProps }) => {
         ? <NextLink href={href}>
             <a {...AnchorProps}>{children}</a>
           </NextLink>
-        : <a {...AnchorProps}>{children}</a>}
+        : <a
+            href={href}
+            rel={AnchorProps?.target === "_blank" ? "noopener noreferrer" : undefined}
+            {...AnchorProps}
+          >
+            {children}
+          </a>}
     </>
   );
 };

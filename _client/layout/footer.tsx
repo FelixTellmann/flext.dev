@@ -1,5 +1,6 @@
 import { Link } from "_client/link";
-import { LAYOUT } from "content/layout";
+import { FOOTER } from "content/footer";
+import { SOCIAL } from "content/social";
 import { FC } from "react";
 
 export const Footer: FC = () => {
@@ -7,27 +8,32 @@ export const Footer: FC = () => {
     <footer>
       <div className="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
         <nav className="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
-          {LAYOUT.footer.nav.map((item) => (
+          {FOOTER.nav.map((item) => (
             <div key={item.name} className="px-5 py-2">
               <Link
                 href={item.href}
-                className="text-sm font-medium text-slate-400 h:text-slate-900"
+                className="text-sm font-medium h:text-slate-900 d:hfa:text-white"
               >
                 {item.name}
               </Link>
             </div>
           ))}
         </nav>
-        <div className="mt-8 flex justify-center space-x-6">
-          {LAYOUT.social.map((item) => (
-            <Link key={item.name} href={item.href} className="text-slate-400 hover:text-slate-600">
+        <div className="mt-8 flex justify-center gap-3 text-lg">
+          {SOCIAL.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              target="_blank"
+              className="text-slate-400 h:text-slate-600 d:hfa:text-white"
+            >
               <span className="sr-only">{item.name}</span>
               {item.icon}
             </Link>
           ))}
         </div>
-        <p className="mt-8 text-center text-base text-gray-400">
-          <small>{LAYOUT.copyright}</small>
+        <p className="mt-4 text-center text-base text-slate-400">
+          <small>{FOOTER.copyright}</small>
         </p>
       </div>
     </footer>

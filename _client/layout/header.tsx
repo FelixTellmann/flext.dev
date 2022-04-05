@@ -1,11 +1,12 @@
 import { Popover, Transition } from "@headlessui/react";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
+import { Badge } from "_client/badge";
 import { Link } from "_client/link";
-import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
 import { useUI } from "_client/stores/ui-store";
 import useColorTheme from "_client/useColorTheme";
+import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
 import clsx from "clsx";
-import { LAYOUT } from "content/layout";
+import { HEADER } from "content/header";
 import { SEO } from "content/seo";
 import { useSession } from "next-auth/react";
 import NextLink from "next/link";
@@ -15,7 +16,6 @@ import { FC, Fragment, useCallback, useState } from "react";
 import { BsFillStarFill, BsGithub, BsThreeDotsVertical } from "react-icons/bs";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { IoDesktopOutline } from "react-icons/io5";
-import { Badge } from "_client/badge";
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
 
@@ -119,7 +119,7 @@ function NavDesktop() {
             opacity: navHover.opacity,
           }}
         />
-        {LAYOUT.header.nav.map((navItem, i) => (
+        {HEADER.nav.map((navItem, i) => (
           <div
             key={navItem.href + navItem.name + i}
             className={clsx(
@@ -209,7 +209,7 @@ function NavSettingsDesktop() {
             >
               <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
                 <div className="pb-1">
-                  {LAYOUT.header.profile.map(({ name, href }, index) => (
+                  {HEADER.profile.map(({ name, href }, index) => (
                     <NextLink key={name + index} href={href}>
                       <a
                         className="block py-2 px-4 pr-10 text-sm hfa:bg-slate-100 dark:hfa:bg-gray-700/40"
@@ -261,7 +261,7 @@ function NavMobile() {
             >
               <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
                 <div className="pb-1">
-                  {LAYOUT.header.nav.map(({ name, href }, index) => (
+                  {HEADER.nav.map(({ name, href }, index) => (
                     <NextLink key={name + index} href={href}>
                       <a
                         className="/**/ block py-2 px-4 text-sm hfa:bg-slate-100"
@@ -289,7 +289,7 @@ function NavMobile() {
 
                 <div className="pt-1">
                   {session
-                    ? LAYOUT.header.profile.map(({ name, href }, index) => (
+                    ? HEADER.profile.map(({ name, href }, index) => (
                         <NextLink key={name + index} href={href}>
                           <a
                             className="block py-2 px-4 text-sm hfa:bg-slate-100"

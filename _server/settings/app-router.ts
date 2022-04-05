@@ -11,6 +11,13 @@ export const appRouter = trpc
    * Add data transformers
    * @link https://trpc.io/docs/data-transformers
    */
+  .middleware(async ({ path, type, next }) => {
+    const start = Date.now();
+    const result = await next();
+    const durationMs = Date.now() - start;
+
+    return result;
+  })
   .transformer(superjson)
   /**
    * Optionally do custom error (type safe!) formatting

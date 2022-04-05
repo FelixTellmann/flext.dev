@@ -9,7 +9,6 @@ import { ContextProviders } from "_client/stores/_contextProviders";
 import { LoadInitialData } from "_client/stores/_loadInitialData";
 import { useUI } from "_client/stores/ui-store";
 import { AppRouter } from "_server/settings/app-router";
-import { LAYOUT } from "content/layout";
 import { SEO } from "content/seo";
 import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";
@@ -74,11 +73,11 @@ export default withTRPC<AppRouter>({
   config() {
     return {
       links: [
-        loggerLink({
+        /*loggerLink({
           enabled: (opts) =>
             process.env.NODE_ENV === "development" ||
             (opts.direction === "down" && opts.result instanceof Error),
-        }),
+        }),*/
         httpBatchLink({
           url: process.env.NEXT_PUBLIC_VERCEL_URL
             ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trpc`

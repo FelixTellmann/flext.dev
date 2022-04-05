@@ -10,5 +10,6 @@ module.exports = {
     "import/no-anonymous-default-export": 0,
     "react/no-unescaped-entities": 0,
     "react/jsx-sort-props": 0,
+    "node/no-unpublished-require": 0,
   },
 };

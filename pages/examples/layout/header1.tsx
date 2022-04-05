@@ -1,8 +1,8 @@
 import { Popover, Transition } from "@headlessui/react";
-import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
 import useColorTheme from "_client/useColorTheme";
+import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
 import clsx from "clsx";
-import { LAYOUT } from "content/layout";
+import { HEADER } from "content/header";
 import { SEO } from "content/seo";
 import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
@@ -106,7 +106,7 @@ function NavDesktop() {
             opacity: navHover.opacity,
           }}
         />
-        {LAYOUT.header.nav.map((navItem, i) => (
+        {HEADER.nav.map((navItem, i) => (
           <div
             key={navItem.href + navItem.name + i}
             className={clsx(
@@ -170,7 +170,7 @@ function NavSettingsDesktop() {
             >
               <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
                 <div className="pb-1">
-                  {LAYOUT.header.profile.map(({ name, href }, index) => (
+                  {HEADER.profile.map(({ name, href }, index) => (
                     <a
                       key={name + index}
                       href="#"
@@ -218,7 +218,7 @@ function NavMobile() {
             >
               <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
                 <div className="pb-1">
-                  {LAYOUT.header.nav.map(({ name, href }, index) => (
+                  {HEADER.nav.map(({ name, href }, index) => (
                     <a
                       key={name + index}
                       href="#"
@@ -242,7 +242,7 @@ function NavMobile() {
                 </div>
 
                 <div className="pt-1">
-                  {LAYOUT.header.profile.map(({ name, href }, index) => (
+                  {HEADER.profile.map(({ name, href }, index) => (
                     <a
                       key={name + index}
                       href="#"

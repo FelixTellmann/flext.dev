@@ -1,4 +1,10 @@
-module.exports = {
+const { withContentlayer } = require("next-contentlayer");
+
+/**
+ * @type {import('next').NextConfig}
+ */
+module.exports = withContentlayer({
+  swcMinify: true,
   reactStrictMode: true,
   images: {
     domains: [
@@ -7,7 +13,18 @@ module.exports = {
       "avatars.githubusercontent.com",
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
+    /*
+    if (!dev && !isServer) {
+      Object.assign(config.resolve.alias, {
+        "react/jsx-runtime.js": "preact/compat/jsx-runtime",
+        react: "preact/compat",
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat",
+      });
+    }
+    */
+
     if (isServer) {
       // eslint-disable-next-line node/no-missing-require
       // require("./scripts/create-components-export-index");
@@ -37,4 +54,4 @@ module.exports = {
     ...this.env,
     NEXT_PUBLIC_APP_VERSION: require("./package.json").version,
   },
-};
+});

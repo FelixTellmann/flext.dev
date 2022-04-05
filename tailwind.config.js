@@ -25,7 +25,6 @@ module.exports = {
       },
       "shadow-border": `box-shadow: black 0px 0px 0px 2px`,
       colors: {
-        bg: "#f4f4f5",
         dark: {
           border: "#3f3f46",
           bg: "#1b1c1c",
@@ -34,8 +33,6 @@ module.exports = {
           text: "#aaabb7",
           success: "#06b6d4",
         },
-        selected: "#d2e3fd",
-        selectedTag: "#ecf3fd",
         primary: {
           50: "#fdf2f8",
           100: "#fce7f3",
@@ -360,7 +357,6 @@ module.exports = {
           800: "#292524",
           900: "#1c1917",
         },
-
         sky: {
           50: "#f0f9ff",
           100: "#e0f2fe",
@@ -373,9 +369,6 @@ module.exports = {
           800: "#075985",
           900: "#0c4a6e",
         },
-      },
-      fontFamily: {
-        detail: ["Source Sans Pro", "Helvetica Neue", "Arial", "sans-serif"],
       },
       backgroundImage: (theme) => ({
         tick: "url('/icons/tick.svg')",
@@ -397,6 +390,7 @@ module.exports = {
       addVariant("f", ["&:focus"]);
       addVariant("fw", ["&:focus-within"]);
       addVariant("h", ["&:hover"]);
+      addVariant("d", [".dark &"]);
       addVariant("a", ["&:active"]);
       addVariant("b", ["&::before"]);
       addVariant("hfaa", ["&:hover", "&:focus", "&:active, &.active"]);

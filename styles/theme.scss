@@ -84,7 +84,7 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-200;
+  @apply bg-gradient-to-b from-gray-100 to-gray-300 dark:from-gray-400 dark:to-gray-800;
   border-radius: 5px;
 }
 
