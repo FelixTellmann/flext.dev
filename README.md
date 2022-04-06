@@ -64,14 +64,15 @@ Client side:
 - React.js
 - Next.js
 - Tailwind CSS
-- styled-jsx + SCSS
 - Next-seo
-- SWR
+- tRPC with react-query
 
 Server side:
 - Next.js
 - Node.js
-- Firebase
+- planet-scale
+- prisma
+- tRPC
 
 Development:
 - Typescript

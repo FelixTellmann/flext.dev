@@ -1,13 +1,13 @@
 import { FC } from "react";
 
-type indexProps = {};
+type CatchAllProps = {};
 
-const Index: FC<indexProps> = ({}) => {
+export const CatchAll: FC<CatchAllProps> = ({}) => {
   return (
     <>
-      <div className="mt-4 bg-red-200 p-2 text-green-900">Catch All</div>
+      <div>hi</div>
     </>
   );
 };
 
-export default Index;
+export default CatchAll;

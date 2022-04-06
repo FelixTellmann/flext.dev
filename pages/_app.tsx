@@ -70,8 +70,18 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
 };
 
 export default withTRPC<AppRouter>({
-  config() {
+  config({ ctx }) {
+    if (typeof window !== "undefined") {
+      // during client requests
+      return {
+        url: "/api/trpc",
+      };
+    }
+
     return {
+      url: process.env.NEXT_PUBLIC_VERCEL_URL
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trpc`
+        : `http://localhost:${process.env.NEXT_PUBLIC_PORT ?? 3000}/api/trpc`,
       links: [
         /*loggerLink({
           enabled: (opts) =>

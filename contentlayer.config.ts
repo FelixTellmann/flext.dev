@@ -1,4 +1,4 @@
-import { defineDocumentType, makeSource, ComputedFields } from "contentlayer/source-files";
+import { defineDocumentType, makeSource, ComputedFields, defineNestedType } from "contentlayer/source-files";
 import readingTime from "reading-time";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
@@ -14,25 +14,27 @@ const computedFields: ComputedFields = {
   },
   slug: {
     type: "string",
-    resolve: (doc) => doc._raw.flattenedPath,
+    resolve: (doc) => doc._raw.flattenedPath.replace("blog/", ""),
   },
 };
 
 export const Blog = defineDocumentType(() => ({
-  name: "blog",
-  filePathPattern: `*.mdx`,
+  name: "Blog",
+  filePathPattern: `**/[!_]*.mdx`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
-    summary: { type: "string", required: true },
-    image: { type: "string", required: true },
+    summary: { type: "string", required: false },
+    tldr: { type: "string", required: false },
+    image: { type: "string", required: false },
+    tags: { type: "list", required: false, of: { type: "string", required: true } },
   },
   computedFields,
 }));
 
 export default makeSource({
-  contentDirPath: "blog",
+  contentDirPath: "content",
   documentTypes: [Blog],
   mdx: {
     remarkPlugins: [remarkGfm],
