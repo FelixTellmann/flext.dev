@@ -28,6 +28,7 @@ export const Blog = defineDocumentType(() => ({
     summary: { type: "string", required: false },
     tldr: { type: "string", required: false },
     image: { type: "string", required: false },
+    imageAlt: { type: "string", required: false },
     tags: { type: "list", required: false, of: { type: "string", required: true } },
   },
   computedFields,

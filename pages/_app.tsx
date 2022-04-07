@@ -34,11 +34,15 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
     }
   }, [github]);
 
+  if (router.pathname === "/seo/og-image") {
+    console.log(router);
+  }
+
   return (
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
       <ContextProviders>
         <LoadInitialData>
-          {/^\/examples\//i.test(router.pathname)
+          {/^\/examples\//i.test(router.pathname) || /^\/seo\/og-image/i.test(router.pathname)
             ? <Component {...pageProps} />
             : <>
                 <DefaultSeo
