@@ -6,10 +6,69 @@ type OgImageProps = {};
 
 export const OgImage: FC<OgImageProps> = () => {
   const router = useRouter();
-  const { theme = "light", bg = "dots" } = router.query;
+  const { theme = "light", bg = "dots", style = 1 } = router.query;
   const radial = theme === "dark" ? "dimgray" : "lightgray";
+  const a = "rgb(26, 29, 30)";
+  const b = "rgb(21, 23, 24)";
+  const c = "#fafafa";
+  const d = "#fff";
 
   return (
+    <div className="relative h-screen max-h-[1170px] max-w-[2048px] ">
+      <div className="relative"></div>
+      <div
+        className="absolute inset-0 h-full w-full" /**/
+        style={{ backgroundImage: `linear-gradient(${c}, ${d})` }}
+      >
+        {[...new Array(15)].map((_, index) => (
+          <div
+            key={index}
+            className="absolute left-1/2 top-1/2 "
+            style={{
+              width: `${180 + 140 * index}px`,
+              height: `${180 + 140 * index}px`,
+              opacity: `${Math.min(0.7, 1.5 - index / 10)}`,
+              transform: `translate(-50%, -50%) rotate(${-45 + index * 30}deg)`,
+              filter: `blur(${Math.max(0, -4 + index / 1.5)}px)`,
+            }}
+          >
+            <svg
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-full w-full"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="49"
+                stroke={`url(#circle-${index})`}
+                strokeWidth="1"
+                vectorEffect="non-scaling-stroke"
+              ></circle>
+              <defs>
+                <linearGradient
+                  id={`circle-${index}`}
+                  gradientUnits="userSpaceOnUse"
+                  x1="50"
+                  y1="0"
+                  x2="50"
+                  y2="100"
+                >
+                  <stop style={{ stopColor: "rgba(160,173,166,0.4)" }}></stop>
+                  {/*rgba(226,240,253,0.23)*/}
+                  <stop style={{ stopColor: "rgba(5,178,178,0.5)" }} offset="1"></stop>
+                  {/*"rgba(26,255,210,0.47)" */}
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  /*return (
     <>
       <div
         className={clsx(
@@ -45,12 +104,11 @@ export const OgImage: FC<OgImageProps> = () => {
         }
       >
         <div className="flex h-full w-full items-center justify-center">
-          {" "}
-          <h1 className="text-[70px] font-bold uppercase tracking-wider">Hello</h1>
+          <h1 className="text-[140px] font-black uppercase tracking-wider">Hello</h1>
         </div>
       </div>
     </>
-  );
+  );*/
 };
 
 export default OgImage;
