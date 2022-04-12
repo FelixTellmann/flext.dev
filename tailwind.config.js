@@ -16,6 +16,18 @@ module.exports = {
   mode: "jit",
   theme: {
     extend: {
+      fontFamily: {
+        mono: [
+          "Consolas",
+          `ui-monospace`,
+          `SFMono-Regular`,
+          `Menlo`,
+          `Monaco`,
+          "Liberation Mono",
+          "Courier New",
+          `monospace`,
+        ],
+      },
       boxShadow: {
         dark: "0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05)",
       },
@@ -393,6 +405,7 @@ module.exports = {
       addVariant("d", [".dark &"]);
       addVariant("a", ["&:active"]);
       addVariant("b", ["&::before"]);
+      addVariant("af", ["&::before"]);
       addVariant("hfaa", ["&:hover", "&:focus", "&:active, &.active"]);
       addVariant("group-hfa", [".group:hover &", ".group:focus &", ".group:active &"]);
       addUtilities({

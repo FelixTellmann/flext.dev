@@ -30,6 +30,10 @@ function PostCard(post: Blog) {
   );
 }
 
+function isImage(url = "") {
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+}
+
 export default function Home({ posts = [] }: { posts: Blog[] }) {
   return (
     <div className="mx-auto max-w-[1440px] py-16 px-4 md:px-8">
@@ -40,21 +44,23 @@ export default function Home({ posts = [] }: { posts: Blog[] }) {
 
       <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
-          <Link key={post.slug} href={post.slug} className="">
+          <Link key={post.slug} href={`/posts/${post.slug}`} className="">
             <div className="h-full overflow-hidden rounded border border-slate-300 border-opacity-75 h:shadow-xl">
-              <Image
-                className="w-full md:h-36 lg:h-48"
-                src={post.image ?? post.title}
-                alt={post.imageAlt ?? post.title}
-                objectFit="cover"
-                objectPosition="center"
-                layout="fill"
-              />
+              {isImage(post.image)
+                ? <Image
+                    className="w-full md:h-36 lg:h-48"
+                    src={post.image ?? ""}
+                    alt={post.imageAlt ?? post.title}
+                    objectFit="cover"
+                    objectPosition="center"
+                    layout="fill"
+                  />
+                : null}
 
               <div className="p-6">
-                <h3 className="mb-1 text-xs font-medium uppercase tracking-wider text-slate-400">
+                <div className="mb-1 text-xs font-medium uppercase tracking-wider text-slate-400">
                   Typescript
-                </h3>
+                </div>
                 <h2 className="mb-3 text-lg font-medium text-gray-900">The Catalyzer</h2>
                 <p className="mb-3 leading-relaxed">
                   Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing

@@ -1,3 +1,8 @@
+
+code[class^="language"] {
+  @apply text-slate-400
+}
+
 .token.tag,
 .token.class-name,
 .token.selector,
@@ -57,7 +62,7 @@
 .token.module,
 .token.operator,
 .token.combinator {
-  @apply text-slate-400;
+  @apply text-slate-500;
 }
 
 .token.unchanged {
