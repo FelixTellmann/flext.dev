@@ -1,13 +1,19 @@
 import clsx from "clsx";
-import { FC, ReactNode, useCallback, useEffect, useState } from "react";
-import { FiCopy } from "react-icons/fi";
+import fs from "fs";
+import { GetStaticProps } from "next";
 import Prism from "prismjs";
-import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
-type IndexProps = {};
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import { FC, useCallback, useEffect, useRef } from "react";
+import { FiCopy } from "react-icons/fi";
+
+type IndexProps = {
+  codeBlocks: { code: string; description: string; title: string }[];
+};
 
 export interface CodeProps {
-  children: string;
+  activeIndex: number;
+  code: string[];
   language:
     | "js"
     | "css"
@@ -23,7 +29,7 @@ export interface CodeProps {
   plugins?: ("line-numbers" | "highlight-keywords")[];
 }
 
-export const Code: React.FC<CodeProps> = ({ language, children, plugins, lineHighlight }) => {
+export const Code: FC<CodeProps> = ({ language, plugins, lineHighlight, code, activeIndex }) => {
   const loadDependencies = useCallback(async () => {
     if (language === "tsx") {
       // @ts-ignore
@@ -51,16 +57,38 @@ export const Code: React.FC<CodeProps> = ({ language, children, plugins, lineHig
 
   useEffect(() => {
     loadDependencies();
-  }, [children, language, loadDependencies]);
+  }, [language, loadDependencies]);
 
   return (
-    <pre className={clsx(plugins, lineHighlight && "line-highlight")} data-line={lineHighlight}>
-      <code className={`language-${language}`}>{children}</code>
+    <pre
+      className={clsx(plugins, lineHighlight && "line-highlight", `language-${language}`)}
+      data-line={lineHighlight}
+    >
+      {code?.map((str, i) => {
+        if (i === activeIndex) {
+          return (
+            <code key={i} className={`language-${language}`}>
+              {code}
+            </code>
+          );
+        }
+        return (
+          <code key={i} className={`language-${language} inactive`}>
+            {code}
+          </code>
+        );
+      })}
     </pre>
   );
 };
 
-export const Index: FC<IndexProps> = ({}) => {
+export const Index: FC<IndexProps> = ({ codeBlocks }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleCodeScroll = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
   return (
     <>
       <section className="bg-gradient-to-br from-white to-sky-100 py-16">
@@ -80,54 +108,21 @@ export const Index: FC<IndexProps> = ({}) => {
               </p>
             </div>
             <div className="flex flex-col gap-2">
-              <button
-                className="-ml-4 rounded-lg p-4 text-left will-change-transform hfa:-translate-y-0.5 hfa:bg-white hfa:shadow-lg "
-                style={{
-                  transition: `transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 25ms linear`,
-                }}
-                type="button"
-              >
-                <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">Unstyled</h3>
-                <p className="text-sm font-light leading-relaxed">
-                  No need to override styles, no specificity wars.
-                </p>
-              </button>
-              <button
-                className="-ml-4 rounded-lg p-4 text-left will-change-transform hfa:-translate-y-0.5 hfa:bg-white hfa:shadow-lg "
-                style={{
-                  transition: `transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 25ms linear`,
-                }}
-                type="button"
-              >
-                <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">Unstyled</h3>
-                <p className="text-sm font-light leading-relaxed">
-                  No need to override styles, no specificity wars.
-                </p>
-              </button>
-              <button
-                className="-ml-4 rounded-lg p-4 text-left will-change-transform hfa:-translate-y-0.5 hfa:bg-white hfa:shadow-lg "
-                style={{
-                  transition: `transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 25ms linear`,
-                }}
-                type="button"
-              >
-                <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">Unstyled</h3>
-                <p className="text-sm font-light leading-relaxed">
-                  No need to override styles, no specificity wars.
-                </p>
-              </button>
-              <button
-                className="-ml-4 rounded-lg p-4 text-left will-change-transform hfa:-translate-y-0.5 hfa:bg-white hfa:shadow-lg "
-                style={{
-                  transition: `transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 25ms linear`,
-                }}
-                type="button"
-              >
-                <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">Unstyled</h3>
-                <p className="text-sm font-light leading-relaxed">
-                  No need to override styles, no specificity wars.
-                </p>
-              </button>
+              {codeBlocks?.map(({ title, description }, index) => {
+                return (
+                  <button
+                    key={title}
+                    className="-ml-4 rounded-lg p-4 text-left will-change-transform hfa:-translate-y-0.5 hfa:bg-white hfa:shadow-lg "
+                    style={{
+                      transition: `transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 25ms linear`,
+                    }}
+                    type="button"
+                  >
+                    <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">{title}</h3>
+                    <p className="text-sm font-light leading-relaxed">{description}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
           <div className="flex-1">
@@ -138,14 +133,17 @@ export const Index: FC<IndexProps> = ({}) => {
               >
                 <figure className="flex gap-1.5">
                   <button
+                    tabIndex={-1}
                     aria-hidden
                     className="h-3 w-3 rounded-full bg-slate-700 transition-colors h:bg-[#EC6A5F]"
                   />
                   <button
+                    tabIndex={-1}
                     aria-hidden
                     className="h-3 w-3 rounded-full bg-slate-700 transition-colors h:bg-[#F4BF50]"
                   />
                   <button
+                    tabIndex={-1}
                     aria-hidden
                     className="h-3 w-3 rounded-full bg-slate-700 transition-colors h:bg-[#61C454]"
                   />
@@ -159,131 +157,22 @@ export const Index: FC<IndexProps> = ({}) => {
                   </button>
                 </div>
               </div>
-              <div className="relative h-[calc(100%-28px)] before:absolute b:bottom-0 b:z-10 b:h-12 b:w-full b:select-none b:bg-gradient-to-b b:from-transparent b:to-slate-900 ">
-                <div className="scrollbar-none absolute inset-0 w-auto w-full overflow-y-scroll font-mono text-sm">
-                  <Code
-                    // lineHighlight="12-14,1,2,3"
-                    plugins={["line-numbers", "highlight-keywords"]}
-                    language="tsx"
-                  >{`// Add styles with your preferred CSS technology
-const TooltipContent: string[] = styled(Tooltip.Content, {
-  backgroundColor: 'black',
-  borderRadius: '3px',
-  padding: '5px'
-});
-
-const PopoverContent = styled(Popover.Content, {
-  backgroundColor: 'white',
-  boxShadow: '0 2px 10px -3px rgb(0 0 0 / 20%)',
-  borderRadius: '3px',
-});
-
-const DialogContent = styled(Dialog.Content, {
-  backgroundColor: 'white',
-  boxShadow: '0 3px 15px -4px rgb(0 0 0 / 30%)',
-  borderRadius: '5px',
-});
-// Compose a custom Tooltip component
-export const StatusTooltip = ({ state, label }) => {
-  return (
-    <Tooltip.Root>
-      <Tooltip.Trigger asChild>
-        <Text>
-          <Status variant={state} />
-        </Text>
-      </Tooltip.Trigger>
-      <TooltipContent>
-        <Tooltip.Arrow />
-        {label}
-      </TooltipContent>
-    </Tooltip.Root>
-  );
-};
-
-// Add styles with your preferred CSS technology
-const TooltipContent = styled(Tooltip.Content, {
-  backgroundColor: 'black',
-  borderRadius: '3px',
-  padding: '5px'
-});
-
-const PopoverContent = styled(Popover.Content, {
-  backgroundColor: 'white',
-  boxShadow: '0 2px 10px -3px rgb(0 0 0 / 20%)',
-  borderRadius: '3px',
-});
-
-const DialogContent = styled(Dialog.Content, {
-  backgroundColor: 'white',
-  boxShadow: '0 3px 15px -4px rgb(0 0 0 / 30%)',
-  borderRadius: '5px',
-});
-
-// Compose a custom Tooltip component
-export const StatusTooltip = ({ state, label }) => {
-  return (
-    <Tooltip.Root>
-      <Tooltip.Trigger asChild>
-        <Text>
-          <Status variant={state} />
-        </Text>
-      </Tooltip.Trigger>
-      <TooltipContent>
-        <Tooltip.Arrow />
-        {label}
-      </TooltipContent>
-    </Tooltip.Root>
-  );
-};
-
-// Compose a Popover with custom focus and positioning
-export const DeploymentPopover = ({ children }) => {
-  const popoverCloseButton = React.useRef(null);
-  return (
-    <Popover.Root>
-      <Popover.Trigger>View deployment</Popover.Trigger>
-      <PopoverContent
-        align="start"
-        collisionTolerance={10}
-        portalled={false}
-        onOpenAutoFocus={(event) => {
-          // Focus the close button when popover opens
-          event.preventDefault();
-          popoverCloseButton.current?.focus();
-        }}
-      >
-        {children}
-        <Popover.Close ref={popoverCloseButton}>
-          Close
-        </Popover.Close>
-      </PopoverContent>
-    </Popover.Root>
-  );
-};
-
-// Compose a Dialog with custom focus management
-export const InfoDialog = ({ children }) => {
-  const dialogCloseButton = React.useRef(null);
-  return (
-    <Dialog.Root>
-      <Dialog.Trigger>View details</Dialog.Trigger>
-      <Dialog.Overlay />
-      <DialogContent
-        onOpenAutoFocus={(event) => {
-          // Focus the close button when dialog opens
-          event.preventDefault();
-          dialogCloseButton.current?.focus();
-        }}
-      >
-        {children}
-        <Dialog.Close ref={dialogCloseButton}>
-          Close
-        </Dialog.Close>
-      </DialogContent>
-    </Dialog.Root>
-  );
-};
-`}</Code>
+              <div className="relative h-[calc(100%-28px)] before:absolute b:pointer-events-none b:bottom-0 b:z-10 b:h-12 b:w-full b:select-none b:bg-gradient-to-b b:from-transparent b:to-slate-900">
+                <div
+                  className="scrollbar-none absolute inset-0 w-auto w-full overflow-hidden font-mono text-sm"
+                  onScroll={handleCodeScroll}
+                >
+                  <div ref={scrollContainerRef}>
+                    <Code
+                      // lineHighlight="12-14,1,2,3"
+                      activeIndex={1}
+                      plugins={["line-numbers", "highlight-keywords"]}
+                      language="tsx"
+                      code={codeBlocks?.map(({ code }, index) => {
+                        return code;
+                      })}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -295,3 +184,30 @@ export const InfoDialog = ({ children }) => {
 };
 
 export default Index;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const code1 = fs.readFileSync("content/examples/test-1.txt", { encoding: "utf8" });
+  const code2 = fs.readFileSync("content/examples/test-2.txt", { encoding: "utf8" });
+  const code3 = fs.readFileSync("content/examples/test-3.txt", { encoding: "utf8" });
+  return {
+    props: {
+      codeBlocks: [
+        {
+          title: "Unstyled",
+          description: "No need to override styles, no specificity wars.",
+          code: code1,
+        },
+        {
+          title: "Composable",
+          description: "Granular access to each component part.",
+          code: code2,
+        },
+        {
+          title: "Customizable",
+          description: "Configure behavior, control focus, add event listeners.",
+          code: code3,
+        },
+      ],
+    },
+  };
+};

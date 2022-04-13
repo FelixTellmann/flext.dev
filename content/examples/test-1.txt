@@ -1,0 +1,18 @@
+// Add styles with your preferred CSS technology
+const TooltipContent: string[] = styled(Tooltip.Content, {
+  backgroundColor: "black",
+  borderRadius: "3px",
+  padding: "5px",
+});
+
+const PopoverContent = styled(Popover.Content, {
+  backgroundColor: "white",
+  boxShadow: "0 2px 10px -3px rgb(0 0 0 / 20%)",
+  borderRadius: "3px",
+});
+
+const DialogContent = styled(Dialog.Content, {
+  backgroundColor: "white",
+  boxShadow: "0 3px 15px -4px rgb(0 0 0 / 30%)",
+  borderRadius: "5px",
+});
