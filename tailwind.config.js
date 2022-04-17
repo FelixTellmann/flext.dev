@@ -36,6 +36,9 @@ module.exports = {
         wrapper: "62.5rem",
       },
       "shadow-border": `box-shadow: black 0px 0px 0px 2px`,
+      maxWidth: {
+        "8xl": "90rem",
+      },
       colors: {
         dark: {
           border: "#3f3f46",
@@ -382,6 +385,7 @@ module.exports = {
           900: "#0c4a6e",
         },
       },
+
       backgroundImage: (theme) => ({
         tick: "url('/icons/tick.svg')",
       }),

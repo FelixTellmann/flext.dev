@@ -36,7 +36,7 @@ function isImage(url = "") {
 
 export default function Home({ posts = [] }: { posts: Blog[] }) {
   return (
-    <div className="mx-auto max-w-[1440px] py-16 px-4 md:px-8">
+    <div className="mx-auto max-w-7xl py-16 px-4 md:px-8">
       <Head>
         <title>Contentlayer Blog Example</title>
         {/* TODO: SEO HERE*/}

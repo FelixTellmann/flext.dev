@@ -17,7 +17,7 @@ export const ExampleHeader: FC = () => {
   return (
     <>
       <header className="sticky top-0 z-50 h-header border-b border-solid border-gray-200 bg-white dark:border-gray-700 dark:bg-dark-bg">
-        <div className="mx-auto flex h-full max-w-[1440px] px-2 sm:px-4 md:px-8">
+        <div className="mx-auto flex h-full max-w-7xl px-2 sm:px-4 md:px-8">
           <Logo />
           <NavDesktop />
           <NavDividerDesktop />
