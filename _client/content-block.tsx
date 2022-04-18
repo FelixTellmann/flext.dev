@@ -39,7 +39,9 @@ export const ContentBlock: FC<ContentBlockProps> = ({
           ? <h2 className="mb-1 text-[15px] font-semibold text-primary-500">{caption}</h2>
           : null}
         {title
-          ? <h1 className="mb-4 text-2xl font-semibold text-slate-900 sm:text-4xl">{title}</h1>
+          ? <h1 className="mb-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl sm:tracking-normal">
+              {title}
+            </h1>
           : null}
       </header>
       {description ? <p className="mb-6 text-[15px] leading-relaxed">{description}</p> : null}

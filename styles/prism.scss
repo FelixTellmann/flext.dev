@@ -1,6 +1,7 @@
 
 code[class*="language"] {
   @apply text-white/95 font-normal;
+  transition: 0.15s color;
 }
 
 .token.tag,
@@ -8,7 +9,9 @@ code[class*="language"] {
   //@apply text-lightBlue-200
   color: #B7E2F8;
 }
-
+.token.tag > .token.punctuation {
+  color: #65C6FF;
+}
 
 .token.selector,
 .token.selector .class,
@@ -41,7 +44,7 @@ code[class*="language"] {
 
 .token.punctuation,
 .token.attr-equals {
-  @apply text-slate-500;
+  @apply text-slate-200/75;
 }
 
 .token.attr-value * {
@@ -75,7 +78,12 @@ code[class*="language"] {
 .token.module,
 .token.operator,
 .token.combinator {
-  @apply text-slate-500;
+  @apply text-slate-400/80;
+}
+
+.code-inactive, .code-inactive *  {
+  @apply text-slate-400/50 #{!important};
+  transition: 0.15s color;
 }
 
 .token.unchanged {
