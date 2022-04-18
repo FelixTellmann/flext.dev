@@ -1,29 +1,42 @@
 
 code[class*="language"] {
-  @apply text-slate-400
+  @apply text-white/95 font-normal;
 }
 
 .token.tag,
-.token.class-name,
+.token.class-name {
+  //@apply text-lightBlue-200
+  color: #B7E2F8;
+}
+
+
 .token.selector,
 .token.selector .class,
 .token.selector.class,
 .token.function {
-  @apply text-pink-400;
+  @apply text-lime-400;
 }
 
-.token.attr-name,
+.token.script {
+  @apply text-white font-normal;
+  color: #FD971F;
+}
+.token.attr-name {
+  color: #A6E22E;
+}
+.token.builtin,
 .token.keyword,
 .token.rule,
 .token.pseudo-class,
 .token.important {
-  @apply text-slate-300;
+  @apply font-bold;
+  color: #F92672;
 }
 
 .token.attr-value,
 .token.class,
 .token.string {
-  @apply text-sky-300;
+  @apply text-green-400;
 }
 
 .token.punctuation,

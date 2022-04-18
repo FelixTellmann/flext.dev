@@ -1,5 +1,5 @@
 import { Popover, Transition } from "@headlessui/react";
-import useColorTheme from "_client/useColorTheme";
+import LightDarkSwitcher from "_client/light-dark-switch";
 import { getParentNodeByClass } from "_client/utils/get-parent-node-by-class";
 import clsx from "clsx";
 import { HEADER } from "content/header";
@@ -8,8 +8,6 @@ import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
 import { FC, Fragment, useCallback, useState } from "react";
 import { BsGithub, BsThreeDotsVertical } from "react-icons/bs";
-import { FiMoon, FiSun } from "react-icons/fi";
-import { IoDesktopOutline } from "react-icons/io5";
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
 
@@ -134,13 +132,9 @@ function NavDividerDesktop() {
 }
 
 function NavSettingsDesktop() {
-  const { colorTheme, toggleColorTheme } = useColorTheme();
-
   return (
     <nav className="hidden h-full items-center gap-1 px-2 sm:flex">
-      <button className="icon-button" onClick={toggleColorTheme}>
-        {{ dark: <FiMoon />, light: <FiSun />, system: <IoDesktopOutline /> }[colorTheme]}
-      </button>
+      <LightDarkSwitcher />
       <a
         className="icon-button"
         href={SEO.github}
@@ -191,13 +185,9 @@ function NavSettingsDesktop() {
 }
 
 function NavMobile() {
-  const { colorTheme, toggleColorTheme } = useColorTheme();
-
   return (
     <nav className="ml-auto flex h-full items-center gap-1 px-2 sm:hidden">
-      <button className="icon-button" name="ToggleThemeButton" onClick={toggleColorTheme}>
-        {{ dark: <FiMoon />, light: <FiSun />, system: <IoDesktopOutline /> }[colorTheme]}
-      </button>
+      <LightDarkSwitcher />
       <Popover className="relative">
         {({ close }) => (
           <>

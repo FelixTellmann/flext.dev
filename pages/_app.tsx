@@ -1,20 +1,18 @@
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
-import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
-import { Footer } from "_client/layout/footer";
-import { Header } from "_client/layout/header";
 
 import { useIsMount } from "_client/hooks/useIsMount";
+import { Footer } from "_client/layout/footer";
+import { Header } from "_client/layout/header";
 import { ContextProviders } from "_client/stores/_contextProviders";
 import { LoadInitialData } from "_client/stores/_loadInitialData";
-import { useUI } from "_client/stores/ui-store";
 import { AppRouter } from "_server/settings/app-router";
 import { SEO } from "content/seo";
 import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import ReactTooltip from "react-tooltip";
 import "styles/animations.scss";
 import "styles/prism.scss";
@@ -26,13 +24,6 @@ import superjson from "superjson";
 const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
   const isMount = useIsMount();
-  const [{ github }] = useUI();
-
-  useEffect(() => {
-    if (github) {
-      ReactTooltip.rebuild();
-    }
-  }, [github]);
 
   if (router.pathname === "/seo/og-image") {
     console.log(router);
@@ -42,16 +33,16 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
     <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
       <ContextProviders>
         <LoadInitialData>
+          <DefaultSeo
+            canonical={`${SEO.url}${router.asPath}`}
+            description={SEO.description}
+            openGraph={SEO.openGraph}
+            title={SEO.title}
+            twitter={SEO.twitter}
+          />
           {/^\/examples\//i.test(router.pathname) || /^\/seo\/og-image/i.test(router.pathname)
             ? <Component {...pageProps} />
             : <>
-                <DefaultSeo
-                  canonical={`${SEO.url}${router.asPath}`}
-                  description={SEO.description}
-                  openGraph={SEO.openGraph}
-                  title={SEO.title}
-                  twitter={SEO.twitter}
-                />
                 <Header />
                 <main className="min-h-[calc(100vh-300px)]">
                   <Component {...pageProps} />

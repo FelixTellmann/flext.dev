@@ -51,7 +51,7 @@ To run this project locally, simply clone the project and copy the `.env.example
   - Usage Stats Summary
   - Books read count
       
-- Darkmode / multicolor mode
+- DarkMode / multicolor mode
 - Show usage stats (hover over elements to see clicks etc.)
 - Link library exit page via page query - no direct links to X
 - Newsletter Sign-up

@@ -30,6 +30,8 @@ module.exports = {
       },
       boxShadow: {
         dark: "0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05)",
+        glowDark: "0px 2px 25px -4px #427bff",
+        glowLight: "0px 2px 12px -4px #e05912",
       },
       spacing: {
         header: "66px",
@@ -388,6 +390,7 @@ module.exports = {
 
       backgroundImage: (theme) => ({
         tick: "url('/icons/tick.svg')",
+        gradient1: `radial-gradient(at 100% 100%, rgba(7, 0, 31, 0.07), rgba(88, 5, 171, 0.01), rgba(0, 0, 0, 0)), linear-gradient(to right bottom, rgb(239, 254, 250), rgb(248, 250, 255), rgb(254, 238, 248), rgb(231, 249, 251))`,
       }),
     },
   },

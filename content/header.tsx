@@ -12,6 +12,10 @@ export const HEADER = {
       name: "Blog",
       href: "/blog",
     },
+    {
+      name: "Code",
+      href: "/code-component",
+    },
     /*      {
       name: "About",
       href: "/about",
