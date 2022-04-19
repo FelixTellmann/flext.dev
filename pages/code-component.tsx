@@ -129,7 +129,7 @@ export const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "fil
   }, [handleScroll]);
 
   return (
-    <div className="relative lg:sr-only">
+    <div className="relative lg:hidden">
       <div
         ref={containerRef}
         className="scrollbar-none mx-[min(-1rem,calc((100vw-1280px)/-2)-1rem)] w-[calc(100vw-8px)] overflow-x-scroll pl-[max(1rem,calc(((100vw-1280px)/2)+1rem))] pr-4 "
