@@ -343,17 +343,14 @@ export const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = 
           </div>
         </header>
         <div className="relative h-[calc(100%-28px)] before:absolute b:pointer-events-none b:bottom-0 b:z-10 b:h-12 b:w-full b:select-none b:bg-gradient-to-b b:from-transparent b:to-slate-900">
-          <div className="code-container scrollbar-none absolute inset-0 w-auto w-full overflow-y-scroll font-mono text-sm">
-            <div>
-              <CodeGroup
-                plugins={["highlight-keywords"]}
-                language="tsx"
-                code={codeBlocks?.map(({ code }) => {
-                  return code;
-                })}
-              />
-            </div>
-          </div>
+          <CodeGroup
+            className="code-container scrollbar-none absolute inset-0 w-auto w-full overflow-y-scroll text-sm"
+            plugins={["highlight-keywords"]}
+            language="tsx"
+            code={codeBlocks?.map(({ code }) => {
+              return code;
+            })}
+          />
         </div>
       </div>
     </figure>

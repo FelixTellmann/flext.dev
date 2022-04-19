@@ -15,11 +15,18 @@ export type CodeGroupProps = {
     | "Rust"
     | "bash"
     | "javascript";
+  className?: string;
   lineHighlight?: string;
   plugins?: ("line-numbers" | "highlight-keywords")[];
 };
 
-export const CodeGroup: FC<CodeGroupProps> = ({ language, plugins, lineHighlight, code }) => {
+export const CodeGroup: FC<CodeGroupProps> = ({
+  language,
+  plugins,
+  lineHighlight,
+  code,
+  className,
+}) => {
   const loadDependencies = useCallback(async () => {
     if (language === "tsx") {
       // @ts-ignore
@@ -51,7 +58,12 @@ export const CodeGroup: FC<CodeGroupProps> = ({ language, plugins, lineHighlight
 
   return (
     <pre
-      className={clsx(plugins, lineHighlight && "line-highlight", `language-${language}`)}
+      className={clsx(
+        plugins,
+        lineHighlight && "line-highlight",
+        `language-${language}`,
+        className
+      )}
       data-line={lineHighlight}
     >
       {code.map((code, index) => {
