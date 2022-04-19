@@ -32,8 +32,17 @@ export const Footer: FC = () => {
             </Link>
           ))}
         </div>
-        <p className="mt-4 text-center text-base text-slate-400">
+        <p className="mt-4 flex items-center justify-center text-center text-base text-slate-400">
           <small>{FOOTER.copyright}</small>
+          <iframe
+            className=" ml-4 opacity-70 hfa:opacity-100"
+            src="https://ghbtns.com/github-btn.html?user=FelixTellmann&amp;repo=flext.dev&amp;type=star&amp;count=true&amp;size=small"
+            frameBorder="0"
+            scrolling="0"
+            width="100"
+            height="22px"
+            title=""
+          ></iframe>
         </p>
       </div>
     </footer>
