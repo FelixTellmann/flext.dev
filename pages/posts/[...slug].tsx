@@ -63,7 +63,7 @@ export const MDXContent: FC<{ code: string }> = ({ code }) => {
   const Component = useMDXComponent(code);
 
   return (
-    <div className="prose prose-slate">
+    <div className=" prose prose-slate dark:prose-dark">
       <Component components={{ Badge }} />
     </div>
   );

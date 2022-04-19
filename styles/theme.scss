@@ -31,9 +31,6 @@ html {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
-body {
-  @apply text-gray-600;
-}
 
 button, input, textarea {
   font: inherit;
@@ -141,3 +138,9 @@ button {
   }
 }
 
+
+h1,h2,h3,h4,h5,h6 {
+  &:not(.color) {
+    @apply text-slate-900 d:text-dark-headings
+  }
+}

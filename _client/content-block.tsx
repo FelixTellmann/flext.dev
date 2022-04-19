@@ -36,10 +36,10 @@ export const ContentBlock: FC<ContentBlockProps> = ({
       <header>
         {icon ? <i>{caption}</i> : null}
         {caption
-          ? <h2 className="mb-1 text-[15px] font-semibold text-primary-500">{caption}</h2>
+          ? <h2 className="color mb-1 text-[15px] font-semibold text-primary-500">{caption}</h2>
           : null}
         {title
-          ? <h1 className="mb-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl sm:tracking-normal">
+          ? <h1 className="mb-4 text-3xl font-semibold tracking-tight text-slate-900 d:text-white sm:text-4xl sm:tracking-normal">
               {title}
             </h1>
           : null}

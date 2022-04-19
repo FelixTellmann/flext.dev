@@ -62,7 +62,7 @@ export const CodeComponent: FC<CodeComponentProps> = ({
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="bg-gradient1 py-20" ref={sectionRef}>
+    <div className="py-20" ref={sectionRef}>
       <div className="mx-auto flex max-w-7xl flex-col px-4 lg:flex-row lg:gap-8 lg:px-7">
         <div className="flex max-w-[440px] flex-col">
           <ContentBlock {...contentBlock} />
@@ -143,7 +143,7 @@ export const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "fil
           {codeBlocks?.map(({ caption, description, code }) => {
             return (
               <figure key={caption} className="relative flex flex-col gap-4">
-                <div className="scrollbar-none h-full h-[410px] overflow-y-scroll rounded-md bg-slate-900 p-3 pt-8 text-sm shadow-2xl">
+                <div className="scrollbar-none h-full h-[410px] overflow-y-scroll rounded-md bg-slate-900 p-3 pt-8 text-sm shadow-2xl d:bg-dark-card">
                   <header className="absolute top-2 -mx-3 flex w-full justify-between px-3">
                     <i className="flex gap-1.5">
                       <button
@@ -187,7 +187,7 @@ export const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "fil
         aria-hidden="true"
         onClick={scrollPrev}
         className={clsx(
-          "group absolute top-[200px] left-2 hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 transition-all active:translate-y-0.5 lg:hidden",
+          "group absolute top-[200px] left-2 hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 transition-all active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings d:ring-slate-800 lg:hidden",
           showPrev && "sm:flex"
         )}
       >
@@ -198,7 +198,7 @@ export const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "fil
         aria-hidden="true"
         onClick={scrollNext}
         className={clsx(
-          "group absolute top-[200px] right-2  hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 transition-all active:translate-y-0.5 lg:hidden",
+          "group absolute top-[200px] right-2  hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 transition-all active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings  d:ring-slate-800 lg:hidden",
           showNext && "sm:flex"
         )}
       >
@@ -277,15 +277,15 @@ export const DesktopCodeSelector: FC<
               handleSelect(index);
             }}
             className={clsx(
-              "-ml-4 rounded-lg p-4 text-left will-change-transform hf:-translate-y-0.5 hf:bg-white hf:shadow-lg",
-              selected === index && "-translate-y-0.5 bg-white shadow-lg"
+              "-ml-4 rounded-lg p-4 text-left will-change-transform hf:-translate-y-0.5  hf:bg-white hf:shadow-lg d:hf:bg-dark-card",
+              selected === index && "-translate-y-0.5 bg-white shadow-lg d:bg-dark-card"
             )}
             style={{
               transition: `transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 25ms linear`,
             }}
             type="button"
           >
-            <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">{caption}</h3>
+            <h3 className="mb-0.5 text-[15px] font-semibold">{caption}</h3>
             <p className="text-sm font-light leading-relaxed">{description}</p>
           </button>
         );
@@ -302,7 +302,7 @@ export const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = 
 
   return (
     <figure className=" hidden h-full w-full lg:block">
-      <div className="h-full rounded-xl bg-slate-900 p-3 shadow-2xl drop-shadow-2xl">
+      <div className="h-full rounded-xl bg-slate-900 p-3 shadow-2xl drop-shadow-2xl d:bg-dark-card">
         <header className="mb-3 grid items-center" style={{ gridTemplateColumns: "50px 1fr 50px" }}>
           <i className="flex gap-1.5">
             <button
@@ -321,7 +321,7 @@ export const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = 
               className="h-3 w-3 rounded-full bg-slate-700 transition-colors h:bg-[#61C454]"
             />
           </i>
-          <h4 className="select-none text-center text-[13px] leading-none tracking-wide text-slate-500">
+          <h4 className="color select-none text-center text-[13px] leading-none tracking-wide text-slate-500">
             {filename}
           </h4>
           <div className="flex justify-end">
@@ -342,7 +342,7 @@ export const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = 
             </button>
           </div>
         </header>
-        <div className="relative h-[calc(100%-28px)] before:absolute b:pointer-events-none b:bottom-0 b:z-10 b:h-12 b:w-full b:select-none b:bg-gradient-to-b b:from-transparent b:to-slate-900">
+        <div className="relative h-[calc(100%-28px)] before:absolute b:pointer-events-none b:bottom-0 b:z-10 b:h-12 b:w-full b:select-none b:bg-gradient-to-b b:from-transparent b:to-slate-900 d:b:to-dark-card">
           <CodeGroup
             className="code-container scrollbar-none absolute inset-0 w-auto w-full overflow-y-scroll text-sm"
             plugins={["highlight-keywords"]}

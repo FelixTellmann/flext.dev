@@ -111,7 +111,7 @@ function NavDesktop() {
         onMouseOver={handleNavHover}
       >
         <div
-          className="absolute top-1/2 z-0 h-8 -translate-y-1/2 transform rounded bg-slate-200 opacity-60 dark:bg-gray-700"
+          className="absolute top-1/2 z-0 h-8 -translate-y-1/2 transform rounded bg-slate-200 opacity-60 dark:bg-slate-700"
           style={{
             width: `${navHover.width}px`,
             left: `${navHover.left}px`,
