@@ -1,10 +1,11 @@
-import { useDarkMode } from "_client/stores/ui-store";
 import { motion, useMotionValue, useTransform } from "framer-motion";
+import { useTheme } from "next-themes";
 import { FC } from "react";
 
 const LightDarkSwitcher: FC = () => {
-  const [isDark, setDarkMode] = useDarkMode();
+  const { theme, setTheme } = useTheme();
   const duration = 0.7;
+  const isDark = theme === "dark";
 
   const moonVariants = {
     checked: {
@@ -34,7 +35,9 @@ const LightDarkSwitcher: FC = () => {
       title="Theme toggle"
       className="icon-button relative transition-all h:!text-orange-600 h:shadow-glowLight dark:h:!text-sky-500 dark:h:shadow-glowDark"
       name="ToggleThemeButton"
-      onClick={() => setDarkMode((darkmode) => !darkmode)}
+      onClick={() => {
+        setTheme(isDark ? "light" : "dark");
+      }}
       animate={isDark ? "checked" : "unchecked"}
     >
       <motion.svg

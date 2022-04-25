@@ -1,7 +1,7 @@
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { withTRPC } from "@trpc/next";
 
-import { useIsMount } from "_client/hooks/useIsMount";
+import { useIsMount } from "_client/hooks/use-is-mount";
 import { Footer } from "_client/layout/footer";
 import { Header } from "_client/layout/header";
 import { ContextProviders } from "_client/stores/_contextProviders";
@@ -10,6 +10,7 @@ import { AppRouter } from "_server/settings/app-router";
 import { SEO } from "content/seo";
 import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";
+import { ThemeProvider } from "next-themes";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -30,37 +31,39 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
   }
 
   return (
-    <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
-      <ContextProviders>
-        <LoadInitialData>
-          <DefaultSeo
-            canonical={`${SEO.url}${router.asPath}`}
-            description={SEO.description}
-            openGraph={SEO.openGraph}
-            title={SEO.title}
-            twitter={SEO.twitter}
-          />
-          {/^\/examples\//i.test(router.pathname) || /^\/seo\/og-image/i.test(router.pathname)
-            ? <Component {...pageProps} />
-            : <>
-                <Header />
-                <main className="min-h-[calc(100vh-300px)]">
-                  <Component {...pageProps} />
-                </main>
+    <ThemeProvider attribute="class">
+      <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
+        <ContextProviders>
+          <LoadInitialData>
+            <DefaultSeo
+              canonical={`${SEO.url}${router.asPath}`}
+              description={SEO.description}
+              openGraph={SEO.openGraph}
+              title={SEO.title}
+              twitter={SEO.twitter}
+            />
+            {/^\/examples\//i.test(router.pathname) || /^\/seo\/og-image/i.test(router.pathname)
+              ? <Component {...pageProps} />
+              : <>
+                  <Header />
+                  <main className="min-h-[calc(100vh-300px)]">
+                    <Component {...pageProps} />
+                  </main>
 
-                <Footer />
-                {!isMount
-                  ? <ReactTooltip
-                      html
-                      backgroundColor="#24292f"
-                      className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
-                      id="global"
-                    />
-                  : null}
-              </>}
-        </LoadInitialData>
-      </ContextProviders>
-    </SessionProvider>
+                  <Footer />
+                  {!isMount
+                    ? <ReactTooltip
+                        html
+                        backgroundColor="#24292f"
+                        className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
+                        id="global"
+                      />
+                    : null}
+                </>}
+          </LoadInitialData>
+        </ContextProviders>
+      </SessionProvider>
+    </ThemeProvider>
   );
 };
 
