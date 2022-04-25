@@ -1,8 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-  // url                  = "mysql://root@127.0.0.1:3309/flext?connection_limit=10000&pool_timeout=0"
-
+// url                  = "mysql://root@127.0.0.1:3309/flext?connection_limit=10000&pool_timeout=0"
+// url                  = env("DATABASE_URL")
 
 datasource db {
   provider             = "mysql"
@@ -14,6 +14,27 @@ datasource db {
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
+}
+
+model Post {
+  id        String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  views     Int       @default(0)
+  likes     Int       @default(0)
+  comments  Comment[]
+
+  @@unique([id])
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  postId  String
+  userId  String
+  comment String @default("")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Telemetry {
@@ -155,6 +176,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   habits        Habits[]
+  comments      Comment[]
 }
 
 model VerificationToken {

@@ -4,7 +4,7 @@ import { ContentBlock, ContentBlockProps } from "_client/content-block";
 import useCopyToClipboard from "_client/hooks/use-copy-to-clipboard";
 import scrollTo from "_client/utils/scroll-to";
 import clsx from "clsx";
-import { FC, RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { FC, FocusEventHandler, MouseEventHandler, RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { HiArrowSmLeft, HiArrowSmRight, HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
@@ -53,7 +53,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
     setShowNext(scrollLeft + clientWidth < scrollWidth);
   }, []);
 
-  const scrollPrev = useCallback((e) => {
+  const scrollPrev: MouseEventHandler<HTMLElement> = useCallback((e) => {
     const scrollContainer = containerRef?.current as HTMLDivElement;
     let found = false;
     let scrollTo = 0;
@@ -68,7 +68,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
     scrollContainer.scrollTo(scrollTo, 0);
   }, []);
 
-  const scrollNext = useCallback((e) => {
+  const scrollNext: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     const scrollContainer = containerRef?.current as HTMLDivElement;
     let found = false;
     let scrollTo = 0;
@@ -176,10 +176,14 @@ const DesktopCodeSelector: FC<
 > = ({ codeBlocks, sectionRef }) => {
   const [selected, setSelected] = useState(0);
 
-  const handleCodeContainerScroll = useCallback((e) => {
-    const { scrollTop } = e.target;
-    const codeBlockElements = e.target.querySelectorAll("[data-selected-index]");
-    const { clientHeight: parentHeight } = e.target.parentElement;
+  const handleCodeContainerScroll: EventListener = useCallback((e) => {
+    const { scrollTop } = e.target as HTMLElement;
+
+    const codeBlockElements = (e.target as HTMLElement).querySelectorAll(
+      "[data-selected-index]"
+    ) as NodeListOf<HTMLElement>;
+
+    const { clientHeight: parentHeight } = (e.target as HTMLElement).parentElement as HTMLElement;
 
     let totalHeight = 0;
     for (let i = 0; i < codeBlockElements.length; i++) {

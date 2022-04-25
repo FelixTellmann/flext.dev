@@ -6,7 +6,7 @@ import { HEADER } from "content/header";
 import { SEO } from "content/seo";
 import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
-import { FC, Fragment, useCallback, useState } from "react";
+import { FC, FocusEventHandler, Fragment, MouseEventHandler, useCallback, useState } from "react";
 import { BsGithub, BsThreeDotsVertical } from "react-icons/bs";
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
@@ -44,12 +44,12 @@ function NavDesktop() {
 
   const [navHover, setNavHover] = useState(initialNavPosition);
 
-  const handleNavHover = useCallback((e) => {
+  const handleNavHover: MouseEventHandler<HTMLElement> = useCallback((e) => {
     if (e.target === e.currentTarget) {
       setNavHover(() => initialNavPosition);
     }
     if (e.target !== e.currentTarget) {
-      const navItemRef = getParentNodeByClass(e.target, "nav-item");
+      const navItemRef = getParentNodeByClass(e.target as HTMLElement, "nav-item");
       if (navItemRef) {
         setNavHover(({ opacity }) => ({
           width: navItemRef.offsetWidth,
@@ -61,7 +61,7 @@ function NavDesktop() {
     }
   }, []);
 
-  const handleNavFocus = useCallback((e) => {
+  const handleNavFocus: FocusEventHandler<HTMLElement> = useCallback((e) => {
     if (!e.currentTarget.matches(":focus-within")) {
       setNavHover(() => initialNavPosition);
       return;

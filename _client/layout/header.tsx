@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
-import { FC, Fragment, useCallback, useState } from "react";
+import { FC, FocusEventHandler, Fragment, MouseEventHandler, useCallback, useState } from "react";
 import { BsFillStarFill, BsGithub, BsThreeDotsVertical } from "react-icons/bs";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { IoDesktopOutline } from "react-icons/io5";
@@ -59,12 +59,12 @@ function NavDesktop() {
 
   const [navHover, setNavHover] = useState(initialNavPosition);
 
-  const handleNavHover = useCallback((e) => {
+  const handleNavHover: MouseEventHandler = useCallback((e) => {
     if (e.target === e.currentTarget) {
       setNavHover(() => initialNavPosition);
     }
     if (e.target !== e.currentTarget) {
-      const navItemRef = getParentNodeByClass(e.target, "nav-item");
+      const navItemRef = getParentNodeByClass(e.target as HTMLElement, "nav-item");
       if (navItemRef) {
         setNavHover(({ opacity }) => ({
           width: navItemRef.offsetWidth,
@@ -76,12 +76,14 @@ function NavDesktop() {
     }
   }, []);
 
-  const handleNavFocus = useCallback((e) => {
-    if (!e.currentTarget.matches(":focus-within")) {
+  const handleNavFocus: FocusEventHandler<HTMLElement> = useCallback((e) => {
+    // @ts-ignore
+    if (!e?.currentTarget?.matches(":focus-within")) {
       setNavHover(() => initialNavPosition);
       return;
     }
-    const navItemRef = getParentNodeByClass(e.target, "nav-item");
+
+    const navItemRef = getParentNodeByClass(e.target as HTMLElement, "nav-item");
     if (navItemRef) {
       setNavHover((currentNavHover) => {
         const { opacity, left, width } = currentNavHover;

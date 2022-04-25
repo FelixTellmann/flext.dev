@@ -4,6 +4,8 @@ export const SEO = {
   description: "my dev site",
   siteName: "Flext.dev",
   github: "https://github.com/FelixTellmann/flext.dev",
+  avatar: "https://avatars.githubusercontent.com/u/22034038",
+  author: "Felix Tellmann",
   twitter: {
     handle: "@Tellmann",
     site: "@FelixTellmann",

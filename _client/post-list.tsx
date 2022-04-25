@@ -1,5 +1,6 @@
 import { EyeIcon } from "@heroicons/react/solid";
 import { Link } from "_client/link";
+import { usePostStore } from "_client/stores/posts-store";
 import { isImage } from "_client/utils/is-image";
 import { Blog } from "contentlayer/generated";
 import Image from "next/image";
@@ -22,6 +23,8 @@ const PostPreview: FC<Blog> = ({
   title,
   icon,
 }) => {
+  const [posts] = usePostStore();
+
   const handleUpvote = useCallback(() => {
     console.log("handleUpvote");
   }, []);
@@ -29,6 +32,7 @@ const PostPreview: FC<Blog> = ({
   const viewComments = useCallback(() => {
     console.log("viewComments");
   }, []);
+
   return (
     <article className="w-full max-w-xs pt-6">
       <Link
@@ -45,7 +49,7 @@ const PostPreview: FC<Blog> = ({
                 }[icon]
               : null}
           </figure>
-          <h1 className="font-semibold leading-tight">{title}</h1>
+          <h1 className="min-h-[40px] font-semibold leading-tight">{title}</h1>
           <div className="flex-1" />
           <small className="mt-2 flex whitespace-nowrap text-slate-500">
             <time>{publishedAt}</time>
@@ -55,7 +59,7 @@ const PostPreview: FC<Blog> = ({
             </span>
           </small>
         </header>
-        <main className="relative  mt-1 h-40  overflow-hidden rounded-md">
+        <main className="relative -mx-2 mt-1 aspect-og-image  overflow-hidden rounded-md">
           <Image
             className="w-full"
             src={image && isImage(image) ? image : "/images/ts-1.jpg"}
@@ -88,7 +92,7 @@ const PostPreview: FC<Blog> = ({
             </button>
           </div>
           <div className="flex min-w-[60px] items-center">
-            <div className="mr-2 text-xs">123</div>
+            <div className="mr-2 text-xs">{posts.find(({ id }) => id === slug)?.views ?? 0}</div>
             <EyeIcon className="h-4" />
           </div>
         </footer>
@@ -99,7 +103,7 @@ const PostPreview: FC<Blog> = ({
 export const PostList: FC<{ posts?: Blog[] }> = ({ posts = [] }) => {
   return (
     <section className="flex justify-center">
-      <div className="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid flex-1 grid-cols-1 justify-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
         {posts
           .filter(
             (post) => Date.parse(post.publishedAt) && Date.parse(post.publishedAt) < Date.now()

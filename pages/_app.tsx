@@ -4,8 +4,8 @@ import { withTRPC } from "@trpc/next";
 import { useIsMount } from "_client/hooks/use-is-mount";
 import { Footer } from "_client/layout/footer";
 import { Header } from "_client/layout/header";
-import { ContextProviders } from "_client/stores/_contextProviders";
-import { LoadInitialData } from "_client/stores/_loadInitialData";
+import { ContextProviders } from "_client/stores/_context-providers";
+import { LoadInitialData } from "_client/stores/_load-initial-data";
 import { AppRouter } from "_server/settings/app-router";
 import { SEO } from "content/seo";
 import { SessionProvider } from "next-auth/react";
@@ -31,10 +31,10 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
   }
 
   return (
-    <ThemeProvider attribute="class">
-      <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
-        <ContextProviders>
-          <LoadInitialData>
+    <SessionProvider refetchOnWindowFocus refetchInterval={5 * 60} session={pageProps.session}>
+      <ContextProviders>
+        <LoadInitialData>
+          <ThemeProvider attribute="class">
             <DefaultSeo
               canonical={`${SEO.url}${router.asPath}`}
               description={SEO.description}
@@ -60,26 +60,22 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
                       />
                     : null}
                 </>}
-          </LoadInitialData>
-        </ContextProviders>
-      </SessionProvider>
-    </ThemeProvider>
+          </ThemeProvider>
+        </LoadInitialData>
+      </ContextProviders>
+    </SessionProvider>
   );
 };
 
 export default withTRPC<AppRouter>({
   config({ ctx }) {
-    if (typeof window !== "undefined") {
-      // during client requests
-      return {
-        url: "/api/trpc",
-      };
-    }
-
     return {
-      url: process.env.NEXT_PUBLIC_VERCEL_URL
-        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trpc`
-        : `http://localhost:${process.env.NEXT_PUBLIC_PORT ?? 3000}/api/trpc`,
+      url:
+        typeof window !== "undefined"
+          ? "/api/trpc"
+          : process.env.NEXT_PUBLIC_VERCEL_URL
+          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trpc`
+          : `http://localhost:${process.env.NEXT_PUBLIC_PORT ?? 3000}/api/trpc`,
       links: [
         /*loggerLink({
           enabled: (opts) =>
@@ -96,8 +92,8 @@ export default withTRPC<AppRouter>({
       queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
     };
   },
-  ssr: true,
-  responseMeta({ clientErrors }) {
+  ssr: false,
+  /*responseMeta({ clientErrors }) {
     if (clientErrors.length) {
       // propagate http first error from API calls
       return {
@@ -105,5 +101,5 @@ export default withTRPC<AppRouter>({
       };
     }
     return {};
-  },
+  },*/
 })(App);

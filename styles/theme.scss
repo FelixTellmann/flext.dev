@@ -90,12 +90,11 @@ button {
 
 ::-webkit-scrollbar-thumb {
   @apply bg-gradient-to-b from-sky-200 to-sky-400 dark:from-gray-400 dark:to-gray-800 rounded-[3px];
-
 }
 
 
 ::-webkit-scrollbar-thumb:horizontal {
-  @apply bg-gradient-to-r from-slate-300 to-slate-400 dark:from-gray-400 dark:to-gray-800 rounded-[3px]
+  @apply bg-gradient-to-r from-slate-300 to-slate-400 dark:from-gray-400 dark:to-gray-800 rounded-[3px] border border-solid border-slate-300/25;
 
 }
 
