@@ -99,13 +99,14 @@ const PostPreview: FC<Blog> = ({
 export const PostList: FC<{ posts?: Blog[] }> = ({ posts = [] }) => {
   return (
     <section className="flex justify-center">
-      <div className="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 lg:grid-cols-3 ">
-        {posts.map((post) => (
-          <>
+      <div className="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {posts
+          .filter(
+            (post) => Date.parse(post.publishedAt) && Date.parse(post.publishedAt) < Date.now()
+          )
+          .map((post) => (
             <PostPreview key={post.title} {...post} />
-            <PostPreview key={post.title} {...post} />
-          </>
-        ))}
+          ))}
       </div>
     </section>
   );

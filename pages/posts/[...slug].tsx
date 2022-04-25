@@ -50,7 +50,9 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
         <div className="mb-6 text-center">
           <h1 className="mb-1 text-3xl font-bold">{post?.title}</h1>
           <time dateTime={post?.publishedAt} className="text-sm text-gray-600">
-            {format(new Date(post?.publishedAt), "LLLL d, yyyy")}
+            {Date.parse(post?.publishedAt)
+              ? format(new Date(post?.publishedAt), "LLLL d, yyyy")
+              : "not published"}
           </time>
         </div>
         <MDXContent code={post.body.code} />
