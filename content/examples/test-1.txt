@@ -1,19 +1,39 @@
-// Add styles with your preferred CSS technology
-const TooltipContent: string[] = styled(Tooltip.Content, {
-  backgroundColor: "black",
-  borderRadius: "3px",
-  padding: "5px",
-});
+let userName: string = "Felix";
+let hasLoggedIn: boolean = true;
 
-const PopoverContent = styled(Popover.Content, {
-  backgroundColor: "white",
-  boxShadow: "0 2px 10px -3px rgb(0 0 0 / 20%)",
-  borderRadius: "3px",
-});
+userName += " Tellmann";
 
-const DialogContent = styled(Dialog.Content, {
-  backgroundColor: "white",
-  boxShadow: "0 3px 15px -4px rgb(0 0 0 / 30%)",
-  borderRadius: "5px",
-});
+console.log(userName);
 
+let myNumber: number = 10;
+
+let myRegex: RegExp = /foo/;
+
+const names: string[] = userName.split(" ");
+const myValues: Array<number> = [1, 2, 3];
+
+interface Person {
+  first: string;
+  last: string;
+}
+
+const myPerson: Person = {
+  first: "Felix",
+  last: "Tellmann",
+};
+
+const ids: Record<number, string> = {
+  10: "a",
+  20: "b",
+};
+ids[30] = "c";
+
+if (ids[30] === "D") {
+}
+
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+[1, 2, 3].forEach((v) => console.log(v));
+const out: number[] = [4, 5, 6].map((v) => v * 10);

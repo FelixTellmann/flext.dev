@@ -30,6 +30,7 @@ export const Blog = defineDocumentType(() => ({
     image: { type: "string", required: false },
     imageAlt: { type: "string", required: false },
     tags: { type: "list", required: false, of: { type: "string", required: true } },
+    icon: { type: "enum", required: false, options: ["typescript", "javascript"] },
   },
   computedFields,
 }));
