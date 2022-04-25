@@ -8,14 +8,14 @@ export const HEADER = {
       name: "UI",
       href: "/ui",
     },*/
-    {
+    /*{
       name: "Blog",
       href: "/blog",
-    },
-    {
+    },*/
+    /*{
       name: "Code",
       href: "/code-component",
-    },
+    },*/
     /*      {
       name: "About",
       href: "/about",
