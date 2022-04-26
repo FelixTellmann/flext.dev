@@ -90,7 +90,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showPrev, setShowPrev] = useState(false);
-  const [showNext, setShowNext] = useState(true);
+  const [showNext, setShowNext] = useState(codeBlocks.length > 1);
   const [copyToClipboard] = useCopyToClipboard();
 
   const handleScroll = useCallback(() => {
@@ -155,7 +155,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
           {codeBlocks?.map(({ caption, description, code }) => {
             return (
               <figure key={caption} className="relative flex flex-col gap-4">
-                <div className="scrollbar-none h-full h-[410px] overflow-y-scroll rounded-md bg-slate-900 p-3 pt-8 text-sm shadow-2xl d:bg-dark-card">
+                <div className="scrollbar-none h-full h-[410px] min-w-[360px] overflow-y-scroll rounded-md bg-slate-900 p-3 pt-8 text-sm shadow-2xl d:bg-dark-card">
                   <header className="absolute top-2 -mx-3 flex w-full justify-between px-3">
                     <i className="flex gap-1.5">
                       <button

@@ -16,7 +16,7 @@ Lets have a look at how we can use typescript in our code and make use of TypeSc
 coding easier and more predictable. The simple yet powerful _main feature_ of TypeScript is to add
 _type annotations_ to variables or functions.
 
-Here are some valid TypeScript types:
+Some of the valid TypeScript types are:
 
 - `number`
 - `string`
@@ -30,38 +30,18 @@ Here are some valid TypeScript types:
 - `never`
 - `any`
 
-const test = "asdasd"
-
 <CodeComponent
   maxWidth={"650px"}
-  mergeOnDesktop={true}
   contentBlock={{
-    caption: "Developer experience to love",
-    title: `Develop with an open, thought‑out API`,
-    description: `One of our main goals is to provide the best possible
-                  developer experience. Radix Primitives provides a fully-typed API. All components share a similar API, creating a consistent and predictable experience`,
+    title: `Let's explore each Type `,
+    /*description: `One of our main goals is to provide the best possible
+                  developer experience. Radix Primitives provides a fully-typed API. All components share a similar API, creating a consistent and predictable experience`,*/
   }}
-  filename="MySuperCoolFile.tsx"
   codeBlocks={[
     {
-      caption: "Unstyled",
-      description: `No need to override styles, no specificity wars.`,
-      code: `@import(./content/examples/test-1.txt)`,
-    },
-    {
-      caption: "Composable",
-      description: "Granular access to each component part.",
-      code: `@import(./content/examples/test-2.txt)`,
-    },
-    {
-      caption: "Customizable",
-      description: "Configure behavior, control focus, add event listeners.",
-      code: `@import(./content/examples/test-3.txt)`,
-    },
-    {
-      caption: "Consistent",
-      description: "Components with similar functionality share similar API.",
-      code: `@import(./content/examples/test-4.txt)`,
+      caption: "Type `number`",
+      description: `The number type can be used for integers, floats, bigint's, binary, hex and NaN`,
+      code: `@import(./content/examples/ts-03-numbers.tsx)`,
     },
   ]}
 />

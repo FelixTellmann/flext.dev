@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
   },
   extends: ["./node_modules/fx-style/", "plugin:mdx/recommended"],
-  ignorePatterns: ["public/**/*", "amplify/**/*"],
+  ignorePatterns: ["public/**/*", "amplify/**/*", "content/examples/**/*"],
   plugins: ["sort-keys-fix"],
   settings: {
     "mdx/code-blocks": true,
@@ -32,6 +32,12 @@ module.exports = {
             parser: "mdx",
           },
         ],
+      },
+    },
+    {
+      files: ["content/examples/*.tsx"],
+      rules: {
+        isolatedModules: 0,
       },
     },
   ],
