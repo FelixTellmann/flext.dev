@@ -33,9 +33,12 @@ export const getStaticProps: GetStaticProps<
       /(['"`])@import\(([^)]*)\)\1/gi,
       (match, _, filename) => {
         // console.log(match, _, filename);
+        const fileExists = fs.existsSync(filename);
+        if (!fileExists) {
+          return match;
+        }
         const file = fs.readFileSync(filename, { encoding: "utf-8" });
-        console.log();
-        return `\`${file}\``;
+        return `\`${file.replaceAll("`", "\\`").replace(/\$\{([^}]*)\}/gi, "\\$\\{$1\\}")}\``;
       }
     );
   }

@@ -156,6 +156,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
             return (
               <figure key={caption} className="relative flex flex-col gap-4">
                 <div className="scrollbar-none h-full h-[410px] min-w-[360px] overflow-y-scroll rounded-md bg-slate-900 p-3 pt-8 text-sm shadow-2xl d:bg-dark-card">
+                  <div className="absolute top-0 left-0 h-10 w-full rounded-t-md bg-gradient-to-b from-slate-900 via-slate-900 to-transparent d:from-dark-card d:via-dark-card"></div>
                   <header className="absolute top-2 -mx-3 flex w-full justify-between px-3">
                     <i className="flex gap-1.5">
                       <button
@@ -186,7 +187,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
                 </div>
                 <figcaption>
                   <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">{caption}</h3>
-                  <p className="text-sm ">{description}</p>
+                  <p className="max-w-[420px] text-sm">{description}</p>
                 </figcaption>
               </figure>
             );

@@ -33,15 +33,33 @@ Some of the valid TypeScript types are:
 <CodeComponent
   maxWidth={"650px"}
   contentBlock={{
-    title: `Let's explore each Type `,
-    /*description: `One of our main goals is to provide the best possible
-                  developer experience. Radix Primitives provides a fully-typed API. All components share a similar API, creating a consistent and predictable experience`,*/
+    title: `Let's explore some of the Basic Types in detail`,
   }}
+  mergeOnDesktop
   codeBlocks={[
     {
       caption: "Type `number`",
-      description: `The number type can be used for integers, floats, bigint's, binary, hex and NaN`,
+      description: `The number type can be used for integers, floats, bigint's, binary, hex and NaN. Constants are
+      inferred to their exact value`,
       code: `@import(./content/examples/ts-03-numbers.tsx)`,
+    },
+    {
+      caption: "Type `string`",
+      description: `The string type is used for textual data, unlike other typed languages, strings do not have a
+      character limit.`,
+      code: `@import(./content/examples/ts-03-strings.tsx)`,
+    },
+    {
+      caption: "Type `boolean`",
+      description: `Booleans are used everywhere and TypeScript gives you the superpower to infer values using "==="
+      anywhere.`,
+      code: `@import(./content/examples/ts-03-booleans.tsx)`,
+    },
+    {
+      caption: "Type `Array`",
+      description: `Array types can be written in one of two ways in TypeScript.You can use the type
+      of the element followed by [] or the Array<Type> keyword.`,
+      code: `@import(./content/examples/ts-03-arrays.tsx)`,
     },
   ]}
 />
