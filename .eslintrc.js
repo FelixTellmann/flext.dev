@@ -23,11 +23,13 @@ module.exports = {
       files: ["*.mdx"],
       rules: {
         "prettier/prettier": 0,
+        quotes: 0,
+        "react/jsx-no-undef": 0,
         "prettier-fx/prettier": [
           2,
           {
             // unnecessary if you're not using `eslint-plugin-prettier`, but required if you are
-            parser: "markdown",
+            parser: "mdx",
           },
         ],
       },

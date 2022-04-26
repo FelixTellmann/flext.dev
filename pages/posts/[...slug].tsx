@@ -7,6 +7,7 @@ import { isImage } from "_client/utils/is-image";
 import { SEO } from "content/seo";
 import { allBlogs, Blog } from "contentlayer/generated";
 import { format, parseISO } from "date-fns";
+import fs from "fs";
 import { GetStaticProps } from "next";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import Head from "next/head";
@@ -27,6 +28,17 @@ export const getStaticProps: GetStaticProps<
   ParsedUrlQuery & { slug: string[] }
 > = async ({ params }) => {
   const post = allBlogs.find((post) => post.slug === params?.slug.join("/"));
+  if (post?.body?.code) {
+    post.body.code = post.body.code.replace(
+      /(['"`])@import\(([^)]*)\)\1/gi,
+      (match, _, filename) => {
+        // console.log(match, _, filename);
+        const file = fs.readFileSync(filename, { encoding: "utf-8" });
+        console.log();
+        return `\`${file}\``;
+      }
+    );
+  }
   return {
     props: {
       post,

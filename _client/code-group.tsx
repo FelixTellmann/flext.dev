@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Prism from "prismjs";
-import { FC, useCallback, useEffect } from "react";
+import { FC, Fragment, useCallback, useEffect } from "react";
 
 export type CodeGroupProps = {
   code: string[];
@@ -68,12 +68,12 @@ export const CodeGroup: FC<CodeGroupProps> = ({
     >
       {code.map((code, index) => {
         return (
-          <>
-            <code key={index} className={`language-${language}`} data-selected-index={index}>
+          <Fragment key={index}>
+            <code className={`language-${language}`} data-selected-index={index}>
               {code}
             </code>
             {`\n`}
-          </>
+          </Fragment>
         );
       })}
     </pre>

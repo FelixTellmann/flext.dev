@@ -22,6 +22,7 @@ type CodeComponentProps = {
   maxWidth?: MaxWidth;
   mergeOnDesktop?: boolean;
 };
+
 export const CodeComponent: FC<CodeComponentProps> = ({
   contentBlock,
   codeBlocks = [],
@@ -205,7 +206,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
           "group absolute top-[200px] hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings d:ring-slate-800",
           showPrev && "sm:flex"
         )}
-        style={{ left: `min(-10px, calc((((100vw - 100%) / -2) + 4rem))` }}
+        style={{ left: `min(-10px, calc((((100vw - 100%) / -2) + 2rem))` }}
       >
         <HiChevronLeft className="group-hover:hidden" />
         <HiArrowSmLeft className="hidden group-hover:flex" />
@@ -217,7 +218,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
           "group absolute top-[200px] hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings  d:ring-slate-800",
           showNext && "sm:flex"
         )}
-        style={{ right: `min(-10px, calc((((100vw - 100%) / -2) + 4rem))` }}
+        style={{ right: `min(-10px, calc((((100vw - 100%) / -2) + 2rem))` }}
       >
         <HiChevronRight className="group-hover:hidden" />
         <HiArrowSmRight className="hidden group-hover:flex" />
