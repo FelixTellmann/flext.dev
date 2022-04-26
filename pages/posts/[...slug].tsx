@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps<
           return match;
         }
         const file = fs.readFileSync(filename, { encoding: "utf-8" });
-        return `\`${file.replaceAll("`", "\\`").replace(/\$\{([^}]*)\}/gi, "\\$\\{$1\\}")}\``;
+        return `\`${file.replace(/`/gi, "\\`").replace(/\$\{([^}]*)\}/gi, "\\$\\{$1\\}")}\``;
       }
     );
   }
