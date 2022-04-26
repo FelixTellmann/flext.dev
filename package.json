@@ -1,6 +1,6 @@
 {
   "name": "flex",
-  "version": "0.0.67",
+  "version": "0.0.68",
   "license": "MIT",
   "scripts": {
     "dev": "npm-run-all --parallel next:dev contentlayer:dev",
