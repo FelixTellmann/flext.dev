@@ -444,6 +444,7 @@ module.exports = {
       addVariant("a", ["&:active"]);
       addVariant("b", ["&::before"]);
       addVariant("af", ["&::before"]);
+      addVariant("not-prose", [":not(.prose &)&"]);
       addVariant("hfaa", ["&:hover", "&:focus", "&:active, &.active"]);
       addVariant("group-hfa", [".group:hover &", ".group:focus &", ".group:active &"]);
       addUtilities({

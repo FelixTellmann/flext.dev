@@ -14,7 +14,6 @@ import { ThemeProvider } from "next-themes";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import ReactTooltip from "react-tooltip";
 import "styles/animations.scss";
 import "styles/prism.scss";
 import "styles/tailwind.css";
@@ -51,14 +50,6 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
                   </main>
 
                   <Footer />
-                  {!isMount
-                    ? <ReactTooltip
-                        html
-                        backgroundColor="#24292f"
-                        className="!rounded-md !rounded-[6px] !border-none !py-2 !px-4 !leading-[18px]"
-                        id="global"
-                      />
-                    : null}
                 </>}
           </ThemeProvider>
         </LoadInitialData>

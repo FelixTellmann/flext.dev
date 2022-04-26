@@ -68,9 +68,12 @@ export const CodeGroup: FC<CodeGroupProps> = ({
     >
       {code.map((code, index) => {
         return (
-          <code key={index} className={`language-${language}`} data-selected-index={index}>
-            {code}
-          </code>
+          <>
+            <code key={index} className={`language-${language}`} data-selected-index={index}>
+              {code}
+            </code>
+            {`\n`}
+          </>
         );
       })}
     </pre>

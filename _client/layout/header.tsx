@@ -1,6 +1,7 @@
 import { Popover, Transition } from "@headlessui/react";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { Badge } from "_client/badge";
+import { CodeComponent } from "_client/code-component";
 import LightDarkSwitcher from "_client/light-dark-switch";
 import { Link } from "_client/link";
 
@@ -13,9 +14,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
 import { FC, FocusEventHandler, Fragment, MouseEventHandler, useCallback, useState } from "react";
-import { BsFillStarFill, BsGithub, BsThreeDotsVertical } from "react-icons/bs";
-import { FiMoon, FiSun } from "react-icons/fi";
-import { IoDesktopOutline } from "react-icons/io5";
+import { BsGithub, BsThreeDotsVertical } from "react-icons/bs";
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
 
@@ -266,7 +265,7 @@ function NavMobile() {
                             {name}
                           </a>
                         </NextLink>
-                      )) /**/
+                      ))
                     : <NextLink href="/auth/sign-in">
                         <a
                           className="flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100"

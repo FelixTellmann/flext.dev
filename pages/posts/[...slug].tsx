@@ -1,4 +1,5 @@
 import { Badge } from "_client/badge";
+import { CodeComponent } from "_client/code-component";
 import { useMutation } from "_client/hooks/_useTRPC";
 import usePosts from "_client/hooks/use-posts";
 import { usePostStore } from "_client/stores/posts-store";
@@ -52,7 +53,7 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
       <Head>
         <title>{post?.title}</title>
       </Head>
-      <article className="mx-auto max-w-prose py-16 px-4 sm:px-6">
+      <article className="mx-auto max-w-[650px] py-16 px-4 sm:px-6">
         <header className="mb-8">
           <h1 className="mb-6 text-3xl font-bold sm:text-4xl md:text-5xl">{post?.title}</h1>
           <p className="flex items-center gap-2 text-sm text-slate-600 d:text-slate-400">
@@ -97,8 +98,8 @@ export const MDXContent: FC<{ code: string }> = ({ code }) => {
   const Component = useMDXComponent(code);
 
   return (
-    <div className=" prose prose-slate dark:prose-dark">
-      <Component components={{ Badge }} />
+    <div className="prose prose-slate dark:prose-dark">
+      <Component components={{ Badge, CodeComponent }} />
     </div>
   );
 };

@@ -4,9 +4,11 @@ import { ContentBlock, ContentBlockProps } from "_client/content-block";
 import useCopyToClipboard from "_client/hooks/use-copy-to-clipboard";
 import scrollTo from "_client/utils/scroll-to";
 import clsx from "clsx";
+import { Property } from "csstype";
 import { FC, FocusEventHandler, MouseEventHandler, RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { HiArrowSmLeft, HiArrowSmRight, HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import MaxWidth = Property.MaxWidth;
 
 type CodeComponentProps = {
   codeBlocks: {
@@ -15,24 +17,66 @@ type CodeComponentProps = {
     description: string;
   }[];
   filename: string;
+  container?: boolean;
   contentBlock?: ContentBlockProps;
+  maxWidth?: MaxWidth;
+  mergeOnDesktop?: boolean;
 };
 export const CodeComponent: FC<CodeComponentProps> = ({
   contentBlock,
   codeBlocks = [],
   filename,
+  mergeOnDesktop = false,
+  maxWidth = `1280px`,
+  container = false,
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="py-20" ref={sectionRef}>
-      <div className="mx-auto flex max-w-7xl flex-col px-4 lg:flex-row lg:gap-8 lg:px-7">
+    <div className="not-prose relative py-20" ref={sectionRef}>
+      <div
+        className={clsx(
+          "mx-auto flex hidden gap-8",
+          mergeOnDesktop && "lg:flex lg:flex-row",
+          container && "px-4 lg:px-7"
+        )}
+        style={{
+          maxWidth: `min(1280px, calc(100vw - 3rem))`,
+          width: `min(1280px, calc(100vw - 3rem))`,
+          marginLeft: container
+            ? undefined
+            : `min(0px, max(calc(((100vw - ${maxWidth}) / -2)), calc((1280px - ${maxWidth}) / -2)))`,
+        }}
+      >
         <div className="flex max-w-[440px] flex-col">
           {contentBlock ? <ContentBlock {...contentBlock} /> : null}
-          <DesktopCodeSelector codeBlocks={codeBlocks} sectionRef={sectionRef} />
+          <DesktopCodeSelector
+            mergeOnDesktop={mergeOnDesktop}
+            codeBlocks={codeBlocks}
+            sectionRef={sectionRef}
+          />
         </div>
         <section className="flex-1">
-          <MobileCodeSlider codeBlocks={codeBlocks} />
-          <DesktopCodeBrowser codeBlocks={codeBlocks} filename={filename} />
+          <DesktopCodeBrowser
+            mergeOnDesktop={mergeOnDesktop}
+            codeBlocks={codeBlocks}
+            filename={filename}
+          />
+        </section>
+      </div>
+
+      <div
+        className={clsx(
+          "mx-auto flex flex-col lg:gap-8 ",
+          mergeOnDesktop && "lg:hidden",
+          container && "px-4 lg:px-7"
+        )}
+        style={{ maxWidth }}
+      >
+        <div className="flex max-w-[440px] flex-col">
+          {contentBlock ? <ContentBlock {...contentBlock} /> : null}
+        </div>
+        <section className="flex-1">
+          <MobileCodeSlider codeBlocks={codeBlocks} maxWidth={maxWidth} />
         </section>
       </div>
     </div>
@@ -41,6 +85,7 @@ export const CodeComponent: FC<CodeComponentProps> = ({
 
 const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">> = ({
   codeBlocks,
+  maxWidth,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showPrev, setShowPrev] = useState(false);
@@ -51,6 +96,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
     const { scrollLeft, scrollWidth, clientWidth } = containerRef?.current as HTMLDivElement;
     setShowPrev(scrollLeft > 0);
     setShowNext(scrollLeft + clientWidth < scrollWidth);
+    console.log({ scrollLeft, clientWidth, scrollWidth });
   }, []);
 
   const scrollPrev: MouseEventHandler<HTMLElement> = useCallback((e) => {
@@ -89,10 +135,15 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
   }, [handleScroll]);
 
   return (
-    <div className="relative lg:hidden">
+    <div className="relative">
       <div
         ref={containerRef}
-        className="scrollbar-none mx-[min(-1rem,calc((100vw-1280px)/-2)-1rem)] w-[calc(100vw-8px)] overflow-x-scroll pl-[max(1rem,calc(((100vw-1280px)/2)+1rem))] pr-4 "
+        className="scrollbar-none relative w-[calc(100vw-8px)] overflow-x-scroll"
+        style={{
+          marginLeft: `min(-1rem, calc((100vw - 100%) / -2))`,
+          marginRight: `min(-1rem, calc((100vw - 100%) / -2))`,
+          paddingLeft: `max(1rem, calc(((100vw - 100%) / 2)))`,
+        }}
       >
         <div
           className="grid gap-4"
@@ -139,7 +190,11 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
               </figure>
             );
           })}
-          <div />
+          <div
+            style={{
+              width: `max(1rem, calc(((100vw - ${maxWidth} + 64px) / 2)))`,
+            }}
+          />
         </div>
       </div>
 
@@ -147,9 +202,10 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
         aria-hidden="true"
         onClick={scrollPrev}
         className={clsx(
-          "group absolute top-[200px] left-2 hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 transition-all active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings d:ring-slate-800 lg:hidden",
+          "group absolute top-[200px] hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings d:ring-slate-800",
           showPrev && "sm:flex"
         )}
+        style={{ left: `min(-10px, calc((((100vw - 100%) / -2) + 4rem))` }}
       >
         <HiChevronLeft className="group-hover:hidden" />
         <HiArrowSmLeft className="hidden group-hover:flex" />
@@ -158,9 +214,10 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
         aria-hidden="true"
         onClick={scrollNext}
         className={clsx(
-          "group absolute top-[200px] right-2  hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 transition-all active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings  d:ring-slate-800 lg:hidden",
+          "group absolute top-[200px] hidden h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow-xl ring-1 active:translate-y-0.5 d:bg-dark-bg d:text-dark-headings  d:ring-slate-800",
           showNext && "sm:flex"
         )}
+        style={{ right: `min(-10px, calc((((100vw - 100%) / -2) + 4rem))` }}
       >
         <HiChevronRight className="group-hover:hidden" />
         <HiArrowSmRight className="hidden group-hover:flex" />
@@ -173,7 +230,7 @@ const DesktopCodeSelector: FC<
   Omit<CodeComponentProps, "contentBlock" | "filename"> & {
     sectionRef?: RefObject<HTMLDivElement>;
   }
-> = ({ codeBlocks, sectionRef }) => {
+> = ({ codeBlocks, sectionRef, mergeOnDesktop }) => {
   const [selected, setSelected] = useState(0);
 
   const handleCodeContainerScroll: EventListener = useCallback((e) => {
@@ -232,7 +289,10 @@ const DesktopCodeSelector: FC<
   }, [handleCodeContainerScroll, sectionRef]);
 
   return (
-    <section aria-hidden="true" className="hidden flex-col gap-2 lg:flex">
+    <section
+      aria-hidden="true"
+      className={clsx("hidden flex-col gap-2", mergeOnDesktop && "lg:flex")}
+    >
       {codeBlocks?.map(({ caption, description }, index) => {
         return (
           <button
@@ -261,11 +321,12 @@ const DesktopCodeSelector: FC<
 const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = ({
   codeBlocks,
   filename,
+  mergeOnDesktop,
 }) => {
   const [copyToClipboard] = useCopyToClipboard();
 
   return (
-    <figure className=" hidden h-full min-h-[480px] w-full lg:block">
+    <figure className={clsx("hidden h-full min-h-[480px] w-full ", mergeOnDesktop && "lg:block")}>
       <div className="h-full rounded-xl bg-slate-900 p-3 shadow-2xl drop-shadow-2xl d:bg-dark-card">
         <header className="mb-3 grid items-center" style={{ gridTemplateColumns: "50px 1fr 50px" }}>
           <i className="flex gap-1.5">

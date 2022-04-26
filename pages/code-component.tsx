@@ -45,4 +45,4 @@ export default (
     filename: string;
     contentBlock?: ContentBlockProps | undefined;
   } & { children?: ReactNode }
-) => <CodeComponent {...props} />;
+) => <CodeComponent {...props} mergeOnDesktop container />;
