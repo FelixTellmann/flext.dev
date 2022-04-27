@@ -1,6 +1,7 @@
 import { Badge } from "_client/badge";
 import { CodeComponent } from "_client/code-component";
-import { useMutation } from "_client/hooks/_useTRPC";
+import { fetchOnce, useMutation, useQuery } from "_client/hooks/_useTRPC";
+
 import usePosts from "_client/hooks/use-posts";
 import { usePostStore } from "_client/stores/posts-store";
 import { isImage } from "_client/utils/is-image";
@@ -14,6 +15,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
 import { FC, useEffect } from "react";
+import { FiCopy } from "react-icons/fi";
+import { useCopyToClipboard } from "react-use";
 
 export const getStaticPaths = async () => {
   const paths = allBlogs.map((post) => ({ params: { slug: post.slug.split("/") } }));
@@ -52,6 +55,9 @@ export const getStaticProps: GetStaticProps<
 const PostLayout: FC<{ post: Blog }> = ({ post }) => {
   const [posts] = usePostStore();
   const { addView, addLike } = usePosts();
+  const Component = useMDXComponent(post.body.code);
+  const [state, copyToClipboard] = useCopyToClipboard();
+  const { data: markdown } = useQuery(["posts.getMarkdown", { slug: post?.slug }], fetchOnce);
 
   useEffect(() => {
     if (post?.slug) {
@@ -68,10 +74,10 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
       <Head>
         <title>{post?.title}</title>
       </Head>
-      <article className="mx-auto max-w-[650px] py-16 px-4 sm:px-6">
+      <article className="post mx-auto max-w-[650px] py-16 px-4 sm:px-6">
         <header className="mb-8">
           <h1 className="mb-6 text-3xl font-bold sm:text-4xl md:text-5xl">{post?.title}</h1>
-          <p className="flex items-center gap-2 text-sm text-slate-600 d:text-slate-400">
+          <p className="not-markdown flex items-center gap-2 text-sm text-slate-600 d:text-slate-400">
             <Image
               alt={SEO.author}
               src={SEO.avatar}
@@ -85,13 +91,21 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
                 ? format(new Date(post?.publishedAt), "LLLL d, yyyy")
                 : "not published"}
             </time>
-            <span className="ml-auto">{post.readingTime.text} • </span>
+            <span className="ml-auto">{post.readingTime.text} - </span>
             <span>{posts.find(({ id }) => id === post.slug)?.views ?? 0} views</span>
+
+            <button
+              className="ml-2 text-base text-slate-500 transition-colors hfa:text-slate-900 d:text-slate-400 d:hfa:text-slate-300"
+              onClick={() => copyToClipboard(markdown ?? "")}
+              type="button"
+            >
+              <FiCopy />
+            </button>
           </p>
           {post.image && isImage(post.image)
             ? <picture className="relative left-1/2 mt-4 flex flex aspect-og-image w-[calc(100%+8rem)] max-w-[calc(100vw-2rem)] -translate-x-1/2 justify-center ">
                 <Image
-                  className="h-40 rounded-md"
+                  className="not-markdown h-40 rounded-md"
                   src={post.image}
                   alt={post.imageAlt ?? post.title}
                   objectFit="cover"
@@ -99,23 +113,20 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
                   layout="fill"
                   quality={20}
                 />
+                <img
+                  src={post.image}
+                  alt={post.imageAlt ?? post.title}
+                  className="generate-markdown hidden"
+                />
               </picture>
             : null}
         </header>
         <div className="mb-6 text-center"></div>
-        <MDXContent code={post.body.code} />
+        <main className="prose prose-slate dark:prose-dark">
+          <Component components={{ Badge, CodeComponent }} />
+        </main>
       </article>
     </>
-  );
-};
-
-export const MDXContent: FC<{ code: string }> = ({ code }) => {
-  const Component = useMDXComponent(code);
-
-  return (
-    <div className="prose prose-slate dark:prose-dark">
-      <Component components={{ Badge, CodeComponent }} />
-    </div>
   );
 };
 

@@ -1,13 +1,13 @@
 import { Code } from "_client/code";
 import { CodeGroup } from "_client/code-group";
 import { ContentBlock, ContentBlockProps } from "_client/content-block";
-import useCopyToClipboard from "_client/hooks/use-copy-to-clipboard";
 import scrollTo from "_client/utils/scroll-to";
 import clsx from "clsx";
 import { Property } from "csstype";
 import { FC, FocusEventHandler, MouseEventHandler, RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { HiArrowSmLeft, HiArrowSmRight, HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useCopyToClipboard } from "react-use";
 import MaxWidth = Property.MaxWidth;
 
 type CodeComponentProps = {
@@ -15,6 +15,7 @@ type CodeComponentProps = {
     caption: string;
     code: string;
     description: string;
+    language: "javascript" | "typescript" | "jsx" | "tsx";
   }[];
   filename: string;
   container?: boolean;
@@ -33,54 +34,70 @@ export const CodeComponent: FC<CodeComponentProps> = ({
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="not-prose relative py-20" ref={sectionRef}>
-      <div
-        className={clsx(
-          "mx-auto flex hidden gap-8",
-          mergeOnDesktop && "lg:flex lg:flex-row",
-          container && "px-4 lg:px-7"
-        )}
-        style={{
-          maxWidth: `min(1280px, calc(100vw - 3rem))`,
-          width: `min(1280px, calc(100vw - 3rem))`,
-          marginLeft: container
-            ? undefined
-            : `min(0px, max(calc(((100vw - ${maxWidth}) / -2)), calc((1280px - ${maxWidth}) / -2)))`,
-        }}
-      >
-        <div className="flex max-w-[440px] flex-col">
-          {contentBlock ? <ContentBlock {...contentBlock} /> : null}
-          <DesktopCodeSelector
-            mergeOnDesktop={mergeOnDesktop}
-            codeBlocks={codeBlocks}
-            sectionRef={sectionRef}
-          />
+    <>
+      <div aria-hidden className="not-prose not-markdown relative py-20" ref={sectionRef}>
+        <div
+          className={clsx(
+            "mx-auto flex hidden gap-8",
+            mergeOnDesktop && "lg:flex lg:flex-row",
+            container && "px-4 lg:px-7"
+          )}
+          style={{
+            maxWidth: `min(1280px, calc(100vw - 3rem))`,
+            width: `min(1280px, calc(100vw - 3rem))`,
+            marginLeft: container
+              ? undefined
+              : `min(0px, max(calc(((100vw - ${maxWidth}) / -2)), calc((1280px - ${maxWidth}) / -2)))`,
+          }}
+        >
+          <div className="flex max-w-[440px] flex-col">
+            {contentBlock ? <ContentBlock {...contentBlock} /> : null}
+            <DesktopCodeSelector
+              mergeOnDesktop={mergeOnDesktop}
+              codeBlocks={codeBlocks}
+              sectionRef={sectionRef}
+            />
+          </div>
+          <section className="flex-1">
+            <DesktopCodeBrowser
+              mergeOnDesktop={mergeOnDesktop}
+              codeBlocks={codeBlocks}
+              filename={filename}
+            />
+          </section>
         </div>
-        <section className="flex-1">
-          <DesktopCodeBrowser
-            mergeOnDesktop={mergeOnDesktop}
-            codeBlocks={codeBlocks}
-            filename={filename}
-          />
-        </section>
-      </div>
 
-      <div
-        className={clsx(
-          "mx-auto flex flex-col lg:gap-8 ",
-          mergeOnDesktop && "lg:hidden",
-          container && "px-4 lg:px-7"
-        )}
-        style={{ maxWidth }}
-      >
-        <div className="flex max-w-[440px] flex-col">
-          {contentBlock ? <ContentBlock {...contentBlock} /> : null}
+        <div
+          className={clsx(
+            "mx-auto flex flex-col lg:gap-8 ",
+            mergeOnDesktop && "lg:hidden",
+            container && "px-4 lg:px-7"
+          )}
+          style={{ maxWidth }}
+        >
+          <div className="flex max-w-[440px] flex-col">
+            {contentBlock ? <ContentBlock {...contentBlock} /> : null}
+          </div>
+          <section className="flex-1">
+            <MobileCodeSlider codeBlocks={codeBlocks} maxWidth={maxWidth} />
+          </section>
         </div>
-        <section className="flex-1">
-          <MobileCodeSlider codeBlocks={codeBlocks} maxWidth={maxWidth} />
-        </section>
       </div>
-    </div>
+      <div className="generate-markdown sr-only">
+        {contentBlock ? <ContentBlock {...contentBlock} /> : null}
+        {codeBlocks?.map(({ caption, description, code, language }) => {
+          return (
+            <figure key={caption} className="relative flex flex-col gap-4">
+              <figcaption>
+                <h4 className="mb-0.5 text-[15px] font-semibold text-slate-900">{caption}</h4>
+                <p className="max-w-[420px] text-sm">{description}</p>
+              </figcaption>
+              <Code code={code} language={language} plugins={["highlight-keywords"]} />
+            </figure>
+          );
+        })}
+      </div>
+    </>
   );
 };
 
@@ -91,7 +108,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
   const containerRef = useRef<HTMLDivElement>(null);
   const [showPrev, setShowPrev] = useState(false);
   const [showNext, setShowNext] = useState(codeBlocks.length > 1);
-  const [copyToClipboard] = useCopyToClipboard();
+  const [state, copyToClipboard] = useCopyToClipboard();
 
   const handleScroll = useCallback(() => {
     const { scrollLeft, scrollWidth, clientWidth } = containerRef?.current as HTMLDivElement;
@@ -152,7 +169,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
             gridTemplateColumns: `repeat(${codeBlocks?.length}, max-content) 1px`,
           }}
         >
-          {codeBlocks?.map(({ caption, description, code }) => {
+          {codeBlocks?.map(({ caption, description, code, language }) => {
             return (
               <figure key={caption} className="relative flex flex-col gap-4">
                 <div className="scrollbar-none h-full h-[410px] min-w-[360px] overflow-y-scroll rounded-md bg-slate-900 p-3 pt-8 text-sm shadow-2xl d:bg-dark-card">
@@ -183,7 +200,7 @@ const MobileCodeSlider: FC<Omit<CodeComponentProps, "contentBlock" | "filename">
                       <FiCopy />
                     </button>
                   </header>
-                  <Code code={code} language="tsx" plugins={["highlight-keywords"]} />
+                  <Code code={code} language={language} plugins={["highlight-keywords"]} />
                 </div>
                 <figcaption>
                   <h3 className="mb-0.5 text-[15px] font-semibold text-slate-900">{caption}</h3>
@@ -325,7 +342,7 @@ const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = ({
   filename,
   mergeOnDesktop,
 }) => {
-  const [copyToClipboard] = useCopyToClipboard();
+  const [state, copyToClipboard] = useCopyToClipboard();
 
   return (
     <figure className={clsx("hidden h-full min-h-[480px] w-full ", mergeOnDesktop && "lg:block")}>
@@ -373,7 +390,7 @@ const DesktopCodeBrowser: FC<Omit<CodeComponentProps, "contentBlock">> = ({
           <CodeGroup
             className="code-container scrollbar-none absolute inset-0 w-auto w-full overflow-y-scroll text-sm"
             plugins={["highlight-keywords"]}
-            language="tsx"
+            language={codeBlocks[0]?.language}
             code={codeBlocks?.map(({ code }) => {
               return code;
             })}
