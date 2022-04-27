@@ -17,6 +17,7 @@ import { ParsedUrlQuery } from "querystring";
 import { FC, useEffect } from "react";
 import { FiCopy } from "react-icons/fi";
 import { useCopyToClipboard } from "react-use";
+import { BsMarkdownFill } from "react-icons/bs";
 
 export const getStaticPaths = async () => {
   const paths = allBlogs.map((post) => ({ params: { slug: post.slug.split("/") } }));
@@ -95,11 +96,11 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
             <span>{posts.find(({ id }) => id === post.slug)?.views ?? 0} views</span>
 
             <button
-              className="ml-2 text-base text-slate-500 transition-colors hfa:text-slate-900 d:text-slate-400 d:hfa:text-slate-300"
+              className="ml-2 text-xl text-slate-500 transition-colors hfa:text-slate-900 d:text-slate-400 d:hfa:text-slate-300"
               onClick={() => copyToClipboard(markdown ?? "")}
               type="button"
             >
-              <FiCopy />
+              <BsMarkdownFill />
             </button>
           </p>
           {post.image && isImage(post.image)
