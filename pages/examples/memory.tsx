@@ -83,6 +83,13 @@ export const Memory: FC<MemoryProps> = (props) => {
 
 export default Memory;
 
+const createGrid = (size: string, theme: string) => {
+  const [rows, cols] = size.split("x").map((x) => new Array(+x).fill(theme));
+  console.log([rows, cols]);
+  const grid: never[] = [];
+  return grid;
+};
+
 export const MemoryGame = ({
   players,
   size,
@@ -93,11 +100,12 @@ export const MemoryGame = ({
   theme: "numbers" | "colors" | "alphabet" | "icons";
 }) => {
   const [moves, setMoves] = useState();
+  const [grid, setGrid] = useState(createGrid(size, theme));
 
   return (
     <>
-      <section className="flex h-screen w-screen  flex-col items-center justify-center bg-slate-100">
-        <header className="flex w-full max-w-4xl items-center">
+      <section className="flex h-screen w-screen flex-col items-center bg-slate-100">
+        <header className="mt-14 mb-6 flex w-full max-w-7xl items-center">
           <h1 className="text-4xl font-bold text-slate-900">memory</h1>
           <div className="ml-auto flex items-center gap-4">
             <button className="rounded-full bg-orange-400 px-6 py-2 text-xl font-bold text-slate-900 hfa:bg-orange-300">
@@ -108,7 +116,9 @@ export const MemoryGame = ({
             </button>
           </div>
         </header>
-        <main>grid</main>
+        <main className="grid" style={{ gridTemplateColumns: `repeat(4, 1fr)` }}>
+          grid
+        </main>
         <footer>asd</footer>
       </section>
     </>
