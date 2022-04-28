@@ -1,6 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
 import clsx from "clsx";
-import { FC, useCallback, useState } from "react";
+import { FC, useState } from "react";
 
 type MemoryProps = {};
 
@@ -83,10 +83,24 @@ export const Memory: FC<MemoryProps> = (props) => {
 
 export default Memory;
 
-const createGrid = (size: string, theme: string) => {
-  const [rows, cols] = size.split("x").map((x) => new Array(+x).fill(theme));
-  console.log([rows, cols]);
-  const grid: never[] = [];
+const createGrid = (size: `${number}x${number}`) => {
+  const count = parseInt(size.split("x")[0]);
+  const grid = [
+    ...Array.from(Array(count ** 2 / 2).keys()),
+    ...Array.from(Array(count ** 2 / 2).keys()),
+  ]
+    .sort(() => Math.random() - 0.5)
+    .reduce(
+      (acc, num, index) => {
+        if (Array.isArray(acc[Math.floor(index / count)])) {
+          acc[Math.floor(index / count)].push({ key: num, solved: false });
+          return acc;
+        }
+        acc[Math.floor(index / count)] = [{ key: num, solved: false }];
+        return acc;
+      },
+      [] as { key: number; solved: boolean }[][]
+    );
   return grid;
 };
 
@@ -100,8 +114,9 @@ export const MemoryGame = ({
   theme: "numbers" | "colors" | "alphabet" | "icons";
 }) => {
   const [moves, setMoves] = useState();
-  const [grid, setGrid] = useState(createGrid(size, theme));
+  const [grid, setGrid] = useState(createGrid(size));
 
+  console.log(grid);
   return (
     <>
       <section className="flex h-screen w-screen flex-col items-center bg-slate-100">
