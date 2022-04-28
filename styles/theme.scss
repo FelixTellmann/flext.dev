@@ -138,11 +138,12 @@ button {
 }
 
 
-h1,h2,h3,h4,h5,h6 {
+/*h1,h2,h3,h4,h5,h6 {
   &:not(.color) {
     @apply text-slate-900 d:text-dark-headings
   }
-}
+}*/
+
 .dark .prose :not(pre) :where(code):not(:where([class~="not-prose"] *)) {
   @apply bg-slate-800 px-2 inline-block rounded-sm;
 }
