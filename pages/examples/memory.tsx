@@ -1,6 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
 import clsx from "clsx";
-import { FC, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { GiCardAceHearts, GiConsoleController, GiDuck, GiGalleon, GiHeartPlus, GiHemp, GiJigsawPiece, GiMaterialsScience, GiMineWagon, GiModernCity, GiMusicalNotes, GiPartyPopper, GiPin, GiPizzaSlice, GiPropellerBeanie, GiRadarDish, GiRotaryPhone, GiScorpion, GiShamrock, GiShinyApple, GiSpades, GiSteam, GiSteeringWheel, GiStopwatch, GiTinker, GiTopHat, GiTowerFlag, GiTrophyCup, GiUmbrella, GiUnicorn, GiUnlitBomb, GiYinYang } from "react-icons/gi";
 
 type MemoryProps = {};
@@ -91,14 +91,30 @@ const createGrid = (size: `${number}x${number}`) => {
     .reduce(
       (acc, num, index) => {
         if (Array.isArray(acc[Math.floor(index / count)])) {
-          acc[Math.floor(index / count)].push({ key: num, solved: false });
+          acc[Math.floor(index / count)].push(num);
           return acc;
         }
-        acc[Math.floor(index / count)] = [{ key: num, solved: false }];
+        acc[Math.floor(index / count)] = [num];
         return acc;
       },
-      [] as { key: number; solved: boolean }[][]
+      [] as number[][]
     );
+};
+const createGridOptions = (
+  size: `${number}x${number}`
+): { selected: boolean; solved: boolean }[][] => {
+  const count = parseInt(size.split("x")[0]);
+  return [...Array.from(Array(count ** 2 / 2)), ...Array.from(Array(count ** 2 / 2))].reduce(
+    (acc, num, index) => {
+      if (Array.isArray(acc[Math.floor(index / count)])) {
+        acc[Math.floor(index / count)].push({ solved: false, selected: false });
+        return acc;
+      }
+      acc[Math.floor(index / count)] = [{ solved: false, selected: false }];
+      return acc;
+    },
+    [] as { selected: boolean; solved: boolean }[][]
+  );
 };
 
 function themify(key: number, theme: "numbers" | "colors" | "alphabet" | "icons") {
@@ -408,6 +424,33 @@ function themify(key: number, theme: "numbers" | "colors" | "alphabet" | "icons"
   }
 }
 
+export const Counter: FC<{ startTime: number }> = ({ startTime }) => {
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const interval: { current: NodeJS.Timeout | null } = useRef(null);
+
+  useEffect(() => {
+    if (interval.current) {
+      clearInterval(interval.current);
+    }
+    setTimeElapsed(0);
+    interval.current = setInterval(
+      () => {
+        setTimeElapsed(Date.now() - startTime);
+      },
+      1000
+    );
+  }, [startTime]);
+
+  return (
+    <>
+      {new Date(timeElapsed).toLocaleTimeString("en-GB", {
+        minute: "2-digit",
+        second: "2-digit",
+      })}
+    </>
+  );
+};
+
 export const MemoryGame = ({
   players,
   size,
@@ -419,16 +462,76 @@ export const MemoryGame = ({
   size: "4x4" | "6x6" | "8x8";
   theme: "numbers" | "colors" | "alphabet" | "icons";
 }) => {
-  const [moves, setMoves] = useState();
+  const [moveCount, setMoveCount] = useState(0);
+  const [playerMoveCounts, setPlayerMoveCounts] = useState([0, 0, 0, 0]);
+  const [activePlayer, setActivePlayer] = useState(0);
   const [grid, setGrid] = useState(createGrid(size));
+  const [startTime, setStartTime] = useState(Date.now());
+  const [gridOptions, setGridOptions] = useState(createGridOptions(size));
+  const [selection, setSelection] = useState<{ a?: [number, number]; b?: [number, number] }>({
+    a: undefined,
+    b: undefined,
+  });
 
-  console.log(grid);
+  const select = useCallback((x: number, y: number) => {
+    setSelection(({ a, b }) => {
+      if (!a) {
+        setMoveCount((num) => (num += 1));
+        setPlayerMoveCounts((arr) =>
+          arr.map((num, index) => (activePlayer === index ? (num += 1) : num))
+        );
+        return { a: [x, y], b: undefined };
+      }
+      if (!b) {
+        const [aX, aY] = a;
+        if (grid[aX][aY] === grid[x][y]) {
+          setGridOptions((grid) => {
+            grid[aX][aY] = { ...grid[aX][aY], solved: true };
+            grid[x][y] = { ...grid[x][y], solved: true };
+            return [...grid];
+          });
+          return { a: undefined, b: undefined };
+        }
+        return { a, b: [x, y] };
+      }
+      return { a: undefined, b: undefined };
+    });
+  }, [activePlayer, grid]);
+
+  console.log(playerMoveCounts);
+  const resetGame = useCallback(() => {
+    setGrid(createGrid(size));
+    setGridOptions(createGridOptions(size));
+    setStartTime(Date.now());
+    setMoveCount(0);
+  }, [size]);
+
+  useEffect(() => {
+    setGridOptions((grid) => {
+      const newGrid = grid.map((row) => row.map((r) => ({ ...r, selected: false })));
+      if (selection.a) {
+        const [x, y] = selection.a;
+        newGrid[x][y] = { ...newGrid[x][y], selected: true };
+      }
+
+      if (selection.b) {
+        const [x, y] = selection.b;
+        newGrid[x][y] = { ...newGrid[x][y], selected: true };
+      }
+
+      return [...newGrid];
+    });
+  }, [selection]);
+
   return (
-    <section className="flex h-screen w-screen flex-col items-center bg-slate-100">
+    <section className="relative flex h-screen w-screen flex-col items-center justify-between bg-slate-100">
       <header className="mt-14 mb-6 flex w-full max-w-7xl items-center px-4">
         <h1 className="text-4xl font-bold text-slate-900">memory</h1>
         <div className="ml-auto flex items-center gap-4">
-          <button className="rounded-full bg-orange-400 px-6 py-2 text-xl font-bold text-slate-900 hfa:bg-orange-300">
+          <button
+            className="rounded-full bg-orange-400 px-6 py-2 text-xl font-bold text-slate-900 hfa:bg-orange-300"
+            onClick={resetGame}
+          >
             Restart
           </button>
           <button
@@ -440,14 +543,22 @@ export const MemoryGame = ({
         </div>
       </header>
       <main className="flex flex-col gap-4">
-        {grid.map((row, index) => (
-          <div key={JSON.stringify(row) + index} className="flex gap-4">
-            {row.map(({ key, solved }, index) => (
+        {grid.map((row, x) => (
+          <div key={JSON.stringify(row) + x} className="flex gap-4">
+            {row.map((key, y) => (
               <button
-                key={`${key}-${index}`}
-                className="h-20 w-20 overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
+                key={`${key}-${y}`}
+                className="overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
+                style={{ width: getGridSize(size), height: getGridSize(size) }}
+                onClick={() => select(x, y)}
               >
-                <div className="pointer-events-none flex h-full w-full select-none items-center justify-center opacity-100 ">
+                <div
+                  className={clsx(
+                    "pointer-events-none flex h-full w-full select-none items-center justify-center bg-orange-400 opacity-0 transition-all duration-150",
+                    gridOptions[x][y].selected && !gridOptions[x][y].solved && "!opacity-100",
+                    gridOptions[x][y].solved && "!bg-green-400 !opacity-100"
+                  )}
+                >
                   {themify(key, theme)}
                 </div>
               </button>
@@ -455,7 +566,32 @@ export const MemoryGame = ({
           </div>
         ))}
       </main>
-      <footer>asd</footer>
+      <footer className="mb-14 flex gap-8">
+        <div className="flex w-[200px] items-center justify-between gap-3 rounded-md bg-slate-300 p-3">
+          <span className="font-bold text-slate-500">Time</span>
+          <span className="text-2xl font-bold text-slate-700">
+            <Counter startTime={startTime} />
+          </span>
+        </div>
+        <div className="flex w-[200px] items-center justify-between gap-3 rounded-md bg-slate-300 p-3">
+          <span className="font-bold text-slate-500">Moves</span>
+          <span className="text-2xl font-bold text-slate-700">{moveCount}</span>
+        </div>
+      </footer>
     </section>
   );
 };
+
+function getGridSize(size: "4x4" | "6x6" | "8x8") {
+  switch (size) {
+    case "4x4": {
+      return "100px";
+    }
+    case "6x6": {
+      return "90px";
+    }
+    case "8x8": {
+      return "75px";
+    }
+  }
+}
