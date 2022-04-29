@@ -102,18 +102,18 @@ const createGrid = (size: `${number}x${number}`) => {
 };
 const createGridOptions = (
   size: `${number}x${number}`
-): { selected: boolean; solved: boolean }[][] => {
+): { reveals: number; selected: boolean; solved: boolean }[][] => {
   const count = parseInt(size.split("x")[0]);
   return [...Array.from(Array(count ** 2 / 2)), ...Array.from(Array(count ** 2 / 2))].reduce(
     (acc, num, index) => {
       if (Array.isArray(acc[Math.floor(index / count)])) {
-        acc[Math.floor(index / count)].push({ solved: false, selected: false });
+        acc[Math.floor(index / count)].push({ solved: false, selected: false, reveals: 0 });
         return acc;
       }
-      acc[Math.floor(index / count)] = [{ solved: false, selected: false }];
+      acc[Math.floor(index / count)] = [{ solved: false, selected: false, reveals: 0 }];
       return acc;
     },
-    [] as { selected: boolean; solved: boolean }[][]
+    [] as { reveals: number; selected: boolean; solved: boolean }[][]
   );
 };
 
@@ -424,7 +424,10 @@ function themify(key: number, theme: "numbers" | "colors" | "alphabet" | "icons"
   }
 }
 
-export const Counter: FC<{ startTime: number }> = ({ startTime }) => {
+export const Counter: FC<{ startTime: number; stopCounter: boolean }> = ({
+  startTime,
+  stopCounter,
+}) => {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const interval: { current: NodeJS.Timeout | null } = useRef(null);
 
@@ -432,14 +435,16 @@ export const Counter: FC<{ startTime: number }> = ({ startTime }) => {
     if (interval.current) {
       clearInterval(interval.current);
     }
-    setTimeElapsed(0);
-    interval.current = setInterval(
-      () => {
-        setTimeElapsed(Date.now() - startTime);
-      },
-      1000
-    );
-  }, [startTime]);
+    if (!stopCounter) {
+      setTimeElapsed(0);
+      interval.current = setInterval(
+        () => {
+          setTimeElapsed(Date.now() - startTime);
+        },
+        1000
+      );
+    }
+  }, [startTime, stopCounter]);
 
   return (
     <>
@@ -475,7 +480,7 @@ export const MemoryGame = ({
 
   const select = useCallback((x: number, y: number) => {
     setSelection(({ a, b }) => {
-      if (!a) {
+      if (!a || (a && b)) {
         setMoveCount((num) => (num += 1));
         setPlayerMoveCounts((arr) =>
           arr.map((num, index) => (activePlayer === index ? (num += 1) : num))
@@ -498,12 +503,15 @@ export const MemoryGame = ({
     });
   }, [activePlayer, grid]);
 
-  console.log(playerMoveCounts);
   const resetGame = useCallback(() => {
     setGrid(createGrid(size));
     setGridOptions(createGridOptions(size));
     setStartTime(Date.now());
     setMoveCount(0);
+    setSelection({
+      a: undefined,
+      b: undefined,
+    });
   }, [size]);
 
   useEffect(() => {
@@ -511,12 +519,16 @@ export const MemoryGame = ({
       const newGrid = grid.map((row) => row.map((r) => ({ ...r, selected: false })));
       if (selection.a) {
         const [x, y] = selection.a;
-        newGrid[x][y] = { ...newGrid[x][y], selected: true };
+        newGrid[x][y] = {
+          ...newGrid[x][y],
+          selected: true,
+          reveals: selection.b ? newGrid[x][y].reveals : newGrid[x][y].reveals + 1,
+        };
       }
 
       if (selection.b) {
         const [x, y] = selection.b;
-        newGrid[x][y] = { ...newGrid[x][y], selected: true };
+        newGrid[x][y] = { ...newGrid[x][y], selected: true, reveals: newGrid[x][y].reveals + 1 };
       }
 
       return [...newGrid];
@@ -551,10 +563,11 @@ export const MemoryGame = ({
                 className="overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
                 style={{ width: getGridSize(size), height: getGridSize(size) }}
                 onClick={() => select(x, y)}
+                disabled={gridOptions[x][y].selected || gridOptions[x][y].solved}
               >
                 <div
                   className={clsx(
-                    "pointer-events-none flex h-full w-full select-none items-center justify-center bg-orange-400 opacity-0 transition-all duration-150",
+                    "pointer-events-none flex h-full w-full select-none items-center justify-center bg-orange-400 opacity-0 transition-all duration-75",
                     gridOptions[x][y].selected && !gridOptions[x][y].solved && "!opacity-100",
                     gridOptions[x][y].solved && "!bg-green-400 !opacity-100"
                   )}
@@ -570,7 +583,10 @@ export const MemoryGame = ({
         <div className="flex w-[200px] items-center justify-between gap-3 rounded-md bg-slate-300 p-3">
           <span className="font-bold text-slate-500">Time</span>
           <span className="text-2xl font-bold text-slate-700">
-            <Counter startTime={startTime} />
+            <Counter
+              startTime={startTime}
+              stopCounter={gridOptions.every((row) => row.every((item) => item.solved))}
+            />
           </span>
         </div>
         <div className="flex w-[200px] items-center justify-between gap-3 rounded-md bg-slate-300 p-3">
@@ -578,6 +594,54 @@ export const MemoryGame = ({
           <span className="text-2xl font-bold text-slate-700">{moveCount}</span>
         </div>
       </footer>
+      <div
+        className={clsx(
+          "pointer-events-none fixed inset-0 z-10 flex items-center justify-center bg-slate-700/50 opacity-0 backdrop-blur-sm transition-opacity",
+          gridOptions.every((row) => row.every((item) => item.solved)) &&
+            "!pointer-events-auto !opacity-100"
+        )}
+      >
+        <section className="flex flex-col gap-10 rounded-3xl bg-slate-50 p-8 shadow-2xl">
+          <header className="text-center">
+            <h1 className="mt-4 mb-6 text-6xl font-extrabold text-slate-800">You did it!</h1>
+            <p className="text-xl font-bold text-slate-500">Game over! Here's how you got on</p>
+          </header>
+
+          <div className="flex w-[600px] items-center justify-between gap-3 rounded-xl bg-slate-300 p-4">
+            <span className="font-bold text-slate-500">Time Elapsed</span>
+            <span className="text-2xl font-bold text-slate-700">
+              <Counter
+                startTime={startTime}
+                stopCounter={gridOptions.every((row) => row.every((item) => item.solved))}
+              />
+            </span>
+          </div>
+          <div className="flex w-[600px] items-center justify-between gap-3 rounded-xl bg-slate-300 p-4">
+            <span className="font-bold text-slate-500">Moves Taken</span>
+            <span className="text-2xl font-bold text-slate-700">{moveCount} Moves</span>
+          </div>
+          <div className="flex w-[600px] items-center justify-between gap-3 rounded-xl bg-slate-300 p-4">
+            <span className="font-bold text-slate-500">On First Reveal</span>
+            <span className="text-2xl font-bold text-slate-700">
+              getStrikes from Calculation in useEffect Strikes
+            </span>
+          </div>
+          <footer className="flex gap-4 ">
+            <button
+              className="flex-1 rounded-full bg-orange-400 px-6 py-3 text-xl font-bold text-slate-900 hfa:bg-orange-300"
+              onClick={resetGame}
+            >
+              Restart
+            </button>
+            <button
+              className="flex-1 rounded-full bg-slate-300 px-6 py-3 text-xl font-bold text-slate-900 hfa:bg-slate-300/60"
+              onClick={() => newGame()}
+            >
+              New Game
+            </button>
+          </footer>
+        </section>
+      </div>
     </section>
   );
 };
