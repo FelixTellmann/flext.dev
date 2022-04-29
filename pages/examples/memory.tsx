@@ -108,40 +108,100 @@ function themify(key: number, theme: "numbers" | "colors" | "alphabet" | "icons"
     case "colors":
       switch (key) {
         case 0: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#ff1493" }} />;
         }
         case 1: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#0000ff" }} />;
         }
         case 2: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#ffff00" }} />;
         }
         case 3: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#ff4500" }} />;
         }
         case 4: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#008000" }} />;
         }
         case 5: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#00ffff" }} />;
         }
         case 6: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#dc143c" }} />;
         }
         case 7: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#8b008b" }} />;
         }
         case 8: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#7cfc00" }} />;
         }
         case 9: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#f0e68c" }} />;
         }
         case 10: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#da70d6" }} />;
         }
         case 11: {
-          return <div className="h-full w-full bg-red-300"></div>;
+          return <div className="h-full w-full" style={{ backgroundColor: "#008b8b" }} />;
+        }
+        case 12: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#808000" }} />;
+        }
+        case 13: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#a0522d" }} />;
+        }
+        case 14: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#696969" }} />;
+        }
+        case 15: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#7b68ee" }} />;
+        }
+        case 16: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#b03060" }} />;
+        }
+        case 17: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#000080" }} />;
+        }
+        case 18: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#f08080" }} />;
+        }
+        case 19: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#90ee90" }} />;
+        }
+        case 20: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#87ceeb" }} />;
+        }
+        case 21: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#00ff7f" }} />;
+        }
+        case 22: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#ffa500" }} />;
+        }
+        case 23: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#ededed" }} />;
+        }
+        case 24: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#010101" }} />;
+        }
+        case 25: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#d8bfd8" }} />;
+        }
+        case 26: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#ff00ff" }} />;
+        }
+        case 27: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#9400d3" }} />;
+        }
+        case 28: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#483d8b" }} />;
+        }
+        case 29: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#1e90ff" }} />;
+        }
+        case 30: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#f4a460" }} />;
+        }
+        case 31: {
+          return <div className="h-full w-full" style={{ backgroundColor: "#ff0015" }} />;
         }
       }
       return "";
@@ -385,9 +445,9 @@ export const MemoryGame = ({
             {row.map(({ key, solved }, index) => (
               <button
                 key={`${key}-${index}`}
-                className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
+                className="h-20 w-20 overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
               >
-                <div className="pointer-events-none select-none opacity-100">
+                <div className="pointer-events-none flex h-full w-full select-none items-center justify-center opacity-100 ">
                   {themify(key, theme)}
                 </div>
               </button>
