@@ -5,14 +5,15 @@ import { GiCardAceHearts, GiConsoleController, GiDuck, GiGalleon, GiHeartPlus, G
 
 type MemoryProps = {};
 
-function MemoryRadio({ value }: { value: string | number }) {
+function MemoryRadio({ value, disabled }: { value: string | number; disabled?: boolean }) {
   return (
-    <RadioGroup.Option value={value} className="flex flex-1">
+    <RadioGroup.Option value={value} disabled={disabled} className="flex flex-1">
       {({ checked }) => (
         <div
           className={clsx(
             "flex flex-1 cursor-pointer items-center justify-center rounded-full bg-slate-400/75 py-1.5 text-slate-50",
-            checked && "bg-slate-600"
+            checked && "bg-slate-600",
+            disabled && "cursor-not-allowed bg-slate-400/50"
           )}
         >
           {value}
@@ -34,7 +35,7 @@ export const Memory: FC<MemoryProps> = (props) => {
     );
   }
   return (
-    <section className="flex h-screen w-screen flex-col items-center justify-center bg-dark-bg">
+    <section className="flex h-screen w-screen flex-col items-center justify-center bg-dark-bg ">
       <header className="pb-12">
         <h1 className="text-5xl font-bold text-slate-100">memory</h1>
       </header>
@@ -56,9 +57,9 @@ export const Memory: FC<MemoryProps> = (props) => {
           </RadioGroup.Label>
           <div className="flex justify-between gap-3">
             <MemoryRadio value={1} />
-            <MemoryRadio value={2} />
-            <MemoryRadio value={3} />
-            <MemoryRadio value={4} />
+            <MemoryRadio value={2} disabled />
+            <MemoryRadio value={3} disabled />
+            <MemoryRadio value={4} disabled />
           </div>
         </RadioGroup>{" "}
         <RadioGroup value={size} onChange={setSize} className=" text-lg font-bold">
@@ -86,35 +87,28 @@ export default Memory;
 
 const createGrid = (size: `${number}x${number}`) => {
   const count = parseInt(size.split("x")[0]);
-  return [...Array.from(Array(count ** 2 / 2).keys()), ...Array.from(Array(count ** 2 / 2).keys())]
-    .sort(() => Math.random() - 0.5)
-    .reduce(
-      (acc, num, index) => {
-        if (Array.isArray(acc[Math.floor(index / count)])) {
-          acc[Math.floor(index / count)].push(num);
-          return acc;
-        }
-        acc[Math.floor(index / count)] = [num];
-        return acc;
-      },
-      [] as number[][]
-    );
+  return [
+    ...Array.from(Array(count ** 2 / 2).keys()),
+    ...Array.from(Array(count ** 2 / 2).keys()),
+  ].sort(() => Math.random() - 0.5);
 };
+
 const createGridOptions = (
-  size: `${number}x${number}`
-): { reveals: number; selected: boolean; solved: boolean }[][] => {
-  const count = parseInt(size.split("x")[0]);
-  return [...Array.from(Array(count ** 2 / 2)), ...Array.from(Array(count ** 2 / 2))].reduce(
-    (acc, num, index) => {
-      if (Array.isArray(acc[Math.floor(index / count)])) {
-        acc[Math.floor(index / count)].push({ solved: false, selected: false, reveals: 0 });
-        return acc;
-      }
-      acc[Math.floor(index / count)] = [{ solved: false, selected: false, reveals: 0 }];
-      return acc;
-    },
-    [] as { reveals: number; selected: boolean; solved: boolean }[][]
-  );
+  grid: number[]
+): {
+  pairIndex: number;
+  reveals: number;
+  selected: boolean;
+  solved: boolean;
+  value: number;
+}[] => {
+  return grid.map((num, i) => ({
+    solved: false,
+    selected: false,
+    reveals: 0,
+    value: num,
+    pairIndex: grid.findIndex((v, j) => v === num && i !== j),
+  }));
 };
 
 function themify(key: number, theme: "numbers" | "colors" | "alphabet" | "icons") {
@@ -470,65 +464,66 @@ export const MemoryGame = ({
   const [moveCount, setMoveCount] = useState(0);
   const [playerMoveCounts, setPlayerMoveCounts] = useState([0, 0, 0, 0]);
   const [activePlayer, setActivePlayer] = useState(0);
-  const [grid, setGrid] = useState(createGrid(size));
+  const initialGrid = createGrid(size);
+  const [grid, setGrid] = useState(initialGrid);
   const [startTime, setStartTime] = useState(Date.now());
-  const [gridOptions, setGridOptions] = useState(createGridOptions(size));
-  const [selection, setSelection] = useState<{ a?: [number, number]; b?: [number, number] }>({
-    a: undefined,
-    b: undefined,
+  const [gridOptions, setGridOptions] = useState(createGridOptions(initialGrid));
+  const [selection, setSelection] = useState<{ aIndex?: string; bIndex?: string }>({
+    aIndex: undefined,
+    bIndex: undefined,
   });
 
-  const select = useCallback((x: number, y: number) => {
-    setSelection(({ a, b }) => {
-      if (!a || (a && b)) {
+  const select = useCallback((index: number) => {
+    setSelection(({ aIndex, bIndex }) => {
+      if (!aIndex || (aIndex && bIndex)) {
         setMoveCount((num) => (num += 1));
         setPlayerMoveCounts((arr) =>
           arr.map((num, index) => (activePlayer === index ? (num += 1) : num))
         );
-        return { a: [x, y], b: undefined };
+        return { aIndex: `${index}`, bIndex: undefined };
       }
-      if (!b) {
-        const [aX, aY] = a;
-        if (grid[aX][aY] === grid[x][y]) {
+      if (!bIndex) {
+        if (grid[+aIndex] === grid[index]) {
           setGridOptions((grid) => {
-            grid[aX][aY] = { ...grid[aX][aY], solved: true };
-            grid[x][y] = { ...grid[x][y], solved: true };
+            grid[+aIndex] = { ...grid[+aIndex], solved: true };
+            grid[index] = { ...grid[index], solved: true };
             return [...grid];
           });
-          return { a: undefined, b: undefined };
+          return { aIndex: undefined, bIndex: undefined };
         }
-        return { a, b: [x, y] };
+        return { aIndex, bIndex: `${index}` };
       }
-      return { a: undefined, b: undefined };
+      return { aIndex: undefined, bIndex: undefined };
     });
   }, [activePlayer, grid]);
 
   const resetGame = useCallback(() => {
-    setGrid(createGrid(size));
-    setGridOptions(createGridOptions(size));
+    const newGrid = createGrid(size);
+    setGrid(newGrid);
+    setGridOptions(createGridOptions(newGrid));
     setStartTime(Date.now());
     setMoveCount(0);
     setSelection({
-      a: undefined,
-      b: undefined,
+      aIndex: undefined,
+      bIndex: undefined,
     });
   }, [size]);
 
   useEffect(() => {
     setGridOptions((grid) => {
-      const newGrid = grid.map((row) => row.map((r) => ({ ...r, selected: false })));
-      if (selection.a) {
-        const [x, y] = selection.a;
-        newGrid[x][y] = {
-          ...newGrid[x][y],
+      const newGrid = grid.map((r) => ({ ...r, selected: false }));
+      if (selection.aIndex) {
+        const index = +selection.aIndex;
+        newGrid[index] = {
+          ...newGrid[index],
           selected: true,
-          reveals: selection.b ? newGrid[x][y].reveals : newGrid[x][y].reveals + 1,
+          reveals: selection.bIndex ? newGrid[index].reveals : newGrid[index].reveals + 1,
         };
       }
 
-      if (selection.b) {
-        const [x, y] = selection.b;
-        newGrid[x][y] = { ...newGrid[x][y], selected: true, reveals: newGrid[x][y].reveals + 1 };
+      if (selection.bIndex) {
+        const index = +selection.bIndex;
+        newGrid[index] = { ...newGrid[index], selected: true, reveals: newGrid[index].reveals + 1 };
       }
 
       return [...newGrid];
@@ -547,46 +542,46 @@ export const MemoryGame = ({
             Restart
           </button>
           <button
-            className="rounded-full bg-slate-300 px-6 py-2 text-xl font-bold text-slate-900 hfa:bg-slate-300/60"
+            className="rounded-full bg-slate-300 px-6 py-2 text-xl font-bold text-slate-900 hfa:bg-slate-300/60 "
             onClick={() => newGame()}
           >
             New Game
           </button>
         </div>
       </header>
-      <main className="flex flex-col gap-4">
-        {grid.map((row, x) => (
-          <div key={JSON.stringify(row) + x} className="flex gap-4">
-            {row.map((key, y) => (
-              <button
-                key={`${key}-${y}`}
-                className="overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
-                style={{ width: getGridSize(size), height: getGridSize(size) }}
-                onClick={() => select(x, y)}
-                disabled={gridOptions[x][y].selected || gridOptions[x][y].solved}
-              >
-                <div
-                  className={clsx(
-                    "pointer-events-none flex h-full w-full select-none items-center justify-center bg-orange-400 opacity-0 transition-all duration-75",
-                    gridOptions[x][y].selected && !gridOptions[x][y].solved && "!opacity-100",
-                    gridOptions[x][y].solved && "!bg-green-400 !opacity-100"
-                  )}
-                >
-                  {themify(key, theme)}
-                </div>
-              </button>
-            ))}
-          </div>
+      <main
+        className={clsx(
+          "grid gap-4",
+          size === "4x4" && "grid-cols-4",
+          size === "6x6" && "grid-cols-6",
+          size === "8x8" && "grid-cols-8"
+        )}
+      >
+        {grid.map((value, index) => (
+          <button
+            key={`${value}${index}`}
+            className="overflow-hidden rounded-full bg-slate-600 text-3xl font-bold uppercase"
+            style={{ width: getGridSize(size), height: getGridSize(size) }}
+            onClick={() => select(index)}
+            disabled={gridOptions[index].selected || gridOptions[index].solved}
+          >
+            <div
+              className={clsx(
+                "pointer-events-none flex h-full w-full select-none items-center justify-center bg-orange-400 opacity-0 transition-all duration-75",
+                gridOptions[index].selected && !gridOptions[index].solved && "!opacity-100",
+                gridOptions[index].solved && "!bg-green-400 !opacity-100"
+              )}
+            >
+              {themify(value, theme)}
+            </div>
+          </button>
         ))}
       </main>
       <footer className="mb-14 flex gap-8">
         <div className="flex w-[200px] items-center justify-between gap-3 rounded-md bg-slate-300 p-3">
           <span className="font-bold text-slate-500">Time</span>
           <span className="text-2xl font-bold text-slate-700">
-            <Counter
-              startTime={startTime}
-              stopCounter={gridOptions.every((row) => row.every((item) => item.solved))}
-            />
+            <Counter startTime={startTime} stopCounter={gridOptions.every((item) => item.solved)} />
           </span>
         </div>
         <div className="flex w-[200px] items-center justify-between gap-3 rounded-md bg-slate-300 p-3">
@@ -597,8 +592,7 @@ export const MemoryGame = ({
       <div
         className={clsx(
           "pointer-events-none fixed inset-0 z-10 flex items-center justify-center bg-slate-700/50 opacity-0 backdrop-blur-sm transition-opacity",
-          gridOptions.every((row) => row.every((item) => item.solved)) &&
-            "!pointer-events-auto !opacity-100"
+          gridOptions.every((item) => item.solved) && "!pointer-events-auto !opacity-100"
         )}
       >
         <section className="flex flex-col gap-10 rounded-3xl bg-slate-50 p-8 shadow-2xl">
@@ -612,7 +606,7 @@ export const MemoryGame = ({
             <span className="text-2xl font-bold text-slate-700">
               <Counter
                 startTime={startTime}
-                stopCounter={gridOptions.every((row) => row.every((item) => item.solved))}
+                stopCounter={gridOptions.every((item) => item.solved)}
               />
             </span>
           </div>
@@ -623,7 +617,16 @@ export const MemoryGame = ({
           <div className="flex w-[600px] items-center justify-between gap-3 rounded-xl bg-slate-300 p-4">
             <span className="font-bold text-slate-500">On First Reveal</span>
             <span className="text-2xl font-bold text-slate-700">
-              getStrikes from Calculation in useEffect Strikes
+              {gridOptions.reduce(
+                (acc, { reveals, pairIndex }) => {
+                  if (reveals + gridOptions[pairIndex].reveals <= 3) {
+                    acc += 1;
+                  }
+                  return acc;
+                },
+                0
+              ) / 2}{" "}
+              / {gridOptions.length / 2} First strikes
             </span>
           </div>
           <footer className="flex gap-4 ">
