@@ -5,6 +5,10 @@ export const FOOTER = {
       name: "Home",
       href: "/",
     },
+    {
+      name: "HTML to MD",
+      href: "/html-to-md",
+    },
     /*{
       name: "Tools",
       href: "/",

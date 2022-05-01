@@ -2,12 +2,13 @@ import * as trpc from "@trpc/server";
 import { fetchRouter } from "_server/fetch";
 import { postRouter } from "_server/posts";
 import { Context } from "_server/settings/context";
+import { transformRouter } from "_server/transform";
 import superjson from "superjson";
 import { habitRouter } from "_server/habit";
 import { telemetryRouter } from "_server/telemetry";
 import { z } from "zod";
 
-export const appRouter = trpc
+export const apiRoutes = trpc
   .router<Context>()
   /**
    * Add data transformers
@@ -31,7 +32,8 @@ export const appRouter = trpc
   .merge("posts.", postRouter)
   .merge("habits.", habitRouter)
   .merge("telemetry.", telemetryRouter)
-  .merge("fetch.", fetchRouter);
+  .merge("fetch.", fetchRouter)
+  .merge("transform.", transformRouter);
 
 // export type definition of API
-export type AppRouter = typeof appRouter;
+export type AppRouter = typeof apiRoutes;

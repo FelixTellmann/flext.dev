@@ -6,7 +6,7 @@ import { Footer } from "_client/layout/footer";
 import { Header } from "_client/layout/header";
 import { ContextProviders } from "_client/stores/_context-providers";
 import { LoadInitialData } from "_client/stores/_load-initial-data";
-import { AppRouter } from "_server/settings/app-router";
+import { AppRouter } from "_server/settings/api-routes";
 import { SEO } from "content/seo";
 import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";

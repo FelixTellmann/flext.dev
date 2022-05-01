@@ -1,4 +1,4 @@
-import { htmlToMarkdown } from "_server/functions/html-to-markdown";
+import { postToMarkdown } from "_server/functions/post-to-markdown";
 import { createRouter } from "_server/settings/create-router";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ export const postRouter = createRouter()
   .query("getMarkdown", {
     input: z.object({ slug: z.string() }),
     resolve: async ({ input: { slug } }) => {
-      return await htmlToMarkdown(slug);
+      return await postToMarkdown(slug);
     },
   })
   .mutation("addView", {
