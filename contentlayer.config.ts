@@ -26,6 +26,7 @@ export const Blog = defineDocumentType(() => ({
     title: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
     summary: { type: "string", required: false },
+    hidden: { type: "boolean", required: false },
     tldr: { type: "string", required: false },
     image: { type: "string", required: false },
     imageAlt: { type: "string", required: false },

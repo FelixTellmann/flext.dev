@@ -7,7 +7,7 @@ import Head from "next/head";
 
 export async function getStaticProps() {
   const posts = allBlogs
-    .filter(({ publishedAt }) => publishedAt)
+    .filter(({ hidden }) => !hidden || process.env.NODE_ENV === "development")
     .sort((a, b) => {
       return compareDesc(new Date(a.publishedAt), new Date(b.publishedAt));
     });

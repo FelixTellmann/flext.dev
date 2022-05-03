@@ -7,7 +7,8 @@ import Image from "next/image";
 import { FC, useCallback } from "react";
 import { BiUpvote } from "react-icons/bi";
 import { BsBook, BsChatSquareText } from "react-icons/bs";
-import { SiJavascript, SiTypescript } from "react-icons/si";
+import { SiJavascript, SiShopify, SiTypescript } from "react-icons/si";
+import { GiShoppingBag } from "react-icons/gi";
 
 const PostPreview: FC<Blog> = ({
   slug,
@@ -46,6 +47,7 @@ const PostPreview: FC<Blog> = ({
               ? {
                   typescript: <SiTypescript className="h-6 w-6 rounded-full" />,
                   javascript: <SiJavascript />,
+                  ecommerce: <SiShopify className="h-6 w-6 " />,
                 }[icon]
               : null}
           </figure>
