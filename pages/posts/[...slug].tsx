@@ -113,6 +113,7 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
                   layout="fill"
                   quality={20}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={post.image}
                   alt={post.imageAlt ?? post.title}

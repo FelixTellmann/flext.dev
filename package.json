@@ -41,7 +41,7 @@
     "marked": "^4.0.14",
     "monaco-editor": "^0.33.0",
     "mysql2": "^2.3.3",
-    "next": "^12.1.5",
+    "next": "^12.1.6",
     "next-auth": "^4.3.3",
     "next-seo": "^5.4.0",
     "next-themes": "0.1.1",
@@ -49,8 +49,8 @@
     "nodemailer": "^6.7.3",
     "prismjs": "^1.28.0",
     "puppeteer-core": "^8.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-icons": "^4.3.1",
     "react-query": "^3.38.0",
     "react-tooltip": "^4.2.21",
@@ -73,7 +73,7 @@
     "autoprefixer": "^10.4.5",
     "clsx": "^1.1.1",
     "contentlayer": "^0.2.4",
-    "fx-style": "^1.6.15",
+    "fx-style": "^1.6.16",
     "next-contentlayer": "^0.2.4",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.12",
@@ -86,6 +86,6 @@
     "remark-gfm": "^3.0.1",
     "sass": "^1.50.1",
     "tailwindcss": "^3.0.24",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   }
 }
