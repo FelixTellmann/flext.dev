@@ -1,13 +1,13 @@
 import { Badge } from "_client/badge";
 import { CodeComponent } from "_client/code-component";
-import { fetchOnce, useMutation, useQuery } from "_client/hooks/_useTRPC";
+import { fetchOnce, useQuery } from "_client/hooks/_useTRPC";
 
 import usePosts from "_client/hooks/use-posts";
 import { usePostStore } from "_client/stores/posts-store";
 import { isImage } from "_client/utils/is-image";
 import { SEO } from "content/seo";
 import { allBlogs, Blog } from "contentlayer/generated";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import fs from "fs";
 import { GetStaticProps } from "next";
 import { useMDXComponent } from "next-contentlayer/hooks";
@@ -15,9 +15,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
 import { FC, useEffect } from "react";
-import { FiCopy } from "react-icons/fi";
-import { useCopyToClipboard } from "react-use";
 import { BsMarkdownFill } from "react-icons/bs";
+import { useCopyToClipboard } from "react-use";
 
 export const getStaticPaths = async () => {
   const paths = allBlogs.map((post) => ({ params: { slug: post.slug.split("/") } }));
@@ -76,7 +75,7 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
         <title>{post?.title}</title>
       </Head>
       <article className="post mx-auto max-w-[650px] py-16 px-4 sm:px-6">
-        <header className="mb-8">
+        <header className="prose prose-slate mb-8  dark:prose-dark">
           <h1 className="mb-6 text-3xl font-bold sm:text-4xl md:text-5xl">{post?.title}</h1>
           <p className="not-markdown flex items-center gap-2 text-sm text-slate-600 d:text-slate-400">
             <Image
