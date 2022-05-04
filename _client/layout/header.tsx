@@ -14,6 +14,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import FlextLogo from "public/logo.svg";
 import { FC, FocusEventHandler, Fragment, MouseEventHandler, useCallback, useState } from "react";
+import { BiGame } from "react-icons/bi";
 import { BsGithub, BsThreeDotsVertical } from "react-icons/bs";
 
 const initialNavPosition = { width: 0, left: 0, opacity: 0, transition: "0.1s opacity" };
@@ -154,7 +155,7 @@ function NavSettingsDesktop() {
     <nav className="hidden h-full items-center gap-1 px-2 sm:flex">
       <LightDarkSwitcher />
 
-      <a
+      <Link
         className="icon-button"
         href={SEO.github}
         referrerPolicy="no-referrer"
@@ -162,7 +163,10 @@ function NavSettingsDesktop() {
         rel="noreferrer"
       >
         <BsGithub />
-      </a>
+      </Link>
+      <Link className="icon-button" href="/memory">
+        <BiGame />
+      </Link>
       {/*<Popover className="relative">
         {({ close, open }) => (
           <>
