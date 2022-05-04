@@ -17,6 +17,7 @@ import { ParsedUrlQuery } from "querystring";
 import { FC, useEffect } from "react";
 import { BsMarkdownFill } from "react-icons/bs";
 import { useCopyToClipboard } from "react-use";
+import { Link } from "_client/link";
 
 export const getStaticPaths = async () => {
   const paths = allBlogs.map((post) => ({ params: { slug: post.slug.split("/") } }));
@@ -124,7 +125,7 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
         </header>
         <div className="mb-6 text-center"></div>
         <main className="prose prose-slate dark:prose-dark">
-          <Component components={{ Badge, CodeComponent }} />
+          <Component components={{ Badge, CodeComponent, Link }} />
         </main>
       </article>
     </>
