@@ -5,12 +5,13 @@ import { fetchOnce, useQuery } from "_client/hooks/_useTRPC";
 import usePosts from "_client/hooks/use-posts";
 import { usePostStore } from "_client/stores/posts-store";
 import { isImage } from "_client/utils/is-image";
-import { SEO } from "content/seo";
+import { BLOG_SEO, SEO } from "content/seo";
 import { allBlogs, Blog } from "contentlayer/generated";
 import { format } from "date-fns";
 import fs from "fs";
 import { GetStaticProps } from "next";
 import { useMDXComponent } from "next-contentlayer/hooks";
+import { NextSeo } from "next-seo";
 import Head from "next/head";
 import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
@@ -72,9 +73,22 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
 
   return (
     <>
-      <Head>
-        <title>{post?.title}</title>
-      </Head>
+      <NextSeo
+        title={post.title}
+        description={post.summary ?? post.title}
+        openGraph={{
+          title: post.title,
+          description: post.summary ?? post.title,
+          images: post.image
+            ? [
+                {
+                  url: post.image,
+                  alt: post.imageAlt ?? post.title,
+                },
+              ]
+            : undefined,
+        }}
+      />
       <article className="post mx-auto max-w-[650px] py-16 px-4 sm:px-6">
         <header className="prose prose-slate mb-8  dark:prose-dark">
           <h1 className="mb-6 text-3xl font-bold sm:text-4xl md:text-5xl">{post?.title}</h1>

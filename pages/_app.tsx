@@ -36,10 +36,10 @@ const App: FC<AppProps> = ({ pageProps, Component }) => {
           <ThemeProvider attribute="class">
             <DefaultSeo
               canonical={`${SEO.url}${router.asPath}`}
+              twitter={SEO.twitter}
+              title={SEO.title}
               description={SEO.description}
               openGraph={SEO.openGraph}
-              title={SEO.title}
-              twitter={SEO.twitter}
             />
             {/^\/examples\//i.test(router.pathname) || /^\/seo\/og-image/i.test(router.pathname)
               ? <Component {...pageProps} />

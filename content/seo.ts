@@ -30,3 +30,14 @@ export const SEO = {
     ],
   },
 };
+
+export const BLOG_SEO = {
+  title: "Felix Tellmann - Blog",
+  description:
+    "Learn Web Development - TypeScript / React / APIs / Automations / Serverless / Architecture / and more. - Lets make things better with quality code",
+  openGraph: {
+    title: "Felix Tellmann - Blog",
+    description:
+      "Learn Web Development - TypeScript / React / APIs / Automations / Serverless / Architecture / and more. - Lets make things better with quality code",
+  },
+};
