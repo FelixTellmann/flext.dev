@@ -81,7 +81,9 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
           description: post.summary ?? post.title,
           type: "article",
           article: {
-            publishedTime: new Date(post.publishedAt).toISOString(),
+            publishedTime: Date.parse(post.publishedAt)
+              ? new Date(post.publishedAt).toISOString()
+              : undefined,
             authors: ["Felix Tellmann"],
             tags: post.tags,
           },
