@@ -13,8 +13,8 @@ export const MemoryRadio = ({
       <div
         className={clsx(
           "flex flex-1 cursor-pointer items-center justify-center rounded-full bg-slate-400/75 py-1.5 text-slate-50 dark:bg-slate-700",
-          checked && "bg-slate-600 dark:bg-slate-500",
-          disabled && "cursor-not-allowed bg-slate-400/50"
+          checked && "!bg-slate-600 dark:!bg-slate-500",
+          disabled && "cursor-not-allowed !bg-slate-400/50"
         )}
       >
         {value}
