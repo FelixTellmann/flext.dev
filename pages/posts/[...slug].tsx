@@ -79,6 +79,12 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
         openGraph={{
           title: post.title,
           description: post.summary ?? post.title,
+          type: "article",
+          article: {
+            publishedTime: new Date(post.publishedAt).toISOString(),
+            authors: ["Felix Tellmann"],
+            tags: post.tags,
+          },
           images: post.image
             ? [
                 {
