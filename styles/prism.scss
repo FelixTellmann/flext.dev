@@ -1,3 +1,9 @@
+.prose :where(pre):not(:where([class~="not-prose"] *)) {
+  --container-width: calc(100vw - (100vw - 100%));
+  margin-left: max(-62px, calc(((100vw - var(--container-width))) / -2) + 4px);
+  margin-right: max(-62px, calc(((100vw - var(--container-width))) / -2) + 4px);
+  @apply #{"!"}rounded-none md:#{"!"}rounded-md;
+}
 
 code[class*="language"] {
   @apply text-white/95 font-normal;
