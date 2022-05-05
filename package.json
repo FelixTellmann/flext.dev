@@ -11,7 +11,7 @@
     "db:shadow": "pscale connect flext shadow --port 3310",
     "build": "rimraf .next && next build",
     "build:start": "next build --profile && next start",
-    "postbuild": "node --experimental-json-modules ./scripts/generate-rss.mjs  && node ./scripts/generate-sitemap.mjs",
+    "postbuild": "node ./scripts/generate-sitemap.mjs",
     "start": "next start",
     "export": "next build && next export"
   },
