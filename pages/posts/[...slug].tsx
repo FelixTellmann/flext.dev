@@ -100,30 +100,33 @@ const PostLayout: FC<{ post: Blog }> = ({ post }) => {
       <article className="post mx-auto max-w-[650px] py-16 px-4 sm:px-6">
         <header className="prose prose-slate mb-8  dark:prose-dark">
           <h1 className="mb-6 text-3xl font-bold sm:text-4xl md:text-5xl">{post?.title}</h1>
-          <p className="not-markdown flex items-center gap-2 text-sm text-slate-600 d:text-slate-400">
-            <Image
-              alt={SEO.author}
-              src={SEO.avatar}
-              width={28}
-              height={28}
-              className="rounded-full"
-            />
-            <span>{SEO.author} /</span>
-            <time dateTime={post?.publishedAt}>
-              {Date.parse(post?.publishedAt)
-                ? format(new Date(post?.publishedAt), "LLLL d, yyyy")
-                : "not published"}
-            </time>
-            <span className="ml-auto">{post.readingTime.text} - </span>
-            <span>{posts.find(({ id }) => id === post.slug)?.views ?? 0} views</span>
-
-            <button
-              className="ml-2 text-xl text-slate-500 transition-colors hfa:text-slate-900 d:text-slate-400 d:hfa:text-slate-300"
-              onClick={() => copyToClipboard(markdown ?? "")}
-              type="button"
-            >
-              <BsMarkdownFill />
-            </button>
+          <p className="not-markdown flex flex-col gap-2 text-sm text-slate-600 d:text-slate-400 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-2">
+              <Image
+                alt={SEO.author}
+                src={SEO.avatar}
+                width={28}
+                height={28}
+                className="rounded-full"
+              />
+              <span>{SEO.author} /</span>
+              <time dateTime={post?.publishedAt}>
+                {Date.parse(post?.publishedAt)
+                  ? format(new Date(post?.publishedAt), "LLLL d, yyyy")
+                  : "not published"}
+              </time>
+            </div>
+            <div className="ml-auto hidden items-center gap-1 sm:flex">
+              <span>{post.readingTime.text} - </span>{" "}
+              <span>{posts.find(({ id }) => id === post.slug)?.views ?? 0} views </span>
+              <button
+                className="ml-2 text-xl text-slate-500 transition-colors hfa:text-slate-900 d:text-slate-400 d:hfa:text-slate-300"
+                onClick={() => copyToClipboard(markdown ?? "")}
+                type="button"
+              >
+                <BsMarkdownFill />
+              </button>
+            </div>
           </p>
           {post.image && isImage(post.image)
             ? <picture className="relative left-1/2 mt-4 flex flex aspect-og-image w-[calc(100%+8rem)] max-w-[calc(100vw-2rem)] -translate-x-1/2 justify-center ">

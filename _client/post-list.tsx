@@ -6,7 +6,7 @@ import { Blog } from "contentlayer/generated";
 import Image from "next/image";
 import { FC, useCallback } from "react";
 import { BiUpvote } from "react-icons/bi";
-import { BsBook, BsChatSquareText } from "react-icons/bs";
+import { BsBook, BsChatSquareText, BsPenFill } from "react-icons/bs";
 import { SiJavascript, SiShopify, SiTypescript } from "react-icons/si";
 import { GiShoppingBag } from "react-icons/gi";
 
@@ -48,6 +48,7 @@ const PostPreview: FC<Blog> = ({
                   typescript: <SiTypescript className="h-6 w-6 rounded-full" />,
                   javascript: <SiJavascript />,
                   ecommerce: <SiShopify className="h-6 w-6 " />,
+                  write: <BsPenFill className="h-5 w-5" />,
                 }[icon]
               : null}
           </figure>
