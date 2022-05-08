@@ -184,7 +184,7 @@ export const MemoryGame = ({
             <span className="text-2xl font-bold text-slate-700">
               {gridOptions.reduce(
                 (acc, { reveals, pairIndex }) => {
-                  if (reveals + gridOptions[pairIndex].reveals <= 3) {
+                  if (reveals + gridOptions[pairIndex].reveals <= 4) {
                     acc += 1;
                   }
                   return acc;
