@@ -5,7 +5,7 @@ import { isImage } from "_client/utils/is-image";
 import { Blog } from "contentlayer/generated";
 import Image from "next/image";
 import { FC, useCallback } from "react";
-import { BiUpvote } from "react-icons/bi";
+import { BiCodeAlt, BiUpvote } from "react-icons/bi";
 import { BsBook, BsChatSquareText, BsPenFill } from "react-icons/bs";
 import { SiJavascript, SiShopify, SiTypescript } from "react-icons/si";
 import { GiShoppingBag } from "react-icons/gi";
@@ -49,6 +49,7 @@ const PostPreview: FC<Blog> = ({
                   javascript: <SiJavascript />,
                   ecommerce: <SiShopify className="h-6 w-6 " />,
                   write: <BsPenFill className="h-5 w-5" />,
+                  code: <BiCodeAlt className="h-7 w-7" />,
                 }[icon]
               : null}
           </figure>
