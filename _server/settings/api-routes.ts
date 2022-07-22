@@ -6,7 +6,6 @@ import { transformRouter } from "_server/transform";
 import superjson from "superjson";
 import { habitRouter } from "_server/habit";
 import { telemetryRouter } from "_server/telemetry";
-import { z } from "zod";
 
 export const apiRoutes = trpc
   .router<Context>()

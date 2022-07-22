@@ -6,7 +6,6 @@ const { withContentlayer } = require("next-contentlayer");
 module.exports = withContentlayer({
   swcMinify: true,
   reactStrictMode: true,
-  strictMode: true,
   images: {
     domains: [
       "assets.vercel.com",
