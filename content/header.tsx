@@ -4,10 +4,15 @@ export const HEADER = {
       name: "Home",
       href: "/",
     },
-    /*      {
+    {
       name: "UI",
       href: "/ui",
-    },*/
+    },
+    {
+      requireAuth: true,
+      name: "Daily",
+      href: "/daily",
+    },
     /*{
       name: "Blog",
       href: "/blog",

@@ -233,12 +233,12 @@ function NavMobile() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white  py-1 shadow-lg dark:divide-gray-700 dark:bg-dark-card ">
+              <Popover.Panel className="absolute right-0 mt-2 min-w-[190px] origin-top-right divide-y divide-gray-200 whitespace-nowrap rounded bg-white py-1 shadow-lg dark:divide-gray-700 dark:border dark:border-slate-700/50 dark:bg-dark-card">
                 <div className="pb-1">
                   {HEADER.nav.map(({ name, href }, index) => (
                     <NextLink key={name + index} href={href}>
                       <a
-                        className="/**/ block py-2 px-4 text-sm hfa:bg-slate-100"
+                        className="block py-2 px-4 text-sm hfa:bg-slate-100 dark:hfa:bg-slate-700/50"
                         onClick={() => close()}
                       >
                         {name}
@@ -247,7 +247,7 @@ function NavMobile() {
                   ))}
 
                   <a
-                    className="group flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100"
+                    className="group flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100 dark:hfa:bg-slate-700/50"
                     href={SEO.github}
                     referrerPolicy="no-referrer"
                     target="_blank"
@@ -263,7 +263,7 @@ function NavMobile() {
                     ? HEADER.profile.map(({ name, href }, index) => (
                         <NextLink key={name + index} href={href}>
                           <a
-                            className="block py-2 px-4 text-sm hfa:bg-slate-100"
+                            className="block py-2 px-4 text-sm hfa:bg-slate-100 dark:hfa:bg-slate-700/50"
                             onClick={() => close()}
                           >
                             {name}
@@ -272,7 +272,7 @@ function NavMobile() {
                       ))
                     : <NextLink href="/auth/sign-in">
                         <a
-                          className="flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100"
+                          className="flex items-center justify-between py-2 px-4 text-sm hfa:bg-slate-100 dark:hfa:bg-slate-700/50"
                           onClick={() => close()}
                         >
                           Login <ArrowNarrowRightIcon className="ml-2 w-3 pt-px" />
