@@ -446,6 +446,7 @@ module.exports = {
       addVariant("af", ["&::before"]);
       addVariant("not-prose", [":not(.prose &)&"]);
       addVariant("hfaa", ["&:hover", "&:focus", "&:active, &.active"]);
+      addVariant("thumb", ["&::-webkit-slider-thumb", "&::-moz-range-thumb", "&::-ms-thumb"]);
       addVariant("group-hfa", [".group:hover &", ".group:focus &", ".group:active &"]);
       addUtilities({
         ".shape-geometric-precision": {
