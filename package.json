@@ -79,9 +79,9 @@
     "@types/react-dom": "^18.0.6",
     "autoprefixer": "^10.4.7",
     "clsx": "^1.2.1",
-    "contentlayer": "^0.2.6",
+    "contentlayer": "^0.3.4",
     "fx-style": "^1.6.18",
-    "next-contentlayer": "^0.2.6",
+    "next-contentlayer": "^0.3.4",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.14",
     "prisma": "^4.1.0",
@@ -95,5 +95,6 @@
     "tailwindcss": "^3.1.6",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
-  }
+  },
+  "packageManager": "pnpm@8.15.5+sha1.a58c038faac410c947dbdb93eb30994037d0fce2"
 }
